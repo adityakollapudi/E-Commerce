@@ -1,0 +1,13 @@
+{
+  "name": "e-commerce-platform",
+  "version": "1.0.0",
+  "description": "Full-stack E-commerce Application with React/Vite Frontend and Express Backend",
+  "scripts": {
+    "dev": "npm --prefix frontend run dev",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "dev:backend": "npm --prefix backend run dev",
+    "start": "npm --prefix backend start",
+    "build": "npm --prefix frontend run build",
+    "preview": "npm --prefix frontend run preview"
+  }
+}

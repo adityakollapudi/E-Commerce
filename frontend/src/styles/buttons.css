@@ -1,0 +1,92 @@
+@layer component {
+  .btn-pill {
+    border-radius: 30px;
+    padding-inline: 45px;
+    padding-block: 10px;
+    text-align: center;
+    transition: background-color, 0.3s;
+  }
+  .btn-black {
+    color: white;
+    background-color: black;
+    border: 1px solid transparent;
+  }
+  .btn-black:hover {
+    color: black;
+    background-color: white;
+    border-color: black;
+  }
+  .btn-white {
+    color: black;
+    background-color: transparent;
+    border: 1px solid #a5a5a5;
+  }
+  .btn-white:hover {
+    color: white;
+    background-color: black;
+    border: 1px solid transparent;
+  }
+  .btn-search {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .btn-center {
+    display: block;
+    margin-inline: auto;
+    margin-top: 20px;
+
+  }
+  .btn-profile {
+    margin-inline: 5px;
+  }
+  .btn-intro {
+    display: block;
+    width: 200px;
+  }
+  .btn-hamburger {
+    display: none;
+  }
+  .btn-size {
+    border-radius: 30px;
+    padding-inline: 20px;
+    padding-block: 10px;
+    text-align: center;
+    transition: background-color, 0.3s;
+    background-color: #dfdfdf;
+  }
+
+  .btn-dropdown-sort {
+    width: 100%;
+    padding-block: 5px;
+  }
+
+  .btn-filters-mobile {
+    width: 32px;
+    height: 32px;
+    display: none;
+  }
+  .btn-modal-close {
+    display: none;
+  }
+  
+  @media (max-width: 1060px) {
+    .btn-filters-mobile {
+      display: initial;
+    }
+    .btn-modal-close {
+      display: initial;
+    }
+  }
+  @media (max-width: 760px) {
+    .btn-pill {
+      max-width: none;
+      width: 100%;
+      padding-inline: 0px;
+    }
+    .btn-hamburger {
+      display: initial;
+    }
+    
+  }
+}

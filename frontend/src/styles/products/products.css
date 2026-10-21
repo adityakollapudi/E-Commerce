@@ -1,0 +1,123 @@
+@layer component {
+  .products-page {
+    background-color: white;
+    padding-bottom: 200px;
+    font-family: Satoshi-Variable, system-ui;
+  }
+  .products-page h2,
+  .products-page h3 {
+    font-family: Satoshi-Variable, system-ui;
+  }
+  .products-container-grid {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    gap: 20px;
+  }
+  .products-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    row-gap: 20px;
+  }
+  .product-link {
+    height: min-content;
+  }
+  .products-heading {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 50px;
+  }
+  .products-sort {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .dropdown-sort-container {
+    width: 120px;
+    display: grid;
+    place-items: center;
+    position: relative;
+  }
+  .fa-chevron-down {
+    padding-inline: 5px;
+  }
+  .dropdown-sort {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    display: none;
+    background-color: white;
+    border-radius: 9px;
+    width: 120px;
+  }
+  .dropdown-sort.open {
+    display: initial;
+  }
+  .dropdown-sort-list {
+    display: flex;
+    flex-direction: column;
+  }
+  .dropdown-sort-list > li:first-child,
+  .dropdown-sort-list > li:last-child {
+    border-radius: 9px;
+  }
+  .dropdown-sort-list > li:hover {
+    background-color: rgb(240, 240, 240);
+  }
+  .pages-list-container {
+    margin-top: 50px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .pages-list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 200px;
+  }
+  .arrow {
+    vertical-align: middle;
+    padding-inline: 5px;
+  }
+  .change-page {
+    border: solid #f3f3f3 1px;
+    border-radius: 9px;
+    padding: 10px;
+  }
+  .change-page:disabled {
+    color: rgb(97, 97, 97);
+    cursor: not-allowed;
+  }
+  .page-number {
+    padding: 10px 15px;
+    color: #8f8f8f;
+
+    border-radius: 9px;
+  }
+  .page-number-active {
+    color: black;
+    background-color: #cacaca;
+  }
+
+  @media (max-width: 1060px) {
+    .products-container-grid {
+      grid-template-columns: 1fr;
+    }
+    .products-list {
+      justify-content: center;
+      gap: 10px;
+    }
+  }
+  @media (max-width: 760px) {
+    .products-list {
+      grid-template-columns: 1fr 1fr;
+      grid-auto-flow: row dense;
+    }
+    .products-number {
+      display: none;
+    }
+
+    .products-sort {
+      gap: 0px;
+    }
+  }
+}

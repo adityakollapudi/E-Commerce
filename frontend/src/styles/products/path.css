@@ -1,0 +1,19 @@
+@layer component {
+  .path-links {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .path-links > a:not(:last-child) {
+    color: #8f8f8f;
+  }
+  .path-links > a:not(:first-child)::before {
+    font-family: "Font Awesome 5 Free";
+    content: "\f054";
+    display: inline-block;
+    padding-right: 10px;
+    font-size: 0.75em;
+    font-weight: 900;
+  }
+}

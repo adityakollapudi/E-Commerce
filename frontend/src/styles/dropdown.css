@@ -1,0 +1,54 @@
+@layer component {
+  .dropdown-container {
+    display: flex;
+    visibility: hidden;
+    position: absolute;
+    margin-inline: auto;
+    transform: scaleY(0);
+    left: 0;
+    right: 0;
+    top: 83px;
+    height: 50vh;
+    max-height: 500px;
+    
+    opacity: 0;
+    background-color: white;
+    z-index: 10;
+    transform-origin: top center;
+    transition: transform 0.1s ease, opacity 0ms linear 0.1s,
+      visibility 0ms linear 0.1s;
+  }
+
+  .dropdown-container.active {
+    display: flex;
+    transform: scaleY(1);
+    visibility: visible;
+    opacity: 1;
+    transition: transform 0.25s ease, opacity 0ms, visibility 0ms;
+  }
+  .dropdown-enter.active {
+    border-bottom: 2px solid #000000;
+  }
+
+  .dropdown-items-flex {
+    display: flex;
+    flex-direction: column;
+    width: max-content;
+  }
+  .dropdown-sections-flex {
+    margin-top: 50px;
+    margin-inline: auto;
+    display: flex;
+    gap: 20px;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: transform 0.1s, opacity 0.1s;
+    transition-delay: 0s;
+  }
+  .dropdown-sections-flex.active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: transform 0.3s ease, opacity 0.2s linear;
+    transition-delay: 0.2s;
+  }
+}

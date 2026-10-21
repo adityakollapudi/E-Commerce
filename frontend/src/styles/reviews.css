@@ -1,0 +1,58 @@
+@layer component {
+  .reviews-container {
+    margin-top: 40px;
+  }
+
+  .review-card {
+    width: 100%;
+    min-height: 240px;
+    border: 1px rgb(204, 204, 204) solid;
+    border-radius: 15px;
+    padding-inline: 20px;
+    padding-block: 10px;
+  }
+
+  .rating {
+    margin-block: 5px;
+  }
+  .fa-star,
+  .fa-star-half-stroke {
+    color: orange;
+    padding-inline: 2px;
+  }
+
+  .fa-circle-check {
+    color: #30cf65;
+  }
+  .reviews-carousel-container {
+    margin-top: 20px;
+    overflow-x: hidden;
+  }
+  .slider-buttons {
+    display: flex;
+    align-items: center;
+  }
+  .heading-carousel-container {
+    display: flex;
+    justify-content: space-between;
+  }
+  .heading-carousel {
+    text-transform: uppercase;
+  }
+  .review-wrapper {
+    width: 400px;
+    flex-shrink: 0;
+  }
+  .review-wrapper:not(:first-child) {
+    margin-left: 20px;
+  }
+  .long-review-wrapper {
+    width: 100%;
+  }
+
+  @media (max-width: 760px) {
+    .review-wrapper {
+      width: 100%;
+    }
+  }
+}

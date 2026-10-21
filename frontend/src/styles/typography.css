@@ -1,0 +1,109 @@
+@layer component {
+  /* Titles */
+  .title--lg {
+    font-size: 4rem;
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -1.5px;
+    font-family: Integral-CF;
+  }
+
+  .title {
+    font-size: 	2.5rem;
+    font-weight: 900;
+    
+  }
+
+  .title--sm {
+    font-size: 1.125rem;
+    line-height: 1.06;
+    margin-block: 10px;
+  }
+
+  .title--spaced {
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  /* Texts */
+
+  .text--xl {
+    font-size: 2.5rem;
+    font-weight: 300;
+    line-height: 1.77;
+    
+  }
+
+  .text--lg {
+    font-size: 1.43rem;
+    font-weight: 300;
+    line-height: 1.9;
+  }
+
+ 
+  .text,
+  .text--sm,
+  .text--xs {
+    font-family: Satoshi, system-ui;
+  }
+
+  .text {
+    font-size: 1.125rem;
+    font-weight: normal;
+    line-height: 1.77;
+  }
+  .text--sm {
+    font-size: 1rem;
+    font-weight: normal;
+    line-height: 1.77;
+  }
+  .text--xs {
+    font-size: 0.75rem;
+  }
+  .text--xxs {
+    font-size: 0.625rem;
+  }
+  .text--gray {
+    opacity: 80%;
+  }
+  .text--bold {
+    font-weight: bold;
+    line-height: 1.77;
+  }
+  .text--marginless {
+    margin: 0;
+  }
+  @media (max-width: 1060px) {
+    .title--lg {
+      font-size: 3rem;
+    }
+    .title {
+      font-size: 2rem;
+    }
+    .text--xl {
+      font-size: 2rem;
+    }
+  }
+  @media (max-width: 760px) {
+    .title--lg {
+      font-size: 2.5rem;
+    }
+    .title {
+      font-size: 1.5rem;
+    }
+    .title--sm {
+      font-size: 1rem;
+    }
+    .text--xl {
+      font-size: 1.5rem;
+    }
+    .text--sm {
+      font-size: 0.75rem;
+    }
+  }
+  @media (max-width: 400px) {
+    .title--sm {
+      font-size: 0.875rem;
+    }
+  }
+}

@@ -1,0 +1,91 @@
+@layer component {
+  .filters-container {
+    width: 100%;
+    padding: 10px;
+    padding-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: 1px solid var(--background-color);
+    border-radius: 9px;
+    height: min-content;
+  }
+  .filters-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .filter-categories {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .filter-price {
+    display: flex;
+    margin-block: 20px;
+    flex-direction: column;
+  }
+  .filter-price-num {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  .filter-price-num-input {
+    width: 5ch;
+    padding: 5px 10px;
+    border: 1px solid rgb(212, 212, 212);
+    border-radius: 3px;
+    text-align: center;
+  }
+
+  .range-slider {
+    width: 100%;
+  }
+
+  .sizes-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    gap: 5px;
+  }
+  .size-active {
+    background-color: black;
+    color: white;
+    opacity: 1;
+  }
+  .filter-apply {
+    margin-top: 20px;
+    width: 60%;
+    align-self: center;
+  }
+
+  .range-slider .range-slider__range {
+    background: black !important;
+  }
+  .range-slider .range-slider__thumb {
+    background: black !important;
+  }
+
+  @media (max-width: 1060px) {
+    .filters-container {
+      visibility: hidden;
+      background-color: white;
+      position: fixed;
+      width: 320px;
+      height: 100vh;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      translate: -320px;
+      transition: visibility 0.3s, translate 0.3s;
+      z-index: 200;
+      padding: 20px;
+    }
+    .filters-container.opened {
+      visibility: visible;
+      display: flex;
+      translate: 0px;
+    }
+  }
+}

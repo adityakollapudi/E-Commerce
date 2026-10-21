@@ -1,0 +1,98 @@
+@layer base {
+  :root {
+    --footer-subscribe-height: 160px;
+    --background-color: #f2f0f1;
+    --hr-border-color: #d3d3d3;
+  }
+
+  *,
+  ::after,
+  ::before {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: Satoshi-Variable, system-ui;
+    margin: 0;
+  }
+  main {
+    min-height: 500px;
+  }
+
+  .sr-only {
+    border: 0 !important;
+    clip: rect(1px, 1px, 1px, 1px) !important; /* 1 */
+    -webkit-clip-path: inset(50%) !important;
+    clip-path: inset(50%) !important; /* 2 */
+    height: 1px !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    position: absolute !important;
+    width: 1px !important;
+    white-space: nowrap !important; /* 3 */
+  }
+  .body-noscroll {
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+  }
+  input {
+    all: unset;
+  }
+  h1,
+  h2,
+  h4 {
+    font-family: Integral-CF, system-ui;
+    margin: 0;
+  }
+  h3 {
+    margin: 0;
+  }
+  ul,
+  li,
+  ol {
+    all: unset;
+  }
+  input,
+  textarea,
+  button,
+  select {
+    font: inherit;
+  }
+  a,
+  button {
+    all: unset;
+    cursor: pointer;
+  }
+  button {
+    text-align: center;
+  }
+
+  .ax-button {
+    all: unset;
+    outline: revert;
+    box-sizing: border-box;
+  }
+
+  @media (max-width: 1450px) {
+    :root {
+      --footer-subscribe-height: 200px;
+    }
+  }
+
+  @media (max-width: 1060px) {
+    :root {
+      --footer-subscribe-height: 350px;
+    }
+  }
+
+  @media (max-width: 760px) {
+    :root {
+      --footer-subscribe-height: 300px;
+    }
+  }
+}
