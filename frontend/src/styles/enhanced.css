@@ -140,6 +140,27 @@
   color: #000000;
   margin: 2px 0 0 0;
 }
+.search-suggestion-item.selected {
+  background-color: #f1f5f9;
+}
+.suggestion-brand {
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 500;
+}
+.search-suggestions-status {
+  padding: 16px 12px;
+  font-size: 13px;
+  color: #64748b;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.search-suggestions-status.error {
+  color: #ef4444;
+}
 .search-view-all-btn {
   width: 100%;
   margin-top: 8px;
@@ -703,8 +724,83 @@
   margin: 0 auto 20px auto;
   animation: spin 0.8s linear infinite;
 }
-@keyframes spin {
-  to { transform: rotate(360deg); }
+.checkout-auth-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background-color: #fef3c7;
+  border: 1px solid #fde68a;
+  border-radius: 14px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+}
+.checkout-auth-banner-text {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: #92400e;
+  font-weight: 500;
+}
+.checkout-auth-banner-text i {
+  font-size: 16px;
+  color: #b45309;
+}
+.checkout-auth-btn {
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.checkout-error-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 14px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  animation: shake 0.3s ease-in-out;
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+.checkout-error-banner .error-icon {
+  font-size: 18px;
+  color: #ef4444;
+  margin-top: 1px;
+  flex-shrink: 0;
+}
+.checkout-error-banner .error-message-text {
+  font-size: 13px;
+  color: #991b1b;
+  font-weight: 500;
+  line-height: 1.4;
+}
+.btn-pay-now:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none !important;
+}
+.btn-pay-now.btn-submitting {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.button-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  display: inline-block;
 }
 
 /* Floating Add To Cart Toast */

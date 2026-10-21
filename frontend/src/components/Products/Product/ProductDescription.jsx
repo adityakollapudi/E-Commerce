@@ -1,5 +1,5 @@
 import { useState } from "react";
-import SizeSelector from "../SizeSelector";
+import SizeSelector, { normalizeSize } from "../SizeSelector";
 import StarRating from "../../Home/Reviews/StarRating";
 import AddToCart from "./AddToCart";
 import BulkQuoteModal from "./BulkQuoteModal";
@@ -37,7 +37,7 @@ const ProductDescription = ({
   };
 
   const isSizeActive = (size) => {
-    return selectedSize === size ? "size-active" : "";
+    return normalizeSize(selectedSize) === normalizeSize(size) ? "size-active" : "";
   };
 
   if (Object.keys(details).length === 0) {
@@ -272,6 +272,7 @@ const ProductDescription = ({
           <SizeSelector
             handleSizeClick={handleSizeClick}
             isSizeActive={isSizeActive}
+            availableSizes={details.sizes}
           />
           {sizeWarning && (
             <span role="alert" className="error-text">

@@ -1,14 +1,95 @@
 import express from "express";
 import { PRODUCTS } from "../data/products.js";
 import { requireAdmin } from "../middleware/auth.js";
+import {
+  validateIdParam,
+  validateCatalogQueryParams,
+  validateProductCreatePayload,
+  validateProductUpdatePayload,
+} from "../middleware/validation.js";
+
+export const STANDARDIZED_SIZES = [
+  "XS",
+  "S",
+  "M",
+  "L",
+  "XL",
+  "XXL",
+  "Free Size",
+];
+
+export const normalizeSize = (size) => {
+  if (!size || typeof size !== "string") return "";
+  const s = size.trim().toLowerCase();
+  switch (s) {
+    case "xs":
+    case "x-small":
+    case "xsmall":
+    case "extra small":
+      return "XS";
+    case "s":
+    case "small":
+      return "S";
+    case "m":
+    case "medium":
+      return "M";
+    case "l":
+    case "large":
+      return "L";
+    case "xl":
+    case "x-large":
+    case "xlarge":
+    case "extra large":
+      return "XL";
+    case "xxl":
+    case "2xl":
+    case "xx-large":
+    case "xxlarge":
+      return "XXL";
+    case "free size":
+    case "freesize":
+    case "free":
+    case "one size":
+    case "onesize":
+      return "Free Size";
+    default:
+      return size.trim();
+  }
+};
+
+const safeDecode = (str) => {
+  if (typeof str !== "string") return "";
+  try {
+    return decodeURIComponent(str);
+  } catch (e) {
+    return str;
+  }
+};
+
+// Strips internal creator/editor emails before public output to prevent information disclosure
+const sanitizeProductForPublic = (p) => {
+  if (!p) return null;
+  const copy = { ...p };
+  delete copy.createdBy;
+  delete copy.updatedBy;
+  return copy;
+};
 
 const router = express.Router();
 
 // Dynamic in-memory products catalog initialized from seed data
 let productsCatalog = [...PRODUCTS];
 
+export const findCatalogProductById = (id) => {
+  const numericId = Number(id);
+  if (isNaN(numericId)) return null;
+  return productsCatalog.find((p) => p.id === numericId) || null;
+};
+
+export const getLiveProductsCatalog = () => productsCatalog;
+
 // GET all products with filtering, search, sorting, and pagination
-router.get("/", (req, res) => {
+router.get("/", validateCatalogQueryParams, (req, res) => {
   try {
     const {
       category,
@@ -24,7 +105,7 @@ router.get("/", (req, res) => {
 
     let result = [...productsCatalog];
 
-    // Search filter
+    // Search filter (capped to 100 chars, sanitized against control chars)
     if (search && search.trim()) {
       const q = search.trim().toLowerCase();
       result = result.filter(
@@ -40,7 +121,7 @@ router.get("/", (req, res) => {
 
     // Category filter
     if (category && category !== "all") {
-      const cat = decodeURIComponent(category).toLowerCase();
+      const cat = safeDecode(category).toLowerCase();
       result = result.filter(
         (p) =>
           p.category?.toLowerCase() === cat ||
@@ -50,7 +131,7 @@ router.get("/", (req, res) => {
 
     // Dress Style filter
     if (style && style !== "all") {
-      const s = decodeURIComponent(style).toLowerCase();
+      const s = safeDecode(style).toLowerCase();
       result = result.filter((p) => p.style?.toLowerCase() === s);
     }
 
@@ -62,11 +143,13 @@ router.get("/", (req, res) => {
       result = result.filter((p) => Number(p.price) <= Number(maxPrice));
     }
 
-    // Size filter
+    // Size filter with normalized matching
     if (size) {
-      const sizesArray = Array.isArray(size) ? size : [size];
+      const rawSizes = Array.isArray(size) ? size : [size];
+      const normalizedQuerySizes = rawSizes.map(normalizeSize);
       result = result.filter((p) =>
-        p.sizes && p.sizes.some((s) => sizesArray.includes(s))
+        p.sizes &&
+        p.sizes.some((s) => normalizedQuerySizes.includes(normalizeSize(s)))
       );
     }
 
@@ -81,12 +164,14 @@ router.get("/", (req, res) => {
       result.sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0));
     }
 
-    // Pagination
+    // Pagination (clamped to safe limits)
     const totalCount = result.length;
-    const pageNum = Math.max(1, parseInt(page));
-    const limitNum = Math.max(1, parseInt(limit));
+    const pageNum = Math.max(1, parseInt(page, 10));
+    const limitNum = Math.min(100, Math.max(1, parseInt(limit, 10)));
     const startIndex = (pageNum - 1) * limitNum;
-    const paginatedItems = result.slice(startIndex, startIndex + limitNum);
+    const paginatedItems = result
+      .slice(startIndex, startIndex + limitNum)
+      .map(sanitizeProductForPublic);
 
     res.json({
       success: true,
@@ -97,21 +182,27 @@ router.get("/", (req, res) => {
       products: paginatedItems,
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: "An error occurred while fetching products." });
   }
 });
 
 // GET New Arrivals
 router.get("/featured/new-arrivals", (req, res) => {
-  const limit = parseInt(req.query.limit) || 4;
-  const newArrivals = productsCatalog.filter((p) => p.isNew).slice(0, limit);
+  const limit = Math.min(20, Math.max(1, parseInt(req.query.limit, 10) || 4));
+  const newArrivals = productsCatalog
+    .filter((p) => p.isNew)
+    .slice(0, limit)
+    .map(sanitizeProductForPublic);
   res.json({ success: true, count: newArrivals.length, products: newArrivals });
 });
 
 // GET Best Sellers
 router.get("/featured/best-sellers", (req, res) => {
-  const limit = parseInt(req.query.limit) || 4;
-  const bestSellers = productsCatalog.filter((p) => p.isBestSeller).slice(0, limit);
+  const limit = Math.min(20, Math.max(1, parseInt(req.query.limit, 10) || 4));
+  const bestSellers = productsCatalog
+    .filter((p) => p.isBestSeller)
+    .slice(0, limit)
+    .map(sanitizeProductForPublic);
   res.json({ success: true, count: bestSellers.length, products: bestSellers });
 });
 
@@ -154,9 +245,9 @@ router.get("/meta/styles", (req, res) => {
   res.json({ success: true, styles });
 });
 
-// GET single product by ID
-router.get("/:id", (req, res) => {
-  const id = parseInt(req.params.id);
+// GET single product by ID (Validates positive integer parameter)
+router.get("/:id", validateIdParam("id"), (req, res) => {
+  const id = req.validatedId;
   const product = productsCatalog.find((p) => p.id === id);
 
   if (!product) {
@@ -168,13 +259,18 @@ router.get("/:id", (req, res) => {
     .filter(
       (p) => p.id !== id && (p.category === product.category || p.style === product.style)
     )
-    .slice(0, 4);
+    .slice(0, 4)
+    .map(sanitizeProductForPublic);
 
-  res.json({ success: true, product, related });
+  res.json({
+    success: true,
+    product: sanitizeProductForPublic(product),
+    related,
+  });
 });
 
-// POST /api/products - Create New Product (Admin Only)
-router.post("/", requireAdmin, (req, res) => {
+// POST /api/products - Create New Product (Admin Only + Validated)
+router.post("/", requireAdmin, validateProductCreatePayload, (req, res) => {
   try {
     const {
       title,
@@ -197,19 +293,8 @@ router.post("/", requireAdmin, (req, res) => {
       isBestSeller = false,
     } = req.body;
 
-    // Validate required fields
-    if (!title || !title.trim()) {
-      return res.status(400).json({ success: false, message: "Product title is required." });
-    }
-    if (price === undefined || isNaN(Number(price)) || Number(price) <= 0) {
-      return res.status(400).json({ success: false, message: "A valid positive price is required." });
-    }
-    if (!category || !category.trim()) {
-      return res.status(400).json({ success: false, message: "Category is required." });
-    }
-
     const numericPrice = Number(price);
-    const numericOriginalPrice = Number(originalPrice) || numericPrice;
+    const numericOriginalPrice = originalPrice !== undefined ? Number(originalPrice) : numericPrice;
     const discount =
       numericOriginalPrice > numericPrice
         ? Math.round(((numericOriginalPrice - numericPrice) / numericOriginalPrice) * 100)
@@ -217,19 +302,19 @@ router.post("/", requireAdmin, (req, res) => {
 
     const newId = Date.now();
     const primaryImg =
-      image ||
-      (Array.isArray(images) && images.length > 0 ? images[0] : null) ||
+      (typeof image === "string" && image.trim()) ||
+      (Array.isArray(images) && images.length > 0 && typeof images[0] === "string" ? images[0] : null) ||
       "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80";
 
     const allImages =
       Array.isArray(images) && images.length > 0
-        ? images
+        ? images.filter((img) => typeof img === "string" && img.trim())
         : [primaryImg];
 
     // Normalize features into array
     let parsedFeatures = [];
     if (Array.isArray(features)) {
-      parsedFeatures = features.filter(Boolean);
+      parsedFeatures = features.filter((f) => typeof f === "string" && f.trim());
     } else if (typeof features === "string") {
       parsedFeatures = features
         .split("\n")
@@ -246,33 +331,33 @@ router.post("/", requireAdmin, (req, res) => {
 
     const newProduct = {
       id: newId,
-      sku: sku ? sku.trim() : `PRD-${newId.toString().slice(-6)}`,
-      brand: brand ? brand.trim() : "SHOP.CO",
-      title: title.trim(),
+      sku: typeof sku === "string" && sku.trim() ? sku.trim().slice(0, 50) : `PRD-${newId.toString().slice(-6)}`,
+      brand: typeof brand === "string" && brand.trim() ? brand.trim().slice(0, 50) : "SHOP.CO",
+      title: title.trim().slice(0, 200),
       price: numericPrice,
       originalPrice: numericOriginalPrice,
       discountPercent: discount,
-      category: category.trim().toLowerCase(),
-      style: (style || "casual").trim().toLowerCase(),
+      category: category.trim().toLowerCase().slice(0, 50),
+      style: typeof style === "string" && style.trim() ? style.trim().toLowerCase().slice(0, 50) : "casual",
       rating: { rate: 5.0, count: 1 },
       isNew: Boolean(isNew),
       isBestSeller: Boolean(isBestSeller),
       moq: Number(moq) || 1,
-      deliveryDays: deliveryDays || "3–5 Days",
+      deliveryDays: typeof deliveryDays === "string" && deliveryDays.trim() ? deliveryDays.trim().slice(0, 50) : "3–5 Days",
       unitLabel: "piece",
       priceNote: "Standard retail price",
       description:
-        description && description.trim()
-          ? description.trim()
+        typeof description === "string" && description.trim()
+          ? description.trim().slice(0, 2000)
           : `${title.trim()} crafted with premium attention to detail. Perfect addition to your collection.`,
       features: parsedFeatures,
       specs: specs || {
-        Brand: brand ? brand.trim() : "SHOP.CO",
+        Brand: typeof brand === "string" && brand.trim() ? brand.trim().slice(0, 50) : "SHOP.CO",
         Category: category.trim(),
         Style: style || "Casual",
         Warranty: "1 Year Official Guarantee",
       },
-      sizes: Array.isArray(sizes) && sizes.length > 0 ? sizes : ["S", "M", "L", "XL"],
+      sizes: Array.isArray(sizes) && sizes.length > 0 ? sizes.map(normalizeSize) : ["S", "M", "L", "XL"],
       colors: Array.isArray(colors) && colors.length > 0 ? colors : ["#000000", "#4F46E5"],
       img: primaryImg,
       images: allImages,
@@ -289,58 +374,67 @@ router.post("/", requireAdmin, (req, res) => {
       product: newProduct,
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: "Failed to create product." });
   }
 });
 
-// PUT /api/products/:id - Edit Existing Product (Admin Only)
-router.put("/:id", requireAdmin, (req, res) => {
-  try {
-    const id = parseInt(req.params.id);
-    const index = productsCatalog.findIndex((p) => p.id === id);
+// PUT /api/products/:id - Edit Existing Product (Admin Only + ID/Payload Validated)
+router.put(
+  "/:id",
+  requireAdmin,
+  validateIdParam("id"),
+  validateProductUpdatePayload,
+  (req, res) => {
+    try {
+      const id = req.validatedId;
+      const index = productsCatalog.findIndex((p) => p.id === id);
 
-    if (index === -1) {
-      return res.status(404).json({ success: false, message: "Product not found." });
+      if (index === -1) {
+        return res.status(404).json({ success: false, message: "Product not found." });
+      }
+
+      const existing = productsCatalog[index];
+      const updates = req.sanitizedUpdates;
+
+      const numericPrice = updates.price !== undefined ? Number(updates.price) : existing.price;
+      const numericOriginal =
+        updates.originalPrice !== undefined ? Number(updates.originalPrice) : existing.originalPrice;
+      const discount =
+        numericOriginal > numericPrice
+          ? Math.round(((numericOriginal - numericPrice) / numericOriginal) * 100)
+          : 0;
+
+      // Protected fields (id, createdAt, createdBy) are strictly immutable
+      const updatedProduct = {
+        ...existing,
+        ...updates,
+        id,                             // Immutable ID
+        createdAt: existing.createdAt, // Immutable createdAt
+        createdBy: existing.createdBy, // Immutable createdBy
+        price: numericPrice,
+        originalPrice: numericOriginal,
+        discountPercent: discount,
+        updatedAt: new Date().toISOString(),
+        updatedBy: req.user.email,
+      };
+
+      productsCatalog[index] = updatedProduct;
+
+      res.json({
+        success: true,
+        message: "Product updated successfully!",
+        product: updatedProduct,
+      });
+    } catch (error) {
+      res.status(500).json({ success: false, message: "Failed to update product." });
     }
-
-    const existing = productsCatalog[index];
-    const updates = req.body;
-
-    const numericPrice = updates.price !== undefined ? Number(updates.price) : existing.price;
-    const numericOriginal =
-      updates.originalPrice !== undefined ? Number(updates.originalPrice) : existing.originalPrice;
-    const discount =
-      numericOriginal > numericPrice
-        ? Math.round(((numericOriginal - numericPrice) / numericOriginal) * 100)
-        : 0;
-
-    const updatedProduct = {
-      ...existing,
-      ...updates,
-      id, // Preserve ID
-      price: numericPrice,
-      originalPrice: numericOriginal,
-      discountPercent: discount,
-      updatedAt: new Date().toISOString(),
-      updatedBy: req.user.email,
-    };
-
-    productsCatalog[index] = updatedProduct;
-
-    res.json({
-      success: true,
-      message: "Product updated successfully!",
-      product: updatedProduct,
-    });
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
   }
-});
+);
 
-// DELETE /api/products/:id - Delete Product (Admin Only)
-router.delete("/:id", requireAdmin, (req, res) => {
+// DELETE /api/products/:id - Delete Product (Admin Only + ID Validated)
+router.delete("/:id", requireAdmin, validateIdParam("id"), (req, res) => {
   try {
-    const id = parseInt(req.params.id);
+    const id = req.validatedId;
     const initialLen = productsCatalog.length;
     productsCatalog = productsCatalog.filter((p) => p.id !== id);
 
@@ -354,7 +448,7 @@ router.delete("/:id", requireAdmin, (req, res) => {
       deletedId: id,
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: "Failed to delete product." });
   }
 });
 

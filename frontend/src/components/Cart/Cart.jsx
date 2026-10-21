@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Path from "../Products/Path";
 import QuantityControls from "../Products/Product/QuantityControls";
 import { capitalize } from "../Helpers/Helpers";
+import { useAuth } from "../../context/AuthContext";
 
 const Cart = ({ cart, decreaseQuantity, increaseQuantity, removeFromCart, clearCart }) => {
+  const { user, token, isLoggedIn, openAuthModal } = useAuth();
+
   const [promoInput, setPromoInput] = useState("");
-  const [discountPercent, setDiscountPercent] = useState(20); // Default 20% from template
+  const [discountPercent, setDiscountPercent] = useState(20); // Default 20% for demonstration
   const [promoApplied, setPromoApplied] = useState("SHOP20");
   const [promoError, setPromoError] = useState("");
   const [deliveryFee, setDeliveryFee] = useState(15);
@@ -15,15 +18,33 @@ const Cart = ({ cart, decreaseQuantity, increaseQuantity, removeFromCart, clearC
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [checkoutStep, setCheckoutStep] = useState("form"); // "form" | "processing" | "success"
   const [orderData, setOrderData] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [checkoutError, setCheckoutError] = useState("");
+
+  // Idempotency key per logical checkout session
+  const [idempotencyKey, setIdempotencyKey] = useState(
+    () => `idem_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`
+  );
 
   const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
+    fullName: user?.name || "",
+    email: user?.email || "",
     address: "",
     city: "",
     postalCode: "",
     paymentMethod: "card",
   });
+
+  // Pre-fill user information if logged in
+  useEffect(() => {
+    if (user) {
+      setFormData((prev) => ({
+        ...prev,
+        fullName: prev.fullName || user.name || "",
+        email: prev.email || user.email || "",
+      }));
+    }
+  }, [user]);
 
   const calculateSubtotal = () => {
     return cart.reduce((acc, item) => acc + Number(item.price) * item.quantity, 0);
@@ -47,29 +68,15 @@ const Cart = ({ cart, decreaseQuantity, increaseQuantity, removeFromCart, clearC
       });
       const data = await res.json();
       if (res.ok && data.success) {
-        if (data.discountPercent > 0) setDiscountPercent(data.discountPercent);
+        if (data.discountPercent !== undefined) setDiscountPercent(data.discountPercent);
         if (data.freeShipping) setDeliveryFee(0);
         setPromoApplied(data.code);
         setPromoInput("");
         return;
       }
-      setPromoError(data.message || "Invalid coupon code");
+      setPromoError(data.message || "Invalid coupon code.");
     } catch (err) {
-      if (code === "SHOP20" || code === "WELCOME20") {
-        setDiscountPercent(20);
-        setPromoApplied(code);
-        setPromoInput("");
-      } else if (code === "SAVE30") {
-        setDiscountPercent(30);
-        setPromoApplied(code);
-        setPromoInput("");
-      } else if (code === "FREESHIP") {
-        setDeliveryFee(0);
-        setPromoApplied("FREESHIP");
-        setPromoInput("");
-      } else {
-        setPromoError("Invalid coupon code. Try 'SHOP20' or 'SAVE30'");
-      }
+      setPromoError("Failed to reach coupon validation service. Please try again.");
     }
   };
 
@@ -77,62 +84,99 @@ const Cart = ({ cart, decreaseQuantity, increaseQuantity, removeFromCart, clearC
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleOpenCheckout = () => {
+    setCheckoutError("");
+    setCheckoutStep("form");
+    setIsCheckoutOpen(true);
+  };
+
   const handlePlaceOrder = async (e) => {
     e.preventDefault();
+    if (isSubmitting) return;
+
+    // 1. Guard: Authentication check
+    if (!token) {
+      setCheckoutError("Please sign in or create an account to complete your order.");
+      openAuthModal("user");
+      return;
+    }
+
+    // 2. Guard: Empty cart
+    if (!cart || cart.length === 0) {
+      setCheckoutError("Your cart is empty. Please add items before checking out.");
+      return;
+    }
+
+    setIsSubmitting(true);
+    setCheckoutError("");
     setCheckoutStep("processing");
 
     try {
       const response = await fetch("/api/orders", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+          "Idempotency-Key": idempotencyKey,
+        },
         body: JSON.stringify({
-          customer: formData,
-          items: cart,
-          subtotal: subtotal.toFixed(2),
-          discount: discountAmount.toFixed(2),
-          deliveryFee: deliveryFee.toFixed(2),
-          total: total.toFixed(2),
+          customer: {
+            fullName: formData.fullName.trim(),
+            email: (formData.email || user?.email || "").trim(),
+            address: formData.address.trim(),
+            city: formData.city.trim(),
+            postalCode: formData.postalCode.trim(),
+          },
+          items: cart.map((item) => ({
+            id: item.id,
+            quantity: item.quantity,
+            size: item.size,
+            selectedColor: item.selectedColor,
+          })),
+          promoCode: promoApplied || null,
           paymentMethod: formData.paymentMethod,
         }),
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        setOrderData({
-          orderNumber: data.order.orderId,
-          deliveryDate: data.order.estimatedDelivery,
-          customer: data.order.customer,
-          items: data.order.items,
-          subtotal: data.order.pricing.subtotal,
-          discount: data.order.pricing.discount,
-          total: data.order.pricing.total,
-        });
-      } else {
-        throw new Error("Failed to post order to server");
+      let data;
+      try {
+        data = await response.json();
+      } catch (parseErr) {
+        throw new Error(
+          "Received an unexpected, non-JSON response from the server. Please try again."
+        );
       }
+
+      // Check for backend failure (validation error, 401, 404, 500, etc.)
+      if (!response.ok || !data?.success || !data?.order?.orderId) {
+        const errorMsg =
+          data?.message ||
+          `Order placement failed with status ${response.status}. Please check your details and try again.`;
+        throw new Error(errorMsg);
+      }
+
+      // ONLY on verified backend success:
+      setOrderData(data.order);
+      setCheckoutStep("success");
+      setIsCheckoutOpen(false); // Close modal to unveil main confirmed view
+
+      if (clearCart) {
+        clearCart();
+      }
+
+      // Refresh idempotency key for future checkouts
+      setIdempotencyKey(
+        `idem_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`
+      );
     } catch (err) {
-      const orderNumber = `SHOP-${Math.floor(100000 + Math.random() * 900000)}`;
-      const deliveryDate = new Date();
-      deliveryDate.setDate(deliveryDate.getDate() + 4);
-
-      setOrderData({
-        orderNumber,
-        deliveryDate: deliveryDate.toLocaleDateString("en-US", {
-          month: "short",
-          day: "numeric",
-          year: "numeric",
-        }),
-        customer: formData,
-        items: [...cart],
-        subtotal: subtotal.toFixed(2),
-        discount: discountAmount.toFixed(2),
-        total: total.toFixed(2),
-      });
-    }
-
-    setCheckoutStep("success");
-    if (clearCart) {
-      clearCart();
+      // PRESERVE CART, PRESERVE FORM DATA, SHOW ERROR, ALLOW SAFE RETRY
+      setCheckoutError(
+        err.message ||
+          "Could not complete your order. Your cart items have been preserved. Please try again."
+      );
+      setCheckoutStep("form");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -243,10 +287,7 @@ const Cart = ({ cart, decreaseQuantity, increaseQuantity, removeFromCart, clearC
               {promoError && <p className="promo-error-text">{promoError}</p>}
 
               <button
-                onClick={() => {
-                  setCheckoutStep("form");
-                  setIsCheckoutOpen(true);
-                }}
+                onClick={handleOpenCheckout}
                 className="btn-pill btn-black checkout-btn"
               >
                 Go to Checkout{" "}
@@ -258,7 +299,7 @@ const Cart = ({ cart, decreaseQuantity, increaseQuantity, removeFromCart, clearC
           </div>
         </main>
       ) : orderData && checkoutStep === "success" ? (
-        /* Order Confirmed View */
+        /* Verified Backend Order Confirmed View */
         <main className="cart-page-container container order-success-page">
           <div className="order-success-card">
             <div className="success-icon-badge">
@@ -266,27 +307,31 @@ const Cart = ({ cart, decreaseQuantity, increaseQuantity, removeFromCart, clearC
             </div>
             <h1 className="title--lg">THANK YOU FOR YOUR ORDER!</h1>
             <p className="order-subtitle">
-              Your order <strong>{orderData.orderNumber}</strong> has been confirmed.
+              Your order <strong>{orderData.orderId || orderData.orderNumber}</strong> has been confirmed.
             </p>
             <p className="text--gray">
-              Estimated delivery by <strong>{orderData.deliveryDate}</strong> to{" "}
-              {orderData.customer.address}, {orderData.customer.city}.
+              Estimated delivery by <strong>{orderData.estimatedDelivery || orderData.deliveryDate}</strong> to{" "}
+              {orderData.customer?.address}, {orderData.customer?.city}.
             </p>
 
             <div className="order-items-receipt">
-              <h3>Items Purchased ({orderData.items.length})</h3>
-              {orderData.items.map((it) => (
-                <div key={it.idWithSize} className="receipt-row">
+              <h3>Items Purchased ({orderData.items?.length || 0})</h3>
+              {orderData.items?.map((it, idx) => (
+                <div key={it.idWithSize || `${it.id}-${it.size || idx}`} className="receipt-row">
                   <span>
-                    {it.quantity}x {it.title} ({it.size.toUpperCase()})
+                    {it.quantity}x {it.title} ({String(it.size || "M").toUpperCase()})
                   </span>
-                  <span>₹{(Number(it.price) * it.quantity).toFixed(2)}</span>
+                  <span>
+                    ₹{Number(it.lineTotal || Number(it.price) * it.quantity).toFixed(2)}
+                  </span>
                 </div>
               ))}
               <hr />
               <div className="receipt-row total">
                 <span>Total Paid</span>
-                <span>₹{orderData.total}</span>
+                <span>
+                  ₹{Number(orderData.pricing?.total ?? orderData.total ?? 0).toFixed(2)}
+                </span>
               </div>
             </div>
 
@@ -320,11 +365,44 @@ const Cart = ({ cart, decreaseQuantity, increaseQuantity, removeFromCart, clearC
               <button
                 type="button"
                 className="checkout-modal-close"
-                onClick={() => setIsCheckoutOpen(false)}
+                onClick={() => {
+                  if (!isSubmitting) {
+                    setIsCheckoutOpen(false);
+                    setCheckoutStep("form");
+                  }
+                }}
+                disabled={isSubmitting}
               >
                 ✕
               </button>
             </div>
+
+            {/* Authentication Notice if customer is not logged in */}
+            {!isLoggedIn && (
+              <div className="checkout-auth-banner">
+                <div className="checkout-auth-banner-text">
+                  <i className="fa-solid fa-user-lock"></i>
+                  <span>
+                    You are not signed in. Please sign in to securely submit your order.
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => openAuthModal("user")}
+                  className="btn-pill btn-black checkout-auth-btn"
+                >
+                  Sign In / Register
+                </button>
+              </div>
+            )}
+
+            {/* Error Banner on submission/validation error */}
+            {checkoutError && (
+              <div className="checkout-error-banner" role="alert">
+                <i className="fa-solid fa-circle-exclamation error-icon"></i>
+                <div className="error-message-text">{checkoutError}</div>
+              </div>
+            )}
 
             {checkoutStep === "form" && (
               <form onSubmit={handlePlaceOrder} className="checkout-form">
@@ -338,6 +416,7 @@ const Cart = ({ cart, decreaseQuantity, increaseQuantity, removeFromCart, clearC
                       placeholder="e.g. Alex Johnson"
                       value={formData.fullName}
                       onChange={handleFormChange}
+                      disabled={isSubmitting}
                     />
                   </div>
 
@@ -350,6 +429,7 @@ const Cart = ({ cart, decreaseQuantity, increaseQuantity, removeFromCart, clearC
                       placeholder="alex@example.com"
                       value={formData.email}
                       onChange={handleFormChange}
+                      disabled={isSubmitting}
                     />
                   </div>
 
@@ -362,6 +442,7 @@ const Cart = ({ cart, decreaseQuantity, increaseQuantity, removeFromCart, clearC
                       placeholder="123 Fashion Blvd, Apt 4B"
                       value={formData.address}
                       onChange={handleFormChange}
+                      disabled={isSubmitting}
                     />
                   </div>
 
@@ -374,6 +455,7 @@ const Cart = ({ cart, decreaseQuantity, increaseQuantity, removeFromCart, clearC
                       placeholder="New York"
                       value={formData.city}
                       onChange={handleFormChange}
+                      disabled={isSubmitting}
                     />
                   </div>
 
@@ -386,6 +468,7 @@ const Cart = ({ cart, decreaseQuantity, increaseQuantity, removeFromCart, clearC
                       placeholder="10001"
                       value={formData.postalCode}
                       onChange={handleFormChange}
+                      disabled={isSubmitting}
                     />
                   </div>
                 </div>
@@ -393,35 +476,50 @@ const Cart = ({ cart, decreaseQuantity, increaseQuantity, removeFromCart, clearC
                 <div className="payment-method-section">
                   <label className="section-label">Payment Method</label>
                   <div className="payment-options">
-                    <label className={`payment-pill ${formData.paymentMethod === "card" ? "selected" : ""}`}>
+                    <label
+                      className={`payment-pill ${
+                        formData.paymentMethod === "card" ? "selected" : ""
+                      }`}
+                    >
                       <input
                         type="radio"
                         name="paymentMethod"
                         value="card"
                         checked={formData.paymentMethod === "card"}
                         onChange={handleFormChange}
+                        disabled={isSubmitting}
                       />
                       <i className="fa-regular fa-credit-card"></i> Card
                     </label>
 
-                    <label className={`payment-pill ${formData.paymentMethod === "cod" ? "selected" : ""}`}>
+                    <label
+                      className={`payment-pill ${
+                        formData.paymentMethod === "cod" ? "selected" : ""
+                      }`}
+                    >
                       <input
                         type="radio"
                         name="paymentMethod"
                         value="cod"
                         checked={formData.paymentMethod === "cod"}
                         onChange={handleFormChange}
+                        disabled={isSubmitting}
                       />
                       <i className="fa-solid fa-truck-fast"></i> Cash on Delivery
                     </label>
 
-                    <label className={`payment-pill ${formData.paymentMethod === "upi" ? "selected" : ""}`}>
+                    <label
+                      className={`payment-pill ${
+                        formData.paymentMethod === "upi" ? "selected" : ""
+                      }`}
+                    >
                       <input
                         type="radio"
                         name="paymentMethod"
                         value="upi"
                         checked={formData.paymentMethod === "upi"}
                         onChange={handleFormChange}
+                        disabled={isSubmitting}
                       />
                       <i className="fa-solid fa-qrcode"></i> UPI / Pay
                     </label>
@@ -433,8 +531,21 @@ const Cart = ({ cart, decreaseQuantity, increaseQuantity, removeFromCart, clearC
                   <strong className="summary-total">₹{total.toFixed(2)}</strong>
                 </div>
 
-                <button type="submit" className="btn-pill btn-black btn-pay-now">
-                  Complete Order (₹{total.toFixed(2)})
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className={`btn-pill btn-black btn-pay-now ${
+                    isSubmitting ? "btn-submitting" : ""
+                  }`}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <span className="button-spinner"></span>
+                      Securing Order...
+                    </>
+                  ) : (
+                    `Complete Order (₹${total.toFixed(2)})`
+                  )}
                 </button>
               </form>
             )}
@@ -443,7 +554,9 @@ const Cart = ({ cart, decreaseQuantity, increaseQuantity, removeFromCart, clearC
               <div className="checkout-processing-state">
                 <div className="spinner"></div>
                 <h3 className="title--sm">Securing your order...</h3>
-                <p className="text--gray">Please wait while we finalize your payment & booking.</p>
+                <p className="text--gray">
+                  Contacting backend server and recording your order.
+                </p>
               </div>
             )}
           </div>

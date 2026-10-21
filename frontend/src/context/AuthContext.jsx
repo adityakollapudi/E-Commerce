@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
   const [authModalTab, setAuthModalTab] = useState("user"); // 'user' | 'admin' | 'register'
   const [loading, setLoading] = useState(false);
 
-  // Sync to localStorage
+  // Synchronize state with localStorage
   useEffect(() => {
     if (user && token) {
       localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(user));
@@ -33,6 +33,52 @@ export const AuthProvider = ({ children }) => {
       localStorage.removeItem(STORAGE_KEY_TOKEN);
     }
   }, [user, token]);
+
+  // Session verification on app initialization:
+  // Validates the stored token against GET /api/auth/me to ensure:
+  // 1. Expired/invalid tokens are automatically cleared from localStorage.
+  // 2. Client-side user profile and roles match authoritative server data.
+  useEffect(() => {
+    let isMounted = true;
+
+    const verifySession = async () => {
+      const savedToken = localStorage.getItem(STORAGE_KEY_TOKEN);
+      if (!savedToken) return;
+
+      try {
+        const res = await fetch("/api/auth/me", {
+          headers: {
+            Authorization: `Bearer ${savedToken}`,
+          },
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          if (isMounted && data.success && data.user) {
+            // Overwrite with authoritative server data
+            setUser(data.user);
+          }
+        } else if (res.status === 401 || res.status === 403) {
+          // Token is expired, invalid, or revoked
+          if (isMounted) {
+            setUser(null);
+            setToken(null);
+            localStorage.removeItem(STORAGE_KEY_USER);
+            localStorage.removeItem(STORAGE_KEY_TOKEN);
+          }
+        }
+      } catch (err) {
+        // Network offline: preserve existing state without elevating permissions
+        console.warn("Could not verify session with server (offline mode)");
+      }
+    };
+
+    verifySession();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const openAuthModal = (tab = "user") => {
     setAuthModalTab(tab);
@@ -70,14 +116,14 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Register handler
-  const register = async (name, email, password, role = "user") => {
+  // Register handler (strictly registers as standard customer)
+  const register = async (name, email, password) => {
     setLoading(true);
     try {
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password, role }),
+        body: JSON.stringify({ name, email, password }),
       });
 
       const data = await res.json();
@@ -97,7 +143,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // One-click demo login
+  // One-click demo login (dev mode)
   const quickLogin = async (role = "user") => {
     if (role === "admin") {
       return await login("admin@shop.co", "admin123", "admin");
@@ -110,6 +156,8 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setUser(null);
     setToken(null);
+    localStorage.removeItem(STORAGE_KEY_USER);
+    localStorage.removeItem(STORAGE_KEY_TOKEN);
   };
 
   const value = {

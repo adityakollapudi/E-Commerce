@@ -196,7 +196,7 @@ export const PRODUCTS = [
       { name: "Forest", hex: "#314F4A" },
       { name: "Navy", hex: "#31344F" },
     ],
-    sizes: ["small", "medium", "large", "x-large"],
+    sizes: ["S", "M", "L", "XL"],
     images: [
       "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=800&q=80",
       "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&w=800&q=80",
@@ -221,7 +221,7 @@ export const PRODUCTS = [
       { name: "Washed Blue", hex: "#3b82f6" },
       { name: "Charcoal", hex: "#374151" },
     ],
-    sizes: ["small", "medium", "large", "x-large"],
+    sizes: ["S", "M", "L", "XL"],
     images: [
       "https://images.unsplash.com/photo-1542272604-780c96856592?auto=format&fit=crop&w=800&q=80",
       "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=800&q=80",
@@ -246,7 +246,7 @@ export const PRODUCTS = [
       { name: "Forest Green", hex: "#166534" },
       { name: "Navy Blue", hex: "#1e3a8a" },
     ],
-    sizes: ["small", "medium", "large", "x-large"],
+    sizes: ["S", "M", "L", "XL", "XXL"],
     images: [
       "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=800&q=80",
       "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=800&q=80",
@@ -270,7 +270,7 @@ export const PRODUCTS = [
       { name: "Navy", hex: "#1e3a8a" },
       { name: "Black", hex: "#111827" },
     ],
-    sizes: ["small", "medium", "large", "x-large"],
+    sizes: ["S", "M", "L", "XL"],
     images: [
       "https://images.unsplash.com/photo-1581655353564-df123a1eb820?auto=format&fit=crop&w=800&q=80",
       "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=800&q=80",
@@ -294,7 +294,7 @@ export const PRODUCTS = [
       { name: "Ivory Cream", hex: "#fef3c7" },
       { name: "Camel", hex: "#b45309" },
     ],
-    sizes: ["small", "medium", "large"],
+    sizes: ["XS", "S", "M", "L"],
     images: [
       "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=800&q=80",
       "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80",
@@ -317,7 +317,7 @@ export const PRODUCTS = [
       { name: "Emerald", hex: "#065f46" },
       { name: "Wine Red", hex: "#881337" },
     ],
-    sizes: ["small", "medium", "large"],
+    sizes: ["XS", "S", "M", "L"],
     images: [
       "https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=800&q=80",
       "https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?auto=format&fit=crop&w=800&q=80",
@@ -340,7 +340,7 @@ export const PRODUCTS = [
       { name: "Slate Grey", hex: "#475569" },
       { name: "Pitch Black", hex: "#09090b" },
     ],
-    sizes: ["small", "medium", "large"],
+    sizes: ["XS", "S", "M", "L", "XL"],
     images: [
       "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=800&q=80",
       "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=800&q=80",
@@ -363,7 +363,7 @@ export const PRODUCTS = [
       { name: "Washed Black", hex: "#27272a" },
       { name: "Classic Indigo", hex: "#1e3a8a" },
     ],
-    sizes: ["medium", "large", "x-large"],
+    sizes: ["M", "L", "XL", "XXL"],
     images: [
       "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?auto=format&fit=crop&w=800&q=80",
       "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=800&q=80",

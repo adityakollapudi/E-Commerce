@@ -6,6 +6,7 @@ import PaginationButtons from "./PaginationButtons";
 import Path from "./Path";
 import { capitalize } from "../Helpers/Helpers";
 import { fetchProductsSafe, getAllProducts, searchProducts } from "../../data/products";
+import { STANDARDIZED_SIZES, normalizeSize } from "./SizeSelector";
 
 const PRODUCTS_NUMBER = 9;
 
@@ -26,6 +27,36 @@ const Products = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const searchQuery = searchParams.get("search") || "";
   const styleQuery = searchParams.get("style") || "";
+
+  // Dynamic catalog max price safely derived from active catalog (baseline: 2000)
+  const catalogMaxPrice = useMemo(() => {
+    if (!products || products.length === 0) return 2000;
+    const maxVal = Math.max(...products.map((p) => Number(p.price) || 0));
+    return Math.max(2000, Math.ceil(maxVal / 100) * 100);
+  }, [products]);
+
+  // Determine if the current products view has items with apparel/standard sizes
+  const hasSizedProducts = useMemo(() => {
+    return products.some((p) => {
+      if (!p.sizes || p.sizes.length === 0) return false;
+      return p.sizes.some((s) => {
+        const norm = normalizeSize(s);
+        return STANDARDIZED_SIZES.includes(norm);
+      });
+    });
+  }, [products]);
+
+  // Adjust default max if catalog dynamically requires a higher range
+  useEffect(() => {
+    setPrice((prev) => ({
+      min: prev.min,
+      max: prev.max === 2000 || prev.max === 500 ? catalogMaxPrice : Math.max(prev.max, catalogMaxPrice),
+    }));
+    setAppliedPrice((prev) => ({
+      min: prev.min,
+      max: prev.max === 2000 || prev.max === 500 ? catalogMaxPrice : Math.max(prev.max, catalogMaxPrice),
+    }));
+  }, [catalogMaxPrice]);
 
   // Synchronize style query from URL
   useEffect(() => {
@@ -69,16 +100,22 @@ const Products = () => {
   }, [isFilterOpen]);
 
   const handlePriceEnter = (min, max) => {
-    const numMin = Number(min) || 0;
-    const numMax = Number(max) || 500;
+    const numMin = min === "" ? 0 : Math.max(0, Number(min) || 0);
+    const numMax = max === "" ? catalogMaxPrice : Number(max) || catalogMaxPrice;
     setPrice({ min: numMin, max: numMax });
   };
 
+  const isSizeActive = (sizeOption) => {
+    const norm = normalizeSize(sizeOption);
+    return size.some((s) => normalizeSize(s) === norm) ? "size-active" : "";
+  };
+
   const handleSizeClick = (newSize) => {
-    if (size.includes(newSize)) {
-      setSize(size.filter((s) => s !== newSize));
+    const norm = normalizeSize(newSize);
+    if (size.some((s) => normalizeSize(s) === norm)) {
+      setSize(size.filter((s) => normalizeSize(s) !== norm));
     } else {
-      setSize([...size, newSize]);
+      setSize([...size, norm]);
     }
   };
 
@@ -89,8 +126,8 @@ const Products = () => {
   };
 
   const clearAllFilters = () => {
-    setPrice({ min: 0, max: 500 });
-    setAppliedPrice({ min: 0, max: 500 });
+    setPrice({ min: 0, max: catalogMaxPrice });
+    setAppliedPrice({ min: 0, max: catalogMaxPrice });
     setSize([]);
     setAppliedSize([]);
     setSelectedStyle("");
@@ -103,11 +140,21 @@ const Products = () => {
   // Filter predicate
   const productsFilterFn = (product) => {
     const numPrice = Number(product.price);
-    const matchesPrice = numPrice >= appliedPrice.min && numPrice <= appliedPrice.max;
+    // If appliedPrice.max is at or above catalog ceiling, allow products at or above to remain discoverable
+    const matchesPrice =
+      numPrice >= appliedPrice.min &&
+      (appliedPrice.max >= catalogMaxPrice ? true : numPrice <= appliedPrice.max);
+
     const matchesSize =
       appliedSize.length === 0 ||
-      (product.sizes && product.sizes.some((s) => appliedSize.includes(s))) ||
-      appliedSize.includes(product.size);
+      (product.sizes &&
+        product.sizes.some((s) => {
+          const norm = normalizeSize(s);
+          return appliedSize.some((as) => normalizeSize(as) === norm);
+        })) ||
+      (product.size &&
+        appliedSize.some((as) => normalizeSize(as) === normalizeSize(product.size)));
+
     const matchesStyle =
       !selectedStyle ||
       (product.style && product.style.toLowerCase() === selectedStyle.toLowerCase());
@@ -130,7 +177,7 @@ const Products = () => {
     }
 
     return result;
-  }, [products, appliedPrice, appliedSize, selectedStyle, sortOption]);
+  }, [products, appliedPrice, appliedSize, selectedStyle, sortOption, catalogMaxPrice]);
 
   // Paginated slice
   const paginatedProducts = useMemo(() => {
@@ -161,7 +208,7 @@ const Products = () => {
         <FiltersSidebar
           handleSizeClick={handleSizeClick}
           handleFilterClick={handleFilterClick}
-          isSizeActive={(s) => (size.includes(s) ? "size-active" : "")}
+          isSizeActive={isSizeActive}
           isFilterOpen={isFilterOpen}
           setIsFilterOpen={setIsFilterOpen}
           handlePriceEnter={handlePriceEnter}
@@ -173,6 +220,8 @@ const Products = () => {
             setActivePage(1);
           }}
           clearAllFilters={clearAllFilters}
+          catalogMaxPrice={catalogMaxPrice}
+          showSizeFilter={hasSizedProducts}
         />
         <div className="products-column">
           <div className="products-heading-flex">

@@ -67,6 +67,26 @@
     background: black !important;
   }
 
+  .no-sizes-note {
+    font-size: 13px;
+    margin-top: 8px;
+    color: #64748b;
+    font-style: italic;
+    line-height: 1.4;
+  }
+
+  .filter-sizes-disabled h3 {
+    opacity: 0.7;
+  }
+
+  .btn-size[disabled],
+  .size-disabled {
+    opacity: 0.35 !important;
+    cursor: not-allowed !important;
+    pointer-events: none !important;
+    background-color: #f1f5f9 !important;
+  }
+
   @media (max-width: 1060px) {
     .filters-container {
       visibility: hidden;

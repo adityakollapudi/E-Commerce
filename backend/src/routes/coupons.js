@@ -1,22 +1,35 @@
 import express from "express";
+import { couponValidateLimiter } from "../middleware/rateLimiter.js";
 
 const router = express.Router();
 
-const VALID_COUPONS = {
+export const VALID_COUPONS = {
   SHOP20: { discountPercent: 20, freeShipping: false, description: "20% off entire order" },
   SAVE30: { discountPercent: 30, freeShipping: false, description: "30% off big discount" },
   FREESHIP: { discountPercent: 0, freeShipping: true, description: "Free standard shipping" },
   WELCOME10: { discountPercent: 10, freeShipping: false, description: "10% welcome coupon" },
 };
 
-// POST validate coupon
-router.post("/validate", (req, res) => {
-  const { code } = req.body;
-  if (!code) {
-    return res.status(400).json({ success: false, message: "Coupon code is required" });
+// POST /api/coupons/validate - Validate coupon (Rate limited to 25 attempts/10m)
+router.post("/validate", couponValidateLimiter, (req, res) => {
+  const { code } = req.body || {};
+
+  if (!code || typeof code !== "string" || !code.trim()) {
+    return res.status(400).json({
+      success: false,
+      message: "Coupon code is required and must be a valid string.",
+    });
   }
 
-  const normalized = code.trim().toUpperCase();
+  const cleanCode = code.trim();
+  if (cleanCode.length > 30) {
+    return res.status(400).json({
+      success: false,
+      message: "Coupon code cannot exceed 30 characters.",
+    });
+  }
+
+  const normalized = cleanCode.toUpperCase();
   const coupon = VALID_COUPONS[normalized];
 
   if (coupon) {

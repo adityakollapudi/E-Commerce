@@ -14,8 +14,18 @@ const FiltersSidebar = ({
   selectedStyle,
   setSelectedStyle,
   clearAllFilters,
+  catalogMaxPrice = 2000,
+  showSizeFilter = true,
 }) => {
   const stylesList = ["casual", "formal", "party", "gym"];
+
+  const handlePriceKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleFilterClick();
+      setIsFilterOpen(false);
+    }
+  };
 
   return (
     <>
@@ -87,10 +97,10 @@ const FiltersSidebar = ({
           <RangeSlider
             className="slider"
             min={0}
-            max={2000}
+            max={catalogMaxPrice}
             step={25}
             rangeSlideDisabled
-            value={[price.min, price.max]}
+            value={[price.min, Math.min(price.max, catalogMaxPrice)]}
             onInput={(value) => setPrice({ min: value[0], max: value[1] })}
           />
           <div className="filter-price-num">
@@ -102,9 +112,10 @@ const FiltersSidebar = ({
               value={price.min}
               autoComplete="off"
               onChange={(e) => handlePriceEnter(e.target.value, price.max)}
+              onKeyDown={handlePriceKeyDown}
               inputMode="numeric"
               className="filter-price-num-input"
-              maxLength={4}
+              maxLength={6}
               placeholder="0"
               id="min-price-input"
             />
@@ -117,21 +128,31 @@ const FiltersSidebar = ({
               value={price.max}
               autoComplete="off"
               onChange={(e) => handlePriceEnter(price.min, e.target.value)}
+              onKeyDown={handlePriceKeyDown}
               inputMode="numeric"
               className="filter-price-num-input"
-              maxLength={4}
+              maxLength={6}
               id="max-price-input"
             />
           </div>
         </div>
 
-        <div className="filter-sizes">
-          <h3>Size</h3>
-          <SizeSelector
-            handleSizeClick={handleSizeClick}
-            isSizeActive={isSizeActive}
-          />
-        </div>
+        {showSizeFilter ? (
+          <div className="filter-sizes">
+            <h3>Size</h3>
+            <SizeSelector
+              handleSizeClick={handleSizeClick}
+              isSizeActive={isSizeActive}
+            />
+          </div>
+        ) : (
+          <div className="filter-sizes filter-sizes-disabled">
+            <h3>Size</h3>
+            <p className="no-sizes-note text--gray text--xs">
+              Sizes are not applicable for these products.
+            </p>
+          </div>
+        )}
 
         <div className="filter-buttons-row">
           <button
