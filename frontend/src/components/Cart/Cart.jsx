@@ -51,8 +51,10 @@ const Cart = ({ cart, decreaseQuantity, increaseQuantity, removeFromCart, clearC
   };
 
   const subtotal = calculateSubtotal();
+  const isFreeShipping = subtotal >= 1999 || deliveryFee === 0;
+  const effectiveDeliveryFee = isFreeShipping ? 0 : 199;
   const discountAmount = (subtotal * discountPercent) / 100;
-  const total = Math.max(0, subtotal - discountAmount + (subtotal > 0 ? deliveryFee : 0));
+  const total = Math.max(0, subtotal - discountAmount + (subtotal > 0 ? effectiveDeliveryFee : 0));
 
   const handleApplyPromo = async (e) => {
     e.preventDefault();
@@ -236,6 +238,26 @@ const Cart = ({ cart, decreaseQuantity, increaseQuantity, removeFromCart, clearC
             {/* Order Summary */}
             <div className="order-container">
               <h2 className="title--sm text--bold">Order Summary</h2>
+
+              {/* Complimentary Shipping Progress Banner */}
+              {subtotal < 1999 ? (
+                <div className="shipping-progress-banner">
+                  <p className="shipping-progress-text">
+                    Add <strong>₹{(1999 - subtotal).toFixed(2)}</strong> more to qualify for <strong>Complimentary Shipping</strong>!
+                  </p>
+                  <div className="shipping-progress-track">
+                    <div
+                      className="shipping-progress-fill"
+                      style={{ width: `${Math.min(100, (subtotal / 1999) * 100)}%` }}
+                    ></div>
+                  </div>
+                </div>
+              ) : (
+                <div className="shipping-free-unlocked">
+                  <i className="fa-solid fa-truck-fast"></i> You have unlocked <strong>Complimentary Shipping</strong>!
+                </div>
+              )}
+
               <div className="order-breakdown">
                 <div className="order-layout">
                   <p className="text--gray text--marginless">Subtotal</p>
@@ -245,14 +267,14 @@ const Cart = ({ cart, decreaseQuantity, increaseQuantity, removeFromCart, clearC
                   <p className="text--gray text--marginless">
                     Discount ({discountPercent}%)
                   </p>
-                  <p className="text--bold text--marginless" style={{ color: "#ef4444" }}>
+                  <p className="text--bold text--marginless" style={{ color: "var(--accent-terracotta, #b65c45)" }}>
                     -₹{discountAmount.toFixed(2)}
                   </p>
                 </div>
                 <div className="order-layout">
                   <p className="text--gray text--marginless">Delivery Fee</p>
                   <p className="text--bold text--marginless">
-                    {deliveryFee === 0 ? "Free" : `₹${deliveryFee.toFixed(2)}`}
+                    {effectiveDeliveryFee === 0 ? "Complimentary (Free)" : `₹${effectiveDeliveryFee.toFixed(2)}`}
                   </p>
                 </div>
                 <hr className="order-hr" />
@@ -345,12 +367,12 @@ const Cart = ({ cart, decreaseQuantity, increaseQuantity, removeFromCart, clearC
         <main className="cart-page-container container empty-cart-container">
           <div className="empty-cart-card">
             <i className="fa-solid fa-bag-shopping empty-cart-icon"></i>
-            <h1 className="title--lg">Your cart is empty</h1>
-            <p className="text--gray">
-              Looks like you haven't added anything to your cart yet. Explore our latest fashion arrivals!
+            <h1 className="title--lg empty-cart-title">Your shopping bag is empty</h1>
+            <p className="empty-cart-desc">
+              Your bag is waiting to be filled with handcrafted wardrobe essentials and signature pieces.
             </p>
-            <Link to="/products" className="btn-pill btn-black btn-empty-cart-shop">
-              Start Shopping
+            <Link to="/products" className="btn-luxury btn-primary">
+              Explore Curated Collection →
             </Link>
           </div>
         </main>
@@ -529,6 +551,11 @@ const Cart = ({ cart, decreaseQuantity, increaseQuantity, removeFromCart, clearC
                 <div className="checkout-summary-bar">
                   <span>Total Due:</span>
                   <strong className="summary-total">₹{total.toFixed(2)}</strong>
+                </div>
+
+                <div className="checkout-demo-notice">
+                  <i className="fa-solid fa-circle-info"></i>
+                  <span>Test Mode Demonstration: This order is verified and recorded on the server database. No live payment gateway charge will occur.</span>
                 </div>
 
                 <button

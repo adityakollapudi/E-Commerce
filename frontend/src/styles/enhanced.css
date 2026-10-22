@@ -2,12 +2,13 @@
 
 /* Top Announcement Banner */
 .top-announcement-bar {
-  background-color: #000000;
-  color: #ffffff;
+  background-color: var(--accent-forest, #244b3c);
+  color: var(--bg-primary, #f8f6f1);
   padding: 9px 16px;
   font-size: 13px;
   position: relative;
   z-index: 100;
+  letter-spacing: 0.02em;
 }
 .top-announcement-content {
   display: flex;
@@ -808,11 +809,12 @@
   position: fixed;
   bottom: 24px;
   right: 24px;
-  background: #000000;
-  color: #ffffff;
+  background: var(--text-primary, #1c1c1c);
+  color: var(--bg-primary, #f8f6f1);
   padding: 16px 20px;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  border-radius: var(--radius-sm, 4px);
+  border: 1px solid var(--border-light, #d8d4cc);
+  box-shadow: 0 12px 36px rgba(28, 28, 28, 0.2);
   display: flex;
   align-items: center;
   gap: 20px;

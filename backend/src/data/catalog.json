@@ -1,5 +1,57 @@
 [
   {
+    "id": 1792688945468,
+    "sku": "PRD-945468",
+    "brand": "SHOP.CO",
+    "title": "Updated Secure Shirt",
+    "price": 320,
+    "originalPrice": 250,
+    "discountPercent": 0,
+    "category": "casual",
+    "style": "casual",
+    "rating": {
+      "rate": 5,
+      "count": 1
+    },
+    "isNew": true,
+    "isBestSeller": false,
+    "moq": 1,
+    "deliveryDays": "3–5 Days",
+    "unitLabel": "piece",
+    "priceNote": "Standard retail price",
+    "description": "Original Test Shirt crafted with premium attention to detail. Perfect addition to your collection.",
+    "features": [
+      "Premium quality material and craftsmanship",
+      "Durable, long-lasting construction",
+      "Official warranty and hassle-free returns"
+    ],
+    "specs": {
+      "Brand": "SHOP.CO",
+      "Category": "casual",
+      "Style": "Casual",
+      "Warranty": "1 Year Official Guarantee"
+    },
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "colors": [
+      "#000000",
+      "#4F46E5"
+    ],
+    "image": "/introImageCompressed.jfif",
+    "img": "/introImageCompressed.jfif",
+    "images": [
+      "/introImageCompressed.jfif"
+    ],
+    "createdAt": "2026-10-22T17:09:05.468Z",
+    "createdBy": "admin@shop.co",
+    "updatedAt": "2026-10-22T17:09:05.481Z",
+    "updatedBy": "admin@shop.co"
+  },
+  {
     "id": 1792686025105,
     "sku": "PRD-025105",
     "brand": "SHOP.CO",

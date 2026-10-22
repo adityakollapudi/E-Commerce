@@ -1,5 +1,6 @@
 import { useState } from "react";
 import QuantityControls from "./QuantityControls";
+import { useWishlist } from "../../../context/WishlistContext";
 
 const AddToCart = ({
   initialQuantity,
@@ -11,6 +12,8 @@ const AddToCart = ({
 }) => {
   const [quantity, setQuantity] = useState(initialQuantity || 1);
   const [isAdded, setIsAdded] = useState(false);
+  const { isInWishlist, toggleWishlist } = useWishlist();
+  const isWishlisted = isInWishlist(item?.id);
 
   const handleDecrease = () => {
     if (quantity > 1) {
@@ -37,24 +40,37 @@ const AddToCart = ({
   };
 
   return (
-    <div className="quantity-controls-container">
-      <QuantityControls
-        handleDecrease={handleDecrease}
-        handleIncrease={handleIncrease}
-        quantity={quantity}
-      />
+    <div className="product-detail-cart-row">
+      <div className="quantity-controls-container">
+        <QuantityControls
+          handleDecrease={handleDecrease}
+          handleIncrease={handleIncrease}
+          quantity={quantity}
+        />
+        <button
+          onClick={handleAddClick}
+          className={`btn-luxury btn-primary add-to-cart-cta ${isAdded ? "btn-added-success" : ""}`}
+        >
+          {isAdded ? (
+            <>
+              <i className="fa-solid fa-check"></i> Added to Bag!
+            </>
+          ) : (
+            <>
+              <i className="fa-solid fa-bag-shopping"></i> Add to Bag
+            </>
+          )}
+        </button>
+      </div>
+
       <button
-        onClick={handleAddClick}
-        className={`btn-black btn-pill change-quantity ${isAdded ? "btn-added-success" : ""}`}
+        type="button"
+        onClick={() => toggleWishlist(item)}
+        className={`btn-luxury btn-outline detail-wishlist-toggle ${isWishlisted ? "is-wishlisted" : ""}`}
+        aria-label={isWishlisted ? "Saved in wishlist" : "Save to wishlist"}
       >
-        {isAdded ? (
-          <>
-            <i className="fa-solid fa-check" style={{ marginRight: "8px" }}></i>
-            Added to Cart!
-          </>
-        ) : (
-          "Add To Cart"
-        )}
+        <i className={isWishlisted ? "fa-solid fa-heart" : "fa-regular fa-heart"}></i>
+        <span>{isWishlisted ? "Saved" : "Save"}</span>
       </button>
     </div>
   );

@@ -2,9 +2,11 @@ import { useState, useRef, useEffect } from "react";
 import SearchBar from "./SearchBar";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { useWishlist } from "../../context/WishlistContext";
 
 const HeaderProfileBtn = ({ cart, handleMouseClick }) => {
   const { user, isAdmin, logout, openAuthModal, quickLogin } = useAuth();
+  const { wishlistCount, openWishlist } = useWishlist();
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
 
@@ -39,18 +41,35 @@ const HeaderProfileBtn = ({ cart, handleMouseClick }) => {
         onClick={handleMouseClick}
         aria-label="Search items"
       >
-        <img src="/search-btn-black.png" className="btn-img" alt="search" />
+        <i className="fa-solid fa-magnifying-glass" style={{ fontSize: "17px" }}></i>
       </button>
 
       <SearchBar />
 
+      {/* Wishlist Icon */}
+      <button
+        type="button"
+        onClick={openWishlist}
+        className="btn-profile header-icon-btn card-item-count-container"
+        aria-label="View Saved Items"
+        title="Saved Items"
+      >
+        <i className="fa-regular fa-heart" style={{ fontSize: "18px" }}></i>
+        {wishlistCount > 0 && (
+          <span className="cart-item-count wishlist-item-count text--xxs">
+            {wishlistCount}
+          </span>
+        )}
+      </button>
+
       {/* Cart Icon */}
       <Link
         to="/cart"
-        className="btn-profile btn-search card-item-count-container"
-        aria-label="View Cart"
+        className="btn-profile header-icon-btn card-item-count-container"
+        aria-label="View Shopping Bag"
+        title="Shopping Bag"
       >
-        <img src="/cart.png" alt="cart" />
+        <i className="fa-solid fa-bag-shopping" style={{ fontSize: "18px" }}></i>
         {cart.length > 0 && (
           <span className="cart-item-count text--xxs">
             {calculateItemsNumber()}

@@ -2,7 +2,7 @@ import HeaderCategories from "./HeaderCategories";
 import SearchMobile from "./SearchMobile";
 import HeaderProfileBtn from "./HeaderProfileBtn";
 import HamburgerMobile from "./HamburgerMobile";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
@@ -12,6 +12,15 @@ const Header = ({ cart, removeFromCart }) => {
   const [mobileSearchShow, setMobileSearchShow] = useState(false);
   const [mobileMenuShow, setMobileMenuShow] = useState(false);
   const [showAnnouncement, setShowAnnouncement] = useState(true);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const handleMouseClick = (setStateElementShow) => {
     setStateElementShow((prevState) => !prevState);
@@ -38,9 +47,9 @@ const Header = ({ cart, removeFromCart }) => {
         <div className="top-announcement-bar">
           <div className="container top-announcement-content">
             <p className="announcement-text">
-              Sign up and get 20% off your first order.{" "}
+              Complimentary shipping on orders above ₹1,999.{" "}
               <Link to="/products" className="announcement-link">
-                Shop Now (Code: <strong>SHOP20</strong>)
+                Use code <strong>SHOP20</strong> for 20% off
               </Link>
             </p>
 
@@ -65,7 +74,7 @@ const Header = ({ cart, removeFromCart }) => {
                 </>
               ) : (
                 <span className="top-auth-logged">
-                  {isAdmin ? "🛡️ Logged in as Admin" : `👤 Welcome, ${user.name.split(" ")[0]}`}
+                  {isAdmin ? "🛡️ Admin Portal" : `👤 ${user.name.split(" ")[0]}`}
                 </span>
               )}
             </div>
@@ -81,7 +90,7 @@ const Header = ({ cart, removeFromCart }) => {
         </div>
       )}
 
-      <header className="header-bg">
+      <header className={`header-bg sticky-luxury-header ${isScrolled ? "is-scrolled" : ""}`}>
         <div className="container flex-header header">
           <div className="flex-title">
             <button
@@ -89,12 +98,14 @@ const Header = ({ cart, removeFromCart }) => {
               className="btn-profile btn-search btn-hamburger"
               aria-label="Open mobile menu"
             >
-              <img src="/hamburger.png" alt="menu" />
+              <i className="fa-solid fa-bars" style={{ fontSize: "18px" }}></i>
             </button>
-            <Link to="/" className="link-home-header" aria-label="Home">
-              <img className="link-home-img" src="/SHOP.CO.png" alt="SHOP.CO" />
+            <Link to="/" className="luxury-brand-wordmark" aria-label="Atelier Home">
+              <span className="brand-logo-text">ATELIER</span>
+              <span className="brand-logo-sub">& CO.</span>
             </Link>
           </div>
+
           <HeaderCategories
             handleMouseIn={handleMouseIn}
             dropdownShow={dropdownShow}
@@ -106,10 +117,12 @@ const Header = ({ cart, removeFromCart }) => {
             cart={cart}
             removeFromCart={removeFromCart}
           />
+
           <SearchMobile
             mobileSearchShow={mobileSearchShow}
             handleMouseClick={() => handleMouseClick(setMobileSearchShow)}
           />
+
           <HamburgerMobile
             handleMouseClick={() => handleMouseClick(setMobileMenuShow)}
             mobileMenuShow={mobileMenuShow}

@@ -1,46 +1,49 @@
-import BrandsBreakLine from "../Misc/BrandsBreakLine";
+import HeroSection from "./HeroSection";
+import FeaturedCategories from "./FeaturedCategories";
 import HomeCategory from "./HomeCategory/HomeCategory";
-import PickCategorySquare from "./CategorySquares/PickCategorySquare";
-import ReviewsCarousel from "./Reviews/ReviewsCarousel";
-import { Link } from "react-router-dom";
+import BrandStorySection from "./BrandStorySection";
+import PromotionalBanner from "./PromotionalBanner";
+import CustomerTestimonials from "./CustomerTestimonials";
+import NewsletterSection from "./NewsletterSection";
+
 const Home = () => {
   return (
-    <main id="main-content" className="home-page">
-      <section className="flex-home container">
-        <div className="home-intro-description">
-          <h2 className="title--lg">FIND CLOTHES THAT MATCH YOUR STYLES</h2>
-          <p className="text--gray">
-            Browse through our diverse range of meticulously crafted garments,
-            designed to bring out your individuality and cater to your sense of
-            style.
-          </p>
-          <Link to="/products" className="btn-pill btn-black btn-intro">Shop Now</Link>
-          <div className="company-stats-grid">
-            <div>
-              <p className="text--xl text--bold">200+</p>
-              <p className="text--sm text--gray">International Brands</p>
-            </div>
-            <div>
-              <p className="text--xl text--bold">2000+</p>
-              <p className="text--sm text--gray">High-quality Products</p>
-            </div>
-            <div>
-              <p className="text--xl text--bold">30000+</p>
-              <p className="text--sm text--gray">Happy Customers</p>
-            </div>
-          </div>
-        </div>
-        <div className="intro-bg"></div>
-      </section>
-      <BrandsBreakLine />
-      <section className=" home-categories">
-        <HomeCategory title="New Arrivals" category="men's clothing" />
-        <hr className=" category-hr" />
-        <HomeCategory title="Best Sellers" category="women's clothing" />
+    <main id="main-content" className="home-page luxury-storefront">
+      {/* 1. Hero Section */}
+      <HeroSection />
+
+      {/* 2. Featured Image-Led Categories */}
+      <FeaturedCategories />
+
+      {/* 3. Best Sellers / Signature Pieces Grid */}
+      <section className="home-best-sellers-section">
+        <HomeCategory
+          title="Curated Best Sellers"
+          subtitle="Celebrated by our community for timeless silhouettes and impeccable hand-finish."
+          category="men's clothing"
+        />
       </section>
 
-      <PickCategorySquare />
-      <ReviewsCarousel />
+      {/* 4. Brand Story: Less, But Better */}
+      <BrandStorySection />
+
+      {/* 5. Promotional Campaign Banner: The New Season Edit */}
+      <PromotionalBanner />
+
+      {/* 6. New Season Arrivals Grid */}
+      <section className="home-new-arrivals-section">
+        <HomeCategory
+          title="New Arrivals"
+          subtitle="Tactile textures and earth tones tailored for effortless seasonal transition."
+          category="women's clothing"
+        />
+      </section>
+
+      {/* 7. Patron Testimonials */}
+      <CustomerTestimonials />
+
+      {/* 8. Editorial Newsletter Subscription */}
+      <NewsletterSection />
     </main>
   );
 };

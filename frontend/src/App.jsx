@@ -24,6 +24,8 @@ import AdminDashboard from "./components/Admin/AdminDashboard";
 import AddProduct from "./components/Admin/AddProduct";
 import AdminImport from "./components/Admin/AdminImport";
 import AdminPortNotice from "./components/Admin/AdminPortNotice";
+import { WishlistProvider } from "./context/WishlistContext";
+import WishlistDrawer from "./components/Wishlist/WishlistDrawer";
 
 function App() {
   const [cart, setCart] = useState(
@@ -164,7 +166,11 @@ function App() {
     )
   );
 
-  return <RouterProvider router={router} />;
+  return (
+    <WishlistProvider onAddToCart={addToCart}>
+      <RouterProvider router={router} />
+    </WishlistProvider>
+  );
 }
 
 function Root({ cart, removeFromCart, toast, setToast, isPortalAdmin }) {
@@ -177,6 +183,9 @@ function Root({ cart, removeFromCart, toast, setToast, isPortalAdmin }) {
       <ScrollRestoration />
       <Outlet />
       {!isAdminRoute && <Footer />}
+
+      {/* Slide-over Wishlist Drawer */}
+      <WishlistDrawer />
 
       {/* Global Auth Modal accessible from any page */}
       <AuthModal />
