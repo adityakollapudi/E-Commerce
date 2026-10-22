@@ -1,4 +1,14 @@
-/* Editorial Luxury Storefront Styles */
+/* =========================================================================
+   ATELIER & CO. — Editorial Luxury Storefront Design System
+   Palette:
+     Canvas:      #F8F6F1 (Warm Ivory Primary)
+     Surfaces:    #EAE4D9 (Warm Secondary Sand)
+     Text:        #1C1C1C (Charcoal Primary)
+     Accent:      #244B3C (Rich Forest Green)
+     Borders:     #D8D4CC (Subtle Warm Gray)
+     Sale/Alert:  #B65C45 (Muted Terracotta)
+     Card White:  #FFFFFF (Pure Surface White)
+   ========================================================================= */
 
 /* =========================================================================
    1. Luxury Brand Wordmark & Sticky Header
@@ -9,14 +19,14 @@
   z-index: 90;
   background-color: var(--bg-primary, #f8f6f1);
   border-bottom: 1px solid var(--border-light, #d8d4cc);
-  transition: all 0.25s ease;
+  transition: background-color 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 .sticky-luxury-header.is-scrolled {
-  background-color: rgba(248, 246, 241, 0.96);
+  background-color: rgba(248, 246, 241, 0.97);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   box-shadow: 0 4px 20px rgba(28, 28, 28, 0.05);
-  border-bottom-color: rgba(216, 212, 204, 0.7);
+  border-bottom-color: rgba(216, 212, 204, 0.85);
 }
 
 .luxury-brand-wordmark {
@@ -52,8 +62,10 @@
   position: relative;
   padding: 6px 0;
 }
-.nav-link-item:hover {
+.nav-link-item:hover,
+.nav-link-item:focus-visible {
   color: var(--accent-forest, #244b3c);
+  outline: none;
 }
 .nav-chevron-icon {
   font-size: 10px;
@@ -73,9 +85,11 @@
   justify-content: center;
   transition: background-color 0.18s, color 0.18s;
 }
-.header-icon-btn:hover {
+.header-icon-btn:hover,
+.header-icon-btn:focus-visible {
   background-color: var(--bg-secondary, #eae4d9);
   color: var(--accent-forest, #244b3c);
+  outline: none;
 }
 
 .wishlist-item-count {
@@ -84,11 +98,57 @@
 }
 
 /* =========================================================================
-   2. Hero Editorial Section
+   2. Section 01: Top Announcement Bar
+   ========================================================================= */
+.top-announcement-bar {
+  background-color: var(--accent-forest, #244b3c);
+  color: var(--bg-primary, #f8f6f1);
+  padding: 8px 16px;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+.top-announcement-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.announcement-text {
+  margin: 0;
+  font-size: 13px;
+  color: var(--bg-primary, #f8f6f1);
+}
+.announcement-link {
+  color: #ffffff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-weight: 500;
+  transition: opacity 0.18s;
+}
+.announcement-link:hover {
+  opacity: 0.85;
+}
+.announcement-close-btn {
+  background: none;
+  border: none;
+  color: var(--bg-primary, #f8f6f1);
+  opacity: 0.75;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 2px 6px;
+  transition: opacity 0.18s;
+}
+.announcement-close-btn:hover {
+  opacity: 1;
+}
+
+/* =========================================================================
+   3. Section 03: Editorial Collage Hero
    ========================================================================= */
 .hero-editorial-section {
   padding-top: 48px;
-  padding-bottom: 72px;
+  padding-bottom: 64px;
   background-color: var(--bg-primary, #f8f6f1);
   overflow: hidden;
 }
@@ -97,13 +157,13 @@
   display: grid;
   grid-template-columns: 1.15fr 0.95fr;
   align-items: center;
-  gap: 64px;
+  gap: 56px;
 }
 
 .hero-editorial-content {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 22px;
 }
 
 .hero-kicker {
@@ -132,7 +192,7 @@
 
 .hero-editorial-title {
   font-family: var(--font-heading, 'Playfair Display', serif);
-  font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+  font-size: clamp(2.4rem, 4.4vw, 3.8rem);
   font-weight: 600;
   line-height: 1.12;
   letter-spacing: -0.025em;
@@ -141,10 +201,10 @@
 }
 
 .hero-editorial-description {
-  font-size: clamp(1rem, 1.25vw, 1.15rem);
+  font-size: clamp(1rem, 1.2vw, 1.15rem);
   line-height: 1.65;
   color: #555047;
-  max-width: 540px;
+  max-width: 520px;
   margin: 0;
 }
 
@@ -152,7 +212,7 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  margin-top: 8px;
+  margin-top: 6px;
   flex-wrap: wrap;
 }
 .hero-primary-cta {
@@ -160,27 +220,42 @@
   color: #ffffff !important;
   font-size: 15px;
   padding: 14px 32px;
+  border-radius: var(--radius-sm, 4px);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.15s ease;
 }
-.hero-primary-cta:hover {
+.hero-primary-cta:hover,
+.hero-primary-cta:focus-visible {
   background-color: var(--accent-forest-hover, #1b382d) !important;
+  transform: translateY(-1px);
 }
 .hero-secondary-cta {
   font-size: 15px;
   padding: 14px 28px;
   background-color: transparent !important;
-  border-color: var(--border-light, #d8d4cc) !important;
+  border: 1px solid var(--border-light, #d8d4cc) !important;
+  border-radius: var(--radius-sm, 4px);
   color: var(--text-primary, #1c1c1c) !important;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
-.hero-secondary-cta:hover {
+.hero-secondary-cta:hover,
+.hero-secondary-cta:focus-visible {
   background-color: var(--bg-secondary, #eae4d9) !important;
+  border-color: #c4c0b7 !important;
 }
 
 .hero-editorial-highlights {
   display: flex;
   align-items: center;
-  gap: 28px;
-  margin-top: 16px;
-  padding-top: 24px;
+  gap: 24px;
+  margin-top: 12px;
+  padding-top: 20px;
   border-top: 1px solid var(--border-light, #d8d4cc);
 }
 .hero-highlight-item {
@@ -189,7 +264,7 @@
 }
 .highlight-number {
   font-family: var(--font-heading, 'Playfair Display', serif);
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 700;
   color: var(--text-primary, #1c1c1c);
 }
@@ -200,20 +275,28 @@
 }
 .hero-highlight-divider {
   width: 1px;
-  height: 36px;
+  height: 32px;
   background-color: var(--border-light, #d8d4cc);
 }
 
+/* Editorial Collage Media */
 .hero-editorial-media {
   position: relative;
 }
-.hero-image-wrapper {
+.hero-collage-container {
+  position: relative;
+  width: 100%;
+}
+
+.hero-anchor-image {
   position: relative;
   border-radius: var(--radius-md, 8px);
   overflow: hidden;
   box-shadow: 0 16px 40px rgba(28, 28, 28, 0.08);
   aspect-ratio: 4 / 5;
   background-color: var(--bg-secondary, #eae4d9);
+  width: 90%;
+  margin-left: auto;
 }
 .hero-main-img {
   width: 100%;
@@ -222,20 +305,20 @@
   display: block;
   transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-.hero-image-wrapper:hover .hero-main-img {
+.hero-anchor-image:hover .hero-main-img {
   transform: scale(1.025);
 }
 
 .hero-image-badge {
   position: absolute;
   bottom: 24px;
-  left: 24px;
+  right: 24px;
   background-color: rgba(248, 246, 241, 0.94);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   padding: 12px 18px;
   border-radius: var(--radius-sm, 4px);
-  border: 1px solid rgba(216, 212, 204, 0.8);
+  border: 1px solid rgba(216, 212, 204, 0.85);
   display: flex;
   flex-direction: column;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
@@ -249,17 +332,112 @@
 }
 .badge-title {
   font-family: var(--font-heading, 'Playfair Display', serif);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--text-primary, #1c1c1c);
   margin-top: 2px;
 }
 
+/* Supporting Image Detail Crop (Asymmetrical Balance) */
+.hero-supporting-crop {
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+  width: 45%;
+  aspect-ratio: 4 / 3.4;
+  border-radius: var(--radius-sm, 4px);
+  overflow: hidden;
+  box-shadow: 0 12px 32px rgba(28, 28, 28, 0.14);
+  border: 4px solid var(--bg-primary, #f8f6f1);
+  background-color: var(--bg-secondary, #eae4d9);
+  z-index: 2;
+}
+.hero-sub-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.hero-supporting-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(28, 28, 28, 0.75);
+  color: #ffffff;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 10px;
+  text-align: center;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
 /* =========================================================================
-   3. Featured Categories Section
+   4. Section 04: Trust & Value Strip
+   ========================================================================= */
+.trust-strip-section {
+  background-color: #ffffff;
+  border-top: 1px solid var(--border-light, #d8d4cc);
+  border-bottom: 1px solid var(--border-light, #d8d4cc);
+  padding: 24px 0;
+}
+.trust-strip-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  align-items: center;
+}
+.trust-strip-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 20px;
+  position: relative;
+}
+.trust-strip-icon-wrapper {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--bg-secondary, #eae4d9);
+  color: var(--accent-forest, #244b3c);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.trust-strip-text {
+  display: flex;
+  flex-direction: column;
+}
+.trust-strip-title {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary, #1c1c1c);
+  margin: 0;
+}
+.trust-strip-desc {
+  font-size: 12px;
+  color: #6b6760;
+  margin: 2px 0 0 0;
+  line-height: 1.4;
+}
+.trust-strip-divider {
+  position: absolute;
+  right: 0;
+  top: 15%;
+  height: 70%;
+  width: 1px;
+  background-color: var(--border-light, #d8d4cc);
+}
+
+/* =========================================================================
+   5. Section 05: Asymmetric Featured Collections
    ========================================================================= */
 .featured-categories-section {
-  padding: 72px 0;
+  padding: 76px 0;
   background-color: var(--bg-primary, #f8f6f1);
 }
 
@@ -269,9 +447,9 @@
   margin: 0 auto 48px auto;
 }
 .section-kicker {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--accent-forest, #244b3c);
   display: block;
@@ -292,13 +470,14 @@
   margin: 0;
 }
 
-.categories-grid-editorial {
+/* Asymmetric 4-Tile Composition */
+.categories-asymmetric-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: 1.25fr 1fr;
+  grid-template-rows: auto auto;
   gap: 24px;
 }
-
-.category-card-editorial {
+.collection-tile-card {
   display: flex;
   flex-direction: column;
   text-decoration: none;
@@ -306,43 +485,57 @@
   border-radius: var(--radius-sm, 4px);
   overflow: hidden;
   border: 1px solid var(--border-light, #d8d4cc);
+  position: relative;
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
-.category-card-editorial:hover {
+.collection-tile-card:hover,
+.collection-tile-card:focus-visible {
   transform: translateY(-4px);
   box-shadow: 0 12px 30px rgba(28, 28, 28, 0.08);
   border-color: var(--accent-forest, #244b3c);
+  outline: none;
 }
 
-.category-card-media {
+.tile-featured-large {
+  grid-row: span 2;
+}
+
+.collection-tile-media {
   position: relative;
-  aspect-ratio: 4 / 5;
+  width: 100%;
   overflow: hidden;
   background-color: var(--bg-secondary, #eae4d9);
 }
-.category-card-img {
+.tile-featured-large .collection-tile-media {
+  aspect-ratio: 4 / 4.4;
+}
+.tile-supporting .collection-tile-media {
+  aspect-ratio: 16 / 9.5;
+}
+
+.collection-tile-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
   transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-.category-card-editorial:hover .category-card-img {
-  transform: scale(1.05);
+.collection-tile-card:hover .collection-tile-img {
+  transform: scale(1.04);
 }
-.category-card-overlay {
+.collection-tile-gradient {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(28, 28, 28, 0.35) 0%, transparent 60%);
+  background: linear-gradient(to top, rgba(28, 28, 28, 0.3) 0%, transparent 60%);
 }
 
-.category-card-content {
-  padding: 20px;
+.collection-tile-content {
+  padding: 24px;
   display: flex;
   flex-direction: column;
   flex: 1;
 }
-.category-card-tag {
+.collection-tile-tag {
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
@@ -350,21 +543,24 @@
   color: var(--accent-forest, #244b3c);
   margin-bottom: 6px;
 }
-.category-card-title {
+.collection-tile-title {
   font-family: var(--font-heading, 'Playfair Display', serif);
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 600;
   color: var(--text-primary, #1c1c1c);
   margin: 0 0 6px 0;
 }
-.category-card-desc {
+.tile-featured-large .collection-tile-title {
+  font-size: 24px;
+}
+.collection-tile-desc {
   font-size: 13px;
   color: #6b6760;
-  line-height: 1.5;
+  line-height: 1.55;
   margin: 0 0 16px 0;
   flex: 1;
 }
-.category-card-link-text {
+.collection-tile-cta {
   font-size: 13px;
   font-weight: 600;
   color: var(--text-primary, #1c1c1c);
@@ -373,26 +569,46 @@
   gap: 6px;
   transition: color 0.18s, gap 0.18s;
 }
-.category-card-editorial:hover .category-card-link-text {
+.collection-tile-card:hover .collection-tile-cta {
   color: var(--accent-forest, #244b3c);
-  gap: 9px;
+  gap: 10px;
 }
 
 /* =========================================================================
-   4. Luxury Product Cards & Best Sellers
+   6. Section 06 & 07: Product Cards & Merchandising Grids
    ========================================================================= */
 .home-best-sellers-section,
 .home-new-arrivals-section {
-  padding: 60px 0;
+  padding: 68px 0;
+  background-color: var(--bg-primary, #f8f6f1);
 }
+.home-new-arrivals-section {
+  background-color: #ffffff;
+  border-top: 1px solid var(--border-light, #d8d4cc);
+  border-bottom: 1px solid var(--border-light, #d8d4cc);
+}
+
 .home-category-header {
   text-align: center;
-  margin-bottom: 36px;
+  margin-bottom: 40px;
+}
+.category-heading {
+  font-family: var(--font-heading, 'Playfair Display', serif);
+  font-size: clamp(2rem, 3.2vw, 2.6rem);
+  font-weight: 600;
+  color: var(--text-primary, #1c1c1c);
+  margin: 0 0 8px 0;
 }
 .category-subheading {
   font-size: 15px;
   color: #6b6760;
-  margin-top: 6px;
+  margin: 0;
+}
+
+.grid-category-squares {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
 }
 
 .product-card-luxury {
@@ -403,6 +619,7 @@
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 .product-card-luxury:hover {
   transform: translateY(-3px);
@@ -410,13 +627,21 @@
   border-color: #c4c0b7;
 }
 
-.product-card-luxury .product-img-container {
+.product-link {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.product-img-container {
   position: relative;
   aspect-ratio: 1 / 1;
   background-color: #f7f6f4;
   overflow: hidden;
 }
-.product-card-luxury .items-line-img {
+.items-line-img {
   width: 100%;
   height: 100%;
   object-fit: contain;
@@ -428,6 +653,35 @@
   transform: scale(1.04);
 }
 
+.product-card-badges {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 4;
+}
+.product-new-badge {
+  background-color: var(--accent-forest, #244b3c);
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 3px;
+}
+.product-discount-badge {
+  background-color: rgba(182, 92, 69, 0.12);
+  color: var(--accent-terracotta, #b65c45);
+  border: 1px solid rgba(182, 92, 69, 0.25);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 3px;
+}
+
 .product-wishlist-btn {
   position: absolute;
   top: 12px;
@@ -435,7 +689,7 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.92);
   border: 1px solid var(--border-light, #d8d4cc);
   color: #6b6760;
   display: inline-flex;
@@ -483,8 +737,85 @@
   opacity: 1;
   transform: translateY(0);
 }
-.product-quick-add-btn:hover {
+.product-quick-add-btn:hover,
+.product-quick-add-btn:focus-visible {
   background: var(--accent-forest-hover, #1b382d);
+  outline: none;
+}
+
+/* Inline Size Selector Overlay */
+.product-quick-size-selector {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.98);
+  border: 1px solid var(--border-light, #d8d4cc);
+  border-radius: var(--radius-sm, 4px);
+  padding: 10px 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  z-index: 6;
+  animation: fadeInSize 0.2s ease;
+}
+@keyframes fadeInSize {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.size-selector-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.size-selector-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent-forest, #244b3c);
+}
+.size-selector-close {
+  background: none;
+  border: none;
+  font-size: 12px;
+  color: #8c8880;
+  cursor: pointer;
+  padding: 2px 4px;
+}
+.size-selector-close:hover {
+  color: var(--text-primary, #1c1c1c);
+}
+.size-selector-buttons {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.size-choice-btn {
+  flex: 1;
+  min-width: 32px;
+  height: 32px;
+  border: 1px solid var(--border-light, #d8d4cc);
+  background: #ffffff;
+  color: var(--text-primary, #1c1c1c);
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.size-choice-btn:hover {
+  background: var(--accent-forest, #244b3c);
+  color: #ffffff;
+  border-color: var(--accent-forest, #244b3c);
 }
 
 .product-card-body {
@@ -501,9 +832,9 @@
   color: #8c8880;
   font-weight: 600;
 }
-.product-card-body .category-product-title {
+.category-product-title {
   font-family: var(--font-heading, 'Playfair Display', serif);
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
   color: var(--text-primary, #1c1c1c);
   margin: 0;
@@ -512,6 +843,27 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+/* Color Swatches */
+.product-color-swatches {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: -2px;
+}
+.color-swatch-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  display: inline-block;
+}
+.color-swatch-more {
+  font-size: 10px;
+  color: #8c8880;
+  font-weight: 600;
+}
+
 .product-card-rating {
   display: flex;
   align-items: center;
@@ -525,31 +877,59 @@
   display: flex;
   align-items: baseline;
   gap: 8px;
-  margin-top: 4px;
+  margin-top: 2px;
 }
 .category-product-price {
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 600;
   color: var(--text-primary, #1c1c1c);
 }
 .product-original-price {
-  font-size: 14px;
+  font-size: 13px;
   color: #9e9a93;
   text-decoration: line-through;
 }
-.product-discount-pill,
-.product-discount-badge {
-  background-color: rgba(182, 92, 69, 0.12) !important;
-  color: var(--accent-terracotta, #b65c45) !important;
-  border: 1px solid rgba(182, 92, 69, 0.25);
+.product-discount-pill {
+  font-size: 11px;
   font-weight: 600;
+  color: var(--accent-terracotta, #b65c45);
+  background-color: rgba(182, 92, 69, 0.1);
+  padding: 1px 6px;
+  border-radius: 2px;
+}
+
+.home-category-cta-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 36px;
+}
+.btn-category-view-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary, #1c1c1c);
+  border: 1px solid var(--border-light, #d8d4cc);
+  border-radius: var(--radius-sm, 4px);
+  text-decoration: none;
+  background: #ffffff;
+  transition: all 0.2s ease;
+}
+.btn-category-view-all:hover,
+.btn-category-view-all:focus-visible {
+  background: var(--bg-secondary, #eae4d9);
+  border-color: #c4c0b7;
+  color: var(--accent-forest, #244b3c);
+  gap: 12px;
 }
 
 /* =========================================================================
-   5. Brand Story Section ("Less, But Better")
+   7. Section 08: Brand Story ("Less, But Better")
    ========================================================================= */
 .brand-story-section {
-  padding: 80px 0;
+  padding: 84px 0;
   background-color: var(--bg-secondary, #eae4d9);
   border-top: 1px solid var(--border-light, #d8d4cc);
   border-bottom: 1px solid var(--border-light, #d8d4cc);
@@ -557,7 +937,7 @@
 
 .brand-story-grid {
   display: grid;
-  grid-template-columns: 1fr 1.1fr;
+  grid-template-columns: 1fr 1.15fr;
   gap: 64px;
   align-items: center;
 }
@@ -596,7 +976,7 @@
 }
 .caption-detail {
   font-family: var(--font-heading, 'Playfair Display', serif);
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
   margin-top: 2px;
 }
@@ -614,63 +994,87 @@
   margin: 0;
   line-height: 1.15;
 }
+.brand-story-lead {
+  font-family: var(--font-heading, 'Playfair Display', serif);
+  font-size: 18px !important;
+  line-height: 1.6 !important;
+  color: var(--text-primary, #1c1c1c) !important;
+  font-weight: 500;
+}
 .brand-story-copy p {
   font-size: 15px;
   line-height: 1.7;
   color: #4a453e;
   margin: 0 0 14px 0;
 }
-.brand-story-values {
+
+.brand-story-pillars {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
-  margin-top: 8px;
+  margin-top: 4px;
   padding-top: 18px;
   border-top: 1px solid var(--border-light, #d8d4cc);
 }
-.value-item {
+.pillar-item {
   display: flex;
   gap: 12px;
   align-items: flex-start;
 }
-.value-item i {
-  font-size: 18px;
+.pillar-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(36, 75, 60, 0.1);
   color: var(--accent-forest, #244b3c);
-  margin-top: 3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  flex-shrink: 0;
+  margin-top: 2px;
 }
-.value-item h4 {
+.pillar-text h4 {
   font-family: var(--font-body, 'Inter', sans-serif);
   font-size: 14px;
   font-weight: 600;
   color: var(--text-primary, #1c1c1c);
   margin: 0 0 2px 0;
 }
-.value-item p {
+.pillar-text p {
   font-size: 12px;
   color: #6b6760;
   margin: 0;
-  line-height: 1.4;
+  line-height: 1.45;
 }
 
-.brand-story-link {
+.brand-story-cta-row {
+  margin-top: 8px;
+}
+.brand-story-btn {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 14px;
+  padding: 13px 26px;
+  background: transparent !important;
+  border: 1px solid var(--accent-forest, #244b3c) !important;
+  color: var(--accent-forest, #244b3c) !important;
   font-weight: 600;
-  color: var(--accent-forest, #244b3c);
+  font-size: 14px;
+  border-radius: var(--radius-sm, 4px);
   text-decoration: none;
-  transition: gap 0.2s;
+  transition: all 0.2s ease;
 }
-.brand-story-link:hover {
-  gap: 12px;
+.brand-story-btn:hover {
+  background: var(--accent-forest, #244b3c) !important;
+  color: #ffffff !important;
 }
 
 /* =========================================================================
-   6. Promotional Campaign Banner ("The New Season Edit")
+   8. Section 09: Seasonal Campaign Banner ("The New Season Edit")
    ========================================================================= */
 .promotional-campaign-section {
-  padding: 64px 0;
+  padding: 68px 0;
   background-color: var(--bg-primary, #f8f6f1);
 }
 
@@ -725,10 +1129,17 @@
   color: var(--accent-forest, #244b3c) !important;
   font-weight: 600;
   padding: 14px 32px;
+  border-radius: var(--radius-sm, 4px);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
 }
 .btn-banner-primary:hover {
   background-color: #ffffff !important;
   color: var(--accent-forest-hover, #1b382d) !important;
+  transform: translateY(-1px);
 }
 .banner-shipping-hint {
   font-size: 12px;
@@ -750,7 +1161,107 @@
 }
 
 /* =========================================================================
-   7. Customer Testimonials Section
+   9. Section 10: Shopping Reassurance & Policies
+   ========================================================================= */
+.shopping-reassurance-section {
+  padding: 68px 0;
+  background-color: #ffffff;
+  border-top: 1px solid var(--border-light, #d8d4cc);
+}
+.reassurance-header {
+  text-align: center;
+  max-width: 620px;
+  margin: 0 auto 44px auto;
+}
+.reassurance-title {
+  font-family: var(--font-heading, 'Playfair Display', serif);
+  font-size: clamp(1.8rem, 2.8vw, 2.4rem);
+  font-weight: 600;
+  color: var(--text-primary, #1c1c1c);
+  margin: 0 0 8px 0;
+}
+.reassurance-subtitle {
+  font-size: 14px;
+  color: #6b6760;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.reassurance-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.reassurance-card {
+  background: var(--bg-primary, #f8f6f1);
+  border: 1px solid var(--border-light, #d8d4cc);
+  border-radius: var(--radius-sm, 4px);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s, border-color 0.2s;
+}
+.reassurance-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-forest, #244b3c);
+}
+.reassurance-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.reassurance-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--bg-secondary, #eae4d9);
+  color: var(--accent-forest, #244b3c);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+}
+.reassurance-badge {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-forest, #244b3c);
+  background: rgba(36, 75, 60, 0.08);
+  padding: 3px 8px;
+  border-radius: 12px;
+}
+.reassurance-card-title {
+  font-family: var(--font-heading, 'Playfair Display', serif);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text-primary, #1c1c1c);
+  margin: 0 0 8px 0;
+}
+.reassurance-card-detail {
+  font-size: 13px;
+  color: #6b6760;
+  line-height: 1.55;
+  margin: 0 0 16px 0;
+  flex: 1;
+}
+.reassurance-card-link {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent-forest, #244b3c);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: gap 0.15s;
+}
+.reassurance-card-link:hover {
+  gap: 9px;
+}
+
+/* =========================================================================
+   10. Section 11: Customer Reflections / Testimonials
    ========================================================================= */
 .testimonials-editorial-section {
   padding: 72px 0;
@@ -779,13 +1290,15 @@
   align-items: center;
   justify-content: space-between;
 }
-.testimonial-verified-badge {
-  font-size: 11px;
-  color: var(--accent-forest, #244b3c);
-  font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
+.testimonial-sample-tag {
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #8c8880;
+  background: var(--bg-secondary, #eae4d9);
+  padding: 3px 8px;
+  border-radius: 3px;
+  font-weight: 500;
 }
 
 .testimonial-headline {
@@ -834,12 +1347,18 @@
   color: #8c8880;
   margin: 2px 0 0 0;
 }
+.testimonials-disclaimer-note {
+  text-align: center;
+  font-size: 12px;
+  color: #8c8880;
+  margin-top: 32px;
+}
 
 /* =========================================================================
-   8. Editorial Newsletter Subscription ("A Little Something Worth Opening")
+   11. Section 12: Editorial Newsletter Subscription
    ========================================================================= */
 .newsletter-editorial-section {
-  padding: 64px 0 80px 0;
+  padding: 64px 0 84px 0;
   background-color: var(--bg-primary, #f8f6f1);
 }
 
@@ -923,6 +1442,19 @@
 .newsletter-submit-btn {
   white-space: nowrap;
   padding: 13px 24px;
+  background-color: var(--accent-forest, #244b3c);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-sm, 4px);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.18s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.newsletter-submit-btn:hover {
+  background-color: var(--accent-forest-hover, #1b382d);
 }
 
 .newsletter-error-text {
@@ -957,6 +1489,8 @@
   font-size: 14px;
   color: #555047;
   margin: 0;
+  max-width: 480px;
+  line-height: 1.5;
 }
 .promo-code-pill {
   display: inline-block;
@@ -969,7 +1503,7 @@
 }
 
 /* =========================================================================
-   9. Slide-Over Wishlist Drawer
+   12. Slide-Over Wishlist Drawer
    ========================================================================= */
 .wishlist-overlay {
   position: fixed;
@@ -1146,18 +1680,161 @@
 }
 
 /* =========================================================================
-   10. Responsive Breakpoints
+   13. Section 13: Footer Styles
    ========================================================================= */
+.luxury-footer {
+  background-color: var(--accent-forest, #244b3c);
+  color: var(--bg-primary, #f8f6f1);
+  padding: 72px 0 32px 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.15);
+}
+.footer-top-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: 48px;
+  padding-bottom: 56px;
+  border-bottom: 1px solid rgba(216, 212, 204, 0.2);
+}
+.footer-brand-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.footer-brand-logo {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  text-decoration: none;
+  color: #ffffff;
+}
+.footer-brand-logo .logo-wordmark {
+  font-family: var(--font-heading, 'Playfair Display', serif);
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #ffffff;
+}
+.footer-brand-logo .logo-subtitle {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  color: #a3c4b5;
+}
+.footer-brand-desc {
+  font-size: 13px;
+  line-height: 1.65;
+  color: #c9dbd3;
+  margin: 0;
+  max-width: 320px;
+}
+.footer-column-heading {
+  font-family: var(--font-heading, 'Playfair Display', serif);
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0 0 18px 0;
+}
+.footer-links-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.footer-links-list a {
+  font-size: 13px;
+  color: #c9dbd3;
+  text-decoration: none;
+  transition: color 0.18s;
+}
+.footer-links-list a:hover {
+  color: #ffffff;
+}
+
+.footer-bottom-bar {
+  padding-top: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.footer-copyright-text {
+  font-size: 12px;
+  color: #a3c4b5;
+}
+.footer-payment-methods {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.payment-badge {
+  font-size: 11px;
+  color: #d1e2da;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 4px 10px;
+  border-radius: 3px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* =========================================================================
+   14. Responsive Breakpoints & Viewport Scaling
+   ========================================================================= */
+
+/* Desktop / Laptop: 1024px - 1440px */
+@media (max-width: 1200px) {
+  .hero-editorial-grid {
+    gap: 40px;
+  }
+  .grid-category-squares {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .categories-asymmetric-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .reassurance-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Tablet: 768px - 1023px */
 @media (max-width: 1024px) {
   .hero-editorial-grid {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 44px;
   }
-  .hero-image-wrapper {
+  .hero-anchor-image {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+  }
+  .hero-supporting-crop {
+    width: 38%;
+    bottom: -16px;
+  }
+  .trust-strip-grid {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 16px;
+  }
+  .trust-strip-divider {
+    display: none;
+  }
+  .categories-asymmetric-grid {
+    grid-template-columns: 1fr;
+  }
+  .tile-featured-large {
+    grid-row: auto;
+  }
+  .tile-featured-large .collection-tile-media {
     aspect-ratio: 16 / 9;
   }
-  .categories-grid-editorial {
+  .grid-category-squares {
     grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
   }
   .brand-story-grid {
     grid-template-columns: 1fr;
@@ -1167,26 +1844,63 @@
     grid-template-columns: 1fr;
   }
   .promotional-banner-media {
-    min-height: 260px;
+    min-height: 280px;
   }
   .testimonials-editorial-grid {
     grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .footer-top-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 36px;
   }
 }
 
-@media (max-width: 640px) {
+/* Standard Mobile: 375px - 767px */
+@media (max-width: 767px) {
   .hero-editorial-section {
     padding-top: 24px;
     padding-bottom: 48px;
   }
-  .categories-grid-editorial {
+  .hero-editorial-title {
+    font-size: 2.2rem;
+  }
+  .hero-supporting-crop {
+    display: none; /* Recompose cleanly on mobile without horizontal overflow */
+  }
+  .trust-strip-grid {
+    grid-template-columns: 1fr;
+    row-gap: 14px;
+  }
+  .trust-strip-item {
+    padding: 6px 0;
+  }
+  .grid-category-squares {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .product-card-body {
+    padding: 12px;
+    gap: 5px;
+  }
+  .category-product-title {
+    font-size: 13px;
+  }
+  .category-product-price {
+    font-size: 14px;
+  }
+  .product-quick-add-btn {
+    display: none; /* Mobile utilizes card tap to navigate or size tap */
+  }
+  .brand-story-pillars {
     grid-template-columns: 1fr;
   }
-  .hero-editorial-highlights {
-    gap: 16px;
-  }
   .promotional-banner-content {
-    padding: 32px 20px;
+    padding: 36px 24px;
+  }
+  .reassurance-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
   .newsletter-editorial-card {
     padding: 36px 20px;
@@ -1196,5 +1910,44 @@
   }
   .newsletter-submit-btn {
     width: 100%;
+    justify-content: center;
+  }
+  .footer-top-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .footer-bottom-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* Small Mobile: 320px - 374px */
+@media (max-width: 374px) {
+  .hero-editorial-title {
+    font-size: 1.85rem;
+  }
+  .hero-editorial-highlights {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .hero-highlight-divider {
+    display: none;
+  }
+  .grid-category-squares {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

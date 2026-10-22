@@ -1,37 +1,41 @@
 import { Link } from "react-router-dom";
 
-const CATEGORIES = [
+const COLLECTIONS = [
   {
-    id: "everyday",
+    id: "everyday-essentials",
     title: "Everyday Essentials",
-    description: "Relaxed silhouettes and elevated wardrobe cornerstones",
-    image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80",
+    description: "Foundational wardrobe pieces, breathable organic cotton tees, and relaxed trousers designed for effortless daily comfort.",
+    image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1000&q=80",
     link: "/products?style=casual",
-    tag: "Wardrobe Foundation",
+    tag: "Foundational Pieces",
+    isLarge: true,
   },
   {
-    id: "signature",
-    title: "Signature Collection",
-    description: "Architectural tailoring cut from fine virgin wool & silk blends",
+    id: "signature-tailoring",
+    title: "Signature Tailoring",
+    description: "Architectural blazers and refined cuts crafted from structured virgin wool twill.",
     image: "https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?auto=format&fit=crop&w=800&q=80",
     link: "/products?style=formal",
-    tag: "Refined Tailoring",
+    tag: "Refined Cuts",
+    isLarge: false,
   },
   {
     id: "new-arrivals",
-    title: "New Arrivals",
-    description: "Fresh textural palette designed for seasonal transition",
+    title: "New Season Arrivals",
+    description: "Tactile textures, earth tones, and lightweight overshirts tailored for seasonal transition.",
     image: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=800&q=80",
     link: "/products?new=true",
     tag: "Just Landed",
+    isLarge: false,
   },
   {
-    id: "best-sellers",
-    title: "Best Sellers",
-    description: "Our community's most celebrated and reordered styles",
-    image: "https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=800&q=80",
-    link: "/products",
-    tag: "Patron Favorites",
+    id: "living-accessories",
+    title: "Considered Objects",
+    description: "Glazed ceramic drinkware and cork-insulated travel mugs engineered for daily ritual.",
+    image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80",
+    link: "/products?category=drinkware",
+    tag: "Daily Ritual",
+    isLarge: false,
   },
 ];
 
@@ -40,34 +44,36 @@ const FeaturedCategories = () => {
     <section className="featured-categories-section" aria-label="Featured Collections">
       <div className="container">
         <div className="section-header-editorial">
-          <span className="section-kicker">Curated Edits</span>
-          <h2 className="section-title-editorial title">Featured Collections</h2>
+          <span className="section-kicker">Curated Chapters</span>
+          <h2 className="section-title-editorial title">Find Your Everyday Essentials.</h2>
           <p className="section-subtitle-editorial">
-            Discover curated chapters of intentional silhouettes and master craftsmanship.
+            Explore considered pieces for the moments that matter.
           </p>
         </div>
 
-        <div className="categories-grid-editorial">
-          {CATEGORIES.map((cat) => (
+        {/* Asymmetric Editorial Grid: 1 Large Anchor Tile + 3 Supporting Tiles */}
+        <div className="categories-asymmetric-grid">
+          {COLLECTIONS.map((col) => (
             <Link
-              key={cat.id}
-              to={cat.link}
-              className="category-card-editorial"
+              key={col.id}
+              to={col.link}
+              className={`collection-tile-card ${col.isLarge ? "tile-featured-large" : "tile-supporting"}`}
             >
-              <div className="category-card-media">
+              <div className="collection-tile-media">
                 <img
-                  src={cat.image}
-                  alt={cat.title}
+                  src={col.image}
+                  alt={col.title}
                   loading="lazy"
-                  className="category-card-img"
+                  className="collection-tile-img"
                 />
-                <div className="category-card-overlay"></div>
+                <div className="collection-tile-gradient"></div>
               </div>
-              <div className="category-card-content">
-                <span className="category-card-tag">{cat.tag}</span>
-                <h3 className="category-card-title">{cat.title}</h3>
-                <p className="category-card-desc">{cat.description}</p>
-                <span className="category-card-link-text">
+
+              <div className="collection-tile-content">
+                <span className="collection-tile-tag">{col.tag}</span>
+                <h3 className="collection-tile-title">{col.title}</h3>
+                <p className="collection-tile-desc">{col.description}</p>
+                <span className="collection-tile-cta">
                   Explore Collection <i className="fa-solid fa-arrow-right"></i>
                 </span>
               </div>

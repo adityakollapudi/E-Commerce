@@ -1,5 +1,55 @@
 [
   {
+    "id": 1792690622954,
+    "sku": "PRD-638557",
+    "brand": "SHOP.CO",
+    "title": "cbjv",
+    "price": 1000,
+    "originalPrice": 1500,
+    "discountPercent": 33,
+    "category": "men's clothing",
+    "style": "corporate",
+    "rating": {
+      "rate": 5,
+      "count": 1
+    },
+    "isNew": true,
+    "isBestSeller": false,
+    "moq": 1,
+    "deliveryDays": "3–5 Days",
+    "unitLabel": "piece",
+    "priceNote": "Standard retail price",
+    "description": "cbjv crafted with premium attention to detail. Perfect addition to your collection.",
+    "features": [
+      "Premium quality material and craftsmanship",
+      "Durable, long-lasting construction",
+      "Official warranty and hassle-free returns"
+    ],
+    "specs": {
+      "Brand": "SHOP.CO",
+      "Category": "men's clothing",
+      "Style": "corporate",
+      "Warranty": "1 Year Official Guarantee"
+    },
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "colors": [
+      "#000000",
+      "#4F46E5"
+    ],
+    "image": "/uploads/prod-1792690620033-1e1255fa.png",
+    "img": "/uploads/prod-1792690620033-1e1255fa.png",
+    "images": [
+      "/uploads/prod-1792690620033-1e1255fa.png"
+    ],
+    "createdAt": "2026-10-22T17:37:02.954Z",
+    "createdBy": "admin@shop.co"
+  },
+  {
     "id": 1792688945468,
     "sku": "PRD-945468",
     "brand": "SHOP.CO",
@@ -253,56 +303,6 @@
       "/uploads/prod-1792684619475-f3ae2e53.png"
     ],
     "createdAt": "2026-10-22T15:57:08.775Z",
-    "createdBy": "admin@shop.co"
-  },
-  {
-    "id": 1792684536751,
-    "sku": "PRD-336106",
-    "brand": "SHOP.CO",
-    "title": "shirt",
-    "price": 500,
-    "originalPrice": 700,
-    "discountPercent": 29,
-    "category": "men's clothing",
-    "style": "corporate",
-    "rating": {
-      "rate": 5,
-      "count": 1
-    },
-    "isNew": true,
-    "isBestSeller": false,
-    "moq": 1,
-    "deliveryDays": "3–5 Days",
-    "unitLabel": "piece",
-    "priceNote": "Standard retail price",
-    "description": "shirt crafted with premium attention to detail. Perfect addition to your collection.",
-    "features": [
-      "Premium quality material and craftsmanship",
-      "Durable, long-lasting construction",
-      "Official warranty and hassle-free returns"
-    ],
-    "specs": {
-      "Brand": "SHOP.CO",
-      "Category": "men's clothing",
-      "Style": "corporate",
-      "Warranty": "1 Year Official Guarantee"
-    },
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL"
-    ],
-    "colors": [
-      "#000000",
-      "#4F46E5"
-    ],
-    "image": "/uploads/prod-1792684518229-1adc6183.png",
-    "img": "/uploads/prod-1792684518229-1adc6183.png",
-    "images": [
-      "/uploads/prod-1792684518229-1adc6183.png"
-    ],
-    "createdAt": "2026-10-22T15:55:36.751Z",
     "createdBy": "admin@shop.co"
   },
   {

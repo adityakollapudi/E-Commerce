@@ -8,53 +8,58 @@ const BrandStorySection = () => {
           <div className="brand-story-img-container">
             <img
               src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1000&q=80"
-              alt="Atelier craft and textile studio"
+              alt="Atelier craft and textile design studio"
               className="brand-story-img"
               loading="lazy"
             />
             <div className="brand-story-caption">
-              <span className="caption-year">EST. 2024</span>
+              <span className="caption-year">ATELIER ARCHIVE</span>
               <span className="caption-detail">Milanese Design & Artisan Hand-Finish</span>
             </div>
           </div>
         </div>
 
         <div className="brand-story-content">
-          <span className="section-kicker">Philosophy & Heritage</span>
+          <span className="section-kicker">Design Philosophy</span>
           <h2 className="brand-story-title title">Less, But Better.</h2>
-          
+
           <div className="brand-story-copy">
-            <p>
-              We believe in the power of conscious restraint. In a world saturated with ephemeral trends
-              and disposable fashion, our purpose is singular: to create pieces of enduring beauty,
-              uncompromising craftsmanship, and effortless comfort.
+            <p className="brand-story-lead">
+              We believe everyday objects should earn their place. Thoughtful details,
+              considered materials, and timeless forms make the ordinary feel exceptional.
             </p>
             <p>
-              Every garment begins with natural fibres sourced from certified ethical mills—organic Aegean
-              cottons, tactile linens, and supple virgin wools. Cut with surgical precision and finished
-              by skilled master tailors, our garments are engineered to look better with each passing year.
+              In contrast to the cycle of disposable fast trends, our studio approaches every piece
+              as a long-term companion. From breathable natural cottons and tactile linen weaves to
+              precision hardware and double-turn hems, we construct garments and daily objects that
+              wear gracefully over time.
             </p>
           </div>
 
-          <div className="brand-story-values">
-            <div className="value-item">
-              <i className="fa-solid fa-leaf"></i>
-              <div>
-                <h4>Zero-Waste Patterning</h4>
-                <p>Thoughtful cutting techniques minimizing excess fabric</p>
+          <div className="brand-story-pillars">
+            <div className="pillar-item">
+              <div className="pillar-icon">
+                <i className="fa-solid fa-compass-drafting"></i>
+              </div>
+              <div className="pillar-text">
+                <h4>Intentional Silhouette</h4>
+                <p>Proportions tested and balanced for ease of movement and enduring aesthetic longevity.</p>
               </div>
             </div>
-            <div className="value-item">
-              <i className="fa-solid fa-gem"></i>
-              <div>
-                <h4>Generational Durability</h4>
-                <p>Reinforced twin-needle stitching and robust natural buttons</p>
+
+            <div className="pillar-item">
+              <div className="pillar-icon">
+                <i className="fa-solid fa-feather-pointed"></i>
+              </div>
+              <div className="pillar-text">
+                <h4>Honest Craftsmanship</h4>
+                <p>Reinforced seam construction and durable natural textiles selected for daily utility.</p>
               </div>
             </div>
           </div>
 
           <div className="brand-story-cta-row">
-            <Link to="/underconstruction" className="brand-story-link">
+            <Link to="/underconstruction" className="btn-luxury btn-outline brand-story-btn">
               Discover Our Story <i className="fa-solid fa-arrow-right"></i>
             </Link>
           </div>

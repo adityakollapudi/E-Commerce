@@ -9,7 +9,7 @@ const NewsletterSection = () => {
     e.preventDefault();
     setErrorMessage("");
 
-    const trimmed = email.trim();
+    const trimmed = email.trim().toLowerCase();
     if (!trimmed) {
       setStatus("error");
       setErrorMessage("Please enter an email address.");
@@ -23,21 +23,39 @@ const NewsletterSection = () => {
       return;
     }
 
+    // Duplicate subscription check via localStorage
+    try {
+      const stored = JSON.parse(localStorage.getItem("atelier_newsletter_subscribers") || "[]");
+      if (stored.includes(trimmed)) {
+        setStatus("error");
+        setErrorMessage("This email is already subscribed to our journal.");
+        return;
+      }
+    } catch {
+      // Ignore storage errors
+    }
+
     setStatus("loading");
     setTimeout(() => {
+      try {
+        const stored = JSON.parse(localStorage.getItem("atelier_newsletter_subscribers") || "[]");
+        stored.push(trimmed);
+        localStorage.setItem("atelier_newsletter_subscribers", JSON.stringify(stored));
+      } catch {
+        // Fallback
+      }
       setStatus("success");
-    }, 700);
+    }, 600);
   };
 
   return (
-    <section className="newsletter-editorial-section" aria-label="Newsletter">
+    <section className="newsletter-editorial-section" aria-label="Newsletter Subscription">
       <div className="container">
         <div className="newsletter-editorial-card">
           <span className="newsletter-kicker">The Atelier Dispatch</span>
           <h2 className="newsletter-headline title">A Little Something Worth Opening.</h2>
           <p className="newsletter-subtext">
-            Subscribe to receive thoughtful reflections on design, early collection releases,
-            and exclusive member invitations directly to your inbox.
+            Receive thoughtful updates, new collections, and occasional notes from our world.
           </p>
 
           {status === "success" ? (
@@ -47,7 +65,7 @@ const NewsletterSection = () => {
               </div>
               <h3 className="success-title">Welcome to the Inner Circle.</h3>
               <p className="success-desc">
-                We've sent a welcome invitation to <strong>{email}</strong>. Use code{" "}
+                Your demonstration subscription is confirmed for <strong>{email}</strong> (saved to local demonstration storage). Use code{" "}
                 <span className="promo-code-pill">SHOP20</span> for 20% off your inaugural order.
               </p>
               <button
@@ -66,7 +84,7 @@ const NewsletterSection = () => {
             <form onSubmit={handleSubmit} className="newsletter-form-editorial" noValidate>
               <div className="newsletter-input-group">
                 <div className="newsletter-input-wrapper">
-                  <i className="fa-regular fa-envelope input-icon"></i>
+                  <i className="fa-regular fa-envelope input-icon" aria-hidden="true"></i>
                   <input
                     type="email"
                     value={email}
@@ -80,6 +98,7 @@ const NewsletterSection = () => {
                     aria-invalid={status === "error"}
                     aria-describedby={status === "error" ? "newsletter-error" : undefined}
                     disabled={status === "loading"}
+                    required
                   />
                 </div>
                 <button
@@ -87,7 +106,13 @@ const NewsletterSection = () => {
                   disabled={status === "loading"}
                   className="btn-luxury btn-primary newsletter-submit-btn"
                 >
-                  {status === "loading" ? "Subscribing..." : "Subscribe →"}
+                  {status === "loading" ? (
+                    <>
+                      <i className="fa-solid fa-circle-notch fa-spin"></i> Subscribing...
+                    </>
+                  ) : (
+                    <>Subscribe →</>
+                  )}
                 </button>
               </div>
 
@@ -98,7 +123,7 @@ const NewsletterSection = () => {
               )}
 
               <p className="newsletter-privacy-note">
-                By subscribing, you agree to our Privacy Policy. Unsubscribe at any time.
+                Local demonstration state. Unsubscribe at any time with no spam guaranteed.
               </p>
             </form>
           )}

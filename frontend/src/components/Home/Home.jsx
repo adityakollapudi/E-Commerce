@@ -1,48 +1,56 @@
 import HeroSection from "./HeroSection";
+import TrustValueStrip from "./TrustValueStrip";
 import FeaturedCategories from "./FeaturedCategories";
 import HomeCategory from "./HomeCategory/HomeCategory";
 import BrandStorySection from "./BrandStorySection";
 import PromotionalBanner from "./PromotionalBanner";
+import ShoppingReassurance from "./ShoppingReassurance";
 import CustomerTestimonials from "./CustomerTestimonials";
 import NewsletterSection from "./NewsletterSection";
 
 const Home = () => {
   return (
     <main id="main-content" className="home-page luxury-storefront">
-      {/* 1. Hero Section */}
+      {/* Section 03: Editorial Collage Hero */}
       <HeroSection />
 
-      {/* 2. Featured Image-Led Categories */}
+      {/* Section 04: Trust and Value Strip */}
+      <TrustValueStrip />
+
+      {/* Section 05: Featured Collections (Find Your Everyday Essentials) */}
       <FeaturedCategories />
 
-      {/* 3. Best Sellers / Signature Pieces Grid */}
-      <section className="home-best-sellers-section">
+      {/* Section 06: Best Sellers (Considered Favourites) */}
+      <section className="home-best-sellers-section" aria-label="Considered Favourites">
         <HomeCategory
-          title="Curated Best Sellers"
-          subtitle="Celebrated by our community for timeless silhouettes and impeccable hand-finish."
-          category="men's clothing"
+          title="Considered Favourites"
+          subtitle="Discover the pieces customers return to."
+          filterType="bestSeller"
         />
       </section>
 
-      {/* 4. Brand Story: Less, But Better */}
+      {/* Section 08: Brand Story (Less, But Better) */}
       <BrandStorySection />
 
-      {/* 5. Promotional Campaign Banner: The New Season Edit */}
+      {/* Section 09: Seasonal Campaign Banner (The New Season Edit) */}
       <PromotionalBanner />
 
-      {/* 6. New Season Arrivals Grid */}
-      <section className="home-new-arrivals-section">
+      {/* Section 07: New Arrivals */}
+      <section className="home-new-arrivals-section" aria-label="New Arrivals">
         <HomeCategory
           title="New Arrivals"
-          subtitle="Tactile textures and earth tones tailored for effortless seasonal transition."
-          category="women's clothing"
+          subtitle="Fresh silhouettes and tactile textures recently welcomed to our catalog."
+          filterType="newArrival"
         />
       </section>
 
-      {/* 7. Patron Testimonials */}
+      {/* Section 10: Shopping Reassurance & Policies */}
+      <ShoppingReassurance />
+
+      {/* Section 11: Customer Testimonials (Patron Reflections) */}
       <CustomerTestimonials />
 
-      {/* 8. Editorial Newsletter Subscription */}
+      {/* Section 12: Newsletter (A Little Something Worth Opening) */}
       <NewsletterSection />
     </main>
   );
