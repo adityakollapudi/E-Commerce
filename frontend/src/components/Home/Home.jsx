@@ -39,55 +39,6 @@ const Home = () => {
         <HomeCategory title="Best Sellers" category="women's clothing" />
       </section>
 
-      {/* Corporate Gifting Spotlight Section */}
-      <section className="container corporate-spotlight-section">
-        <div className="corporate-spotlight-card">
-          <div className="spotlight-content">
-            <span className="spotlight-badge">
-              <i className="fa-solid fa-building"></i> B2B Corporate Gifting & Merch
-            </span>
-            <h2 className="title--lg spotlight-title">
-              UG Elixir Plus Cork Base Mug
-            </h2>
-            <p className="spotlight-desc">
-              Looking for premium promotional executive gifts? The Urban Gear UGDB65 combines food-grade glazed ceramic with an eco-friendly insulating cork bottom that protects desktops. Custom company logo branding available via digital UV, screen printing, or laser engraving.
-            </p>
-            <div className="spotlight-perks">
-              <div className="spotlight-perk-item">
-                <i className="fa-solid fa-receipt text-green"></i>
-                <span>18% GST Tax Invoice</span>
-              </div>
-              <div className="spotlight-perk-item">
-                <i className="fa-solid fa-boxes-stacked text-blue"></i>
-                <span>MOQ 100 pcs · Tiered Pricing</span>
-              </div>
-              <div className="spotlight-perk-item">
-                <i className="fa-solid fa-palette text-purple"></i>
-                <span>Free Digital Logo Proof</span>
-              </div>
-            </div>
-            <div className="spotlight-ctas">
-              <Link to="/products/drinkware/1120677" className="btn-pill btn-black">
-                View UGDB65 Details (₹338) →
-              </Link>
-              <Link to="/products?category=drinkware" className="btn-pill btn-white">
-                All Drinkware Catalog
-              </Link>
-            </div>
-          </div>
-          <div className="spotlight-media">
-            <Link to="/products/drinkware/1120677">
-              <img
-                src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80"
-                alt="UG Elixir Plus Cork Base Ceramic Mug"
-                className="spotlight-img"
-              />
-              <span className="spotlight-img-badge">Urban Gear · SKU UGDB65</span>
-            </Link>
-          </div>
-        </div>
-      </section>
-
       <PickCategorySquare />
       <ReviewsCarousel />
     </main>
