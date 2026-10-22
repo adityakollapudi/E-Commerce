@@ -14,6 +14,9 @@
     position: relative;
     padding-top: 150px;
   }
+  .footer-container.no-subscribe {
+    padding-top: 50px !important;
+  }
   .description-container {
     flex: 1;
     display: flex;

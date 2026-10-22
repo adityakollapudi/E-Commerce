@@ -1,12 +1,15 @@
 import SocMediaIcons from "../Misc/SocMediaIcons";
 import FooterSubscribe from "./FooterSubscribe";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+
 const Footer = () => {
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
+
   return (
     <>
-      
-      <footer className="footer-container">
-      <FooterSubscribe />
+      <footer className={`footer-container ${isHomePage ? "no-subscribe" : ""}`}>
+        {!isHomePage && <FooterSubscribe />}
         <div className="container">
           <div className="flex-footer">
             <div className="description-container">
