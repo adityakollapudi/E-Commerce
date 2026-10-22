@@ -18,5 +18,6 @@
 @import "./styles/products/gallery.css";
 @import "./styles/cart.css";
 @import "react-range-slider-input/dist/style.css";
-@import "./styles/enhanced.css";
-@import "./styles/auth-admin.css";
+@import "./styles/admin-import.css";
+@import "./styles/auth-admin.css";
+@import "./styles/enhanced.css";

@@ -26,3 +26,13 @@ pnpm-debug.log*
 .idea/
 .DS_Store
 Thumbs.db
+
+# Temporary catalog files
+.catalog.tmp.*
+*.tmp.*
+
+# Backups and user uploads
+backend/src/data/backups/*.json
+backend/uploads/*
+!backend/uploads/.gitkeep
+!backend/src/data/backups/.gitkeep

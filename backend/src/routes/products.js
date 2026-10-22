@@ -6,7 +6,25 @@ import {
   validateCatalogQueryParams,
   validateProductCreatePayload,
   validateProductUpdatePayload,
+  validateBulkImportPayload,
 } from "../middleware/validation.js";
+import {
+  loadInitialCatalog,
+  saveCatalogToDisk,
+  createBackupSnapshot,
+  updateSnapshotPostImport,
+  rollbackToSnapshot,
+  isRollbackAllowed,
+  RollbackEligibilityError,
+  getImportHistory,
+  isImportInProgress,
+  acquireMutationLock,
+  releaseMutationLock,
+  advanceCatalogRevision,
+  getCatalogRevision,
+  setImportLock,
+  resetStoreForTesting,
+} from "../data/catalogStore.js";
 
 export const STANDARDIZED_SIZES = [
   "XS",
@@ -77,8 +95,8 @@ const sanitizeProductForPublic = (p) => {
 
 const router = express.Router();
 
-// Dynamic in-memory products catalog initialized from seed data
-let productsCatalog = [...PRODUCTS];
+// Dynamic in-memory products catalog initialized from persistent store or seed data
+let productsCatalog = loadInitialCatalog();
 
 export const findCatalogProductById = (id) => {
   const numericId = Number(id);
@@ -87,6 +105,11 @@ export const findCatalogProductById = (id) => {
 };
 
 export const getLiveProductsCatalog = () => productsCatalog;
+
+export const resetCatalogForTesting = (seed = PRODUCTS) => {
+  productsCatalog = resetStoreForTesting(seed);
+  return productsCatalog;
+};
 
 // GET all products with filtering, search, sorting, and pagination
 router.get("/", validateCatalogQueryParams, (req, res) => {
@@ -271,6 +294,14 @@ router.get("/:id", validateIdParam("id"), (req, res) => {
 
 // POST /api/products - Create New Product (Admin Only + Validated)
 router.post("/", requireAdmin, validateProductCreatePayload, (req, res) => {
+  const lock = acquireMutationLock("crud");
+  if (!lock.acquired) {
+    return res.status(409).json({
+      success: false,
+      message: lock.reason,
+    });
+  }
+
   try {
     const {
       title,
@@ -303,12 +334,13 @@ router.post("/", requireAdmin, validateProductCreatePayload, (req, res) => {
     const newId = Date.now();
     const primaryImg =
       (typeof image === "string" && image.trim()) ||
+      (typeof img === "string" && img.trim()) ||
       (Array.isArray(images) && images.length > 0 && typeof images[0] === "string" ? images[0] : null) ||
-      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80";
+      "/introImageCompressed.jfif";
 
     const allImages =
       Array.isArray(images) && images.length > 0
-        ? images.filter((img) => typeof img === "string" && img.trim())
+        ? images.filter((imgItem) => typeof imgItem === "string" && imgItem.trim())
         : [primaryImg];
 
     // Normalize features into array
@@ -359,14 +391,18 @@ router.post("/", requireAdmin, validateProductCreatePayload, (req, res) => {
       },
       sizes: Array.isArray(sizes) && sizes.length > 0 ? sizes.map(normalizeSize) : ["S", "M", "L", "XL"],
       colors: Array.isArray(colors) && colors.length > 0 ? colors : ["#000000", "#4F46E5"],
+      image: primaryImg,
       img: primaryImg,
       images: allImages,
       createdAt: new Date().toISOString(),
       createdBy: req.user.email,
     };
 
-    // Prepend to catalog so it appears first in the storefront
-    productsCatalog.unshift(newProduct);
+    // Safe commit: persist candidate catalog to disk BEFORE updating in-memory pointer
+    const candidateCatalog = [newProduct, ...productsCatalog];
+    saveCatalogToDisk(candidateCatalog);
+    advanceCatalogRevision("create_product");
+    productsCatalog = candidateCatalog;
 
     res.status(201).json({
       success: true,
@@ -374,7 +410,9 @@ router.post("/", requireAdmin, validateProductCreatePayload, (req, res) => {
       product: newProduct,
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Failed to create product." });
+    res.status(500).json({ success: false, message: `Failed to create product: ${error.message}` });
+  } finally {
+    releaseMutationLock();
   }
 });
 
@@ -385,6 +423,14 @@ router.put(
   validateIdParam("id"),
   validateProductUpdatePayload,
   (req, res) => {
+    const lock = acquireMutationLock("crud");
+    if (!lock.acquired) {
+      return res.status(409).json({
+        success: false,
+        message: lock.reason,
+      });
+    }
+
     try {
       const id = req.validatedId;
       const index = productsCatalog.findIndex((p) => p.id === id);
@@ -404,6 +450,20 @@ router.put(
           ? Math.round(((numericOriginal - numericPrice) / numericOriginal) * 100)
           : 0;
 
+      const updatedImg =
+        (typeof updates.image === "string" && updates.image.trim()) ||
+        (typeof updates.img === "string" && updates.img.trim()) ||
+        (Array.isArray(updates.images) && updates.images.length > 0 && typeof updates.images[0] === "string" ? updates.images[0] : null) ||
+        existing.image ||
+        existing.img ||
+        (Array.isArray(existing.images) && existing.images[0]) ||
+        "/introImageCompressed.jfif";
+
+      const updatedImages =
+        Array.isArray(updates.images) && updates.images.length > 0
+          ? updates.images
+          : [updatedImg];
+
       // Protected fields (id, createdAt, createdBy) are strictly immutable
       const updatedProduct = {
         ...existing,
@@ -414,11 +474,19 @@ router.put(
         price: numericPrice,
         originalPrice: numericOriginal,
         discountPercent: discount,
+        image: updatedImg,
+        img: updatedImg,
+        images: updatedImages,
         updatedAt: new Date().toISOString(),
         updatedBy: req.user.email,
       };
 
-      productsCatalog[index] = updatedProduct;
+      // Safe commit: persist candidate catalog to disk BEFORE updating in-memory pointer
+      const candidateCatalog = [...productsCatalog];
+      candidateCatalog[index] = updatedProduct;
+      saveCatalogToDisk(candidateCatalog);
+      advanceCatalogRevision("update_product");
+      productsCatalog = candidateCatalog;
 
       res.json({
         success: true,
@@ -426,21 +494,36 @@ router.put(
         product: updatedProduct,
       });
     } catch (error) {
-      res.status(500).json({ success: false, message: "Failed to update product." });
+      res.status(500).json({ success: false, message: `Failed to update product: ${error.message}` });
+    } finally {
+      releaseMutationLock();
     }
   }
 );
 
 // DELETE /api/products/:id - Delete Product (Admin Only + ID Validated)
 router.delete("/:id", requireAdmin, validateIdParam("id"), (req, res) => {
+  const lock = acquireMutationLock("crud");
+  if (!lock.acquired) {
+    return res.status(409).json({
+      success: false,
+      message: lock.reason,
+    });
+  }
+
   try {
     const id = req.validatedId;
     const initialLen = productsCatalog.length;
-    productsCatalog = productsCatalog.filter((p) => p.id !== id);
+    const candidateCatalog = productsCatalog.filter((p) => p.id !== id);
 
-    if (productsCatalog.length === initialLen) {
+    if (candidateCatalog.length === initialLen) {
       return res.status(404).json({ success: false, message: "Product not found." });
     }
+
+    // Safe commit: persist candidate catalog to disk BEFORE updating in-memory pointer
+    saveCatalogToDisk(candidateCatalog);
+    advanceCatalogRevision("delete_product");
+    productsCatalog = candidateCatalog;
 
     res.json({
       success: true,
@@ -448,8 +531,411 @@ router.delete("/:id", requireAdmin, validateIdParam("id"), (req, res) => {
       deletedId: id,
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Failed to delete product." });
+    res.status(500).json({ success: false, message: `Failed to delete product: ${error.message}` });
+  } finally {
+    releaseMutationLock();
   }
+});
+
+// POST /api/products/bulk-import - Bulk Product Catalogue Import (Admin Only + Batch Validated)
+router.post(
+  "/bulk-import",
+  requireAdmin,
+  validateBulkImportPayload,
+  (req, res) => {
+    const items = req.bulkImportData.products;
+    const { duplicateStrategy, dryRun } = req.bulkImportData;
+
+    const conflicts = [];
+    const rowsToProcess = [];
+
+    // Detect duplicate SKUs and IDs against existing catalogue
+    for (const item of items) {
+      let matchedExisting = null;
+      let matchReason = null;
+
+      // 1. Match by SKU if provided
+      if (item.sku) {
+        const normSku = String(item.sku).trim().toLowerCase();
+        matchedExisting = productsCatalog.find(
+          (p) => p.sku && String(p.sku).trim().toLowerCase() === normSku
+        );
+        if (matchedExisting) {
+          matchReason = `SKU '${item.sku}' matches existing product #${matchedExisting.id} ("${matchedExisting.title}") (already exists in catalogue)`;
+        }
+      }
+
+      // 2. Match by ID if provided and not already matched
+      if (!matchedExisting && item.id) {
+        const numId = Number(item.id);
+        matchedExisting = productsCatalog.find((p) => p.id === numId);
+        if (matchedExisting) {
+          matchReason = `ID '${item.id}' matches existing product #${matchedExisting.id} ("${matchedExisting.title}") (already exists in catalogue)`;
+        }
+      }
+
+      if (matchedExisting) {
+        if (duplicateStrategy === "error") {
+          conflicts.push({
+            row: item.rowNum,
+            sku: item.sku || matchedExisting.sku,
+            id: item.id || matchedExisting.id,
+            conflictWith: {
+              id: matchedExisting.id,
+              sku: matchedExisting.sku,
+              title: matchedExisting.title,
+            },
+            message: matchReason,
+          });
+        } else if (duplicateStrategy === "skip") {
+          rowsToProcess.push({
+            action: "skip",
+            item,
+            reason: matchReason,
+          });
+        } else if (duplicateStrategy === "update") {
+          rowsToProcess.push({
+            action: "update",
+            item,
+            existingProduct: matchedExisting,
+          });
+        }
+      } else {
+        rowsToProcess.push({
+          action: "add",
+          item,
+        });
+      }
+    }
+
+    // In error mode, any duplicate against existing catalog halts import immediately
+    if (duplicateStrategy === "error" && conflicts.length > 0) {
+      return res.status(409).json({
+        success: false,
+        message: `Catalogue import rejected: ${conflicts.length} conflict(s) detected with existing catalogue.`,
+        conflictCount: conflicts.length,
+        conflicts,
+        errors: conflicts,
+      });
+    }
+
+    const toAdd = rowsToProcess.filter((r) => r.action === "add");
+    const toUpdate = rowsToProcess.filter((r) => r.action === "update");
+    const toSkip = rowsToProcess.filter((r) => r.action === "skip");
+
+    // DRY-RUN MODE: Do not mutate in-memory or disk state
+    if (dryRun) {
+      return res.status(200).json({
+        success: true,
+        dryRun: true,
+        message: "Dry-run validation successful. No changes made to catalogue.",
+        totalReceived: items.length,
+        duplicateStrategy,
+        summary: {
+          total: items.length,
+          totalReceived: items.length,
+          added: toAdd.length,
+          wouldAdd: toAdd.length,
+          updated: toUpdate.length,
+          wouldUpdate: toUpdate.length,
+          skipped: toSkip.length,
+          wouldSkip: toSkip.length,
+        },
+        preview: [
+          ...toAdd.map((r, idx) => ({
+            action: "add",
+            id: r.item.id || `auto_${idx + 1}`,
+            sku: r.item.sku || `(auto_${idx + 1})`,
+            title: r.item.title,
+            price: Number(r.item.price),
+            category: r.item.category,
+          })),
+          ...toUpdate.map((r) => ({
+            action: "update",
+            id: r.existingProduct.id,
+            sku: r.item.sku || r.existingProduct.sku,
+            title: r.item.title,
+            price: Number(r.item.price),
+          })),
+          ...toSkip.map((r) => ({
+            action: "skip",
+            id: r.item.id,
+            sku: r.item.sku,
+            title: r.item.title,
+            reason: r.reason,
+          })),
+        ],
+        details: {
+          additions: toAdd.slice(0, 10).map((r) => ({
+            row: r.item.rowNum,
+            sku: r.item.sku || "(auto-generate)",
+            title: r.item.title,
+            price: Number(r.item.price),
+            category: r.item.category,
+          })),
+          updates: toUpdate.slice(0, 10).map((r) => ({
+            row: r.item.rowNum,
+            sku: r.item.sku || r.existingProduct.sku,
+            title: r.item.title,
+            existingId: r.existingProduct.id,
+            currentPrice: r.existingProduct.price,
+            newPrice: Number(r.item.price),
+          })),
+          skips: toSkip.slice(0, 10).map((r) => ({
+            row: r.item.rowNum,
+            sku: r.item.sku,
+            title: r.item.title,
+            reason: r.reason,
+          })),
+        },
+      });
+    }
+
+    // COMMIT MODE: Protect against concurrent mutations with mutation lock
+    const lock = acquireMutationLock("import");
+    if (!lock.acquired) {
+      return res.status(409).json({
+        success: false,
+        message: lock.reason,
+      });
+    }
+
+    const importId = `imp_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`;
+
+    // 1. Create pre-import snapshot
+    createBackupSnapshot(importId, req.user.email, productsCatalog);
+
+    try {
+      const updatedCatalog = [...productsCatalog];
+      let maxId = updatedCatalog.reduce((max, p) => Math.max(max, Number(p.id) || 0), 0);
+      if (maxId < 1000) maxId = 1000;
+
+      // Process updates
+      for (const r of toUpdate) {
+        const idx = updatedCatalog.findIndex((p) => p.id === r.existingProduct.id);
+        if (idx !== -1) {
+          const existing = updatedCatalog[idx];
+          const numPrice = Number(r.item.price);
+          const numOrig =
+            r.item.originalPrice !== undefined
+              ? Number(r.item.originalPrice)
+              : existing.originalPrice || numPrice;
+          const discount = numOrig > numPrice ? Math.round(((numOrig - numPrice) / numOrig) * 100) : 0;
+
+          updatedCatalog[idx] = {
+            ...existing,
+            ...r.item,
+            id: existing.id,             // strictly immutable
+            createdAt: existing.createdAt, // strictly immutable
+            createdBy: existing.createdBy, // strictly immutable
+            price: numPrice,
+            originalPrice: numOrig,
+            discountPercent: discount,
+            updatedAt: new Date().toISOString(),
+            updatedBy: req.user.email,
+          };
+          delete updatedCatalog[idx].rowNum;
+        }
+      }
+
+      const addedProducts = [];
+
+      // Process additions
+      for (const r of toAdd) {
+        maxId += 1;
+        const assignedId = r.item.id ? Number(r.item.id) : maxId;
+        const assignedSku =
+          r.item.sku && String(r.item.sku).trim()
+            ? String(r.item.sku).trim()
+            : `PRD-${assignedId.toString().slice(-6)}`;
+        const numPrice = Number(r.item.price);
+        const numOrig =
+          r.item.originalPrice !== undefined ? Number(r.item.originalPrice) : numPrice;
+        const discount = numOrig > numPrice ? Math.round(((numOrig - numPrice) / numOrig) * 100) : 0;
+
+        const newProd = {
+          id: assignedId,
+          sku: assignedSku,
+          brand: r.item.brand ? String(r.item.brand).trim().slice(0, 50) : "SHOP.CO",
+          title: String(r.item.title).trim().slice(0, 200),
+          price: numPrice,
+          originalPrice: numOrig,
+          discountPercent: discount,
+          category: String(r.item.category).trim().toLowerCase().slice(0, 50),
+          style: r.item.style ? String(r.item.style).trim().toLowerCase().slice(0, 50) : "casual",
+          rating:
+            r.item.rating && typeof r.item.rating === "object"
+              ? r.item.rating
+              : { rate: 5.0, count: 1 },
+          isNew: r.item.isNew !== undefined ? Boolean(r.item.isNew) : true,
+          isBestSeller: r.item.isBestSeller !== undefined ? Boolean(r.item.isBestSeller) : false,
+          moq: Number(r.item.moq) || 1,
+          deliveryDays: r.item.deliveryDays
+            ? String(r.item.deliveryDays).trim().slice(0, 50)
+            : "3–5 Days",
+          unitLabel: r.item.unitLabel ? String(r.item.unitLabel).trim() : "piece",
+          priceNote: r.item.priceNote ? String(r.item.priceNote).trim() : "Standard retail price",
+          description: r.item.description
+            ? String(r.item.description).trim().slice(0, 2000)
+            : `${r.item.title.trim()} crafted with premium attention to detail.`,
+          features: Array.isArray(r.item.features)
+            ? r.item.features
+            : typeof r.item.features === "string"
+            ? r.item.features.split("\n").map((f) => f.trim()).filter(Boolean)
+            : [],
+          specs:
+            r.item.specs && typeof r.item.specs === "object"
+              ? r.item.specs
+              : {
+                  Brand: r.item.brand || "SHOP.CO",
+                  Category: r.item.category,
+                  Style: r.item.style || "Casual",
+                },
+          sizes: Array.isArray(r.item.sizes) ? r.item.sizes.map(normalizeSize) : [],
+          colors: Array.isArray(r.item.colors) ? r.item.colors : [],
+          images: Array.isArray(r.item.images)
+            ? r.item.images
+            : r.item.image
+            ? [r.item.image]
+            : [],
+          createdAt: new Date().toISOString(),
+          createdBy: req.user.email,
+        };
+        delete newProd.rowNum;
+        addedProducts.push(newProd);
+        updatedCatalog.unshift(newProd);
+      }
+
+      // 2. Persist to disk atomically before in-memory commit
+      saveCatalogToDisk(updatedCatalog);
+
+      // 3. Advance revision and update snapshot's post-import revision
+      const postRev = advanceCatalogRevision("bulk_import", importId);
+      updateSnapshotPostImport(importId, postRev);
+
+      // 4. Commit to in-memory state
+      productsCatalog = updatedCatalog;
+
+      res.status(201).json({
+        success: true,
+        message: "Bulk catalogue import committed successfully.",
+        importId,
+        summary: {
+          total: items.length,
+          totalReceived: items.length,
+          added: toAdd.length,
+          updated: toUpdate.length,
+          skipped: toSkip.length,
+        },
+        preview: [
+          ...addedProducts.map((p) => ({
+            action: "add",
+            id: p.id,
+            sku: p.sku,
+            title: p.title,
+            price: p.price,
+            category: p.category,
+          })),
+          ...toUpdate.map((r) => ({
+            action: "update",
+            id: r.existingProduct.id,
+            sku: r.item.sku || r.existingProduct.sku,
+            title: r.item.title,
+            price: Number(r.item.price),
+          })),
+          ...toSkip.map((r) => ({
+            action: "skip",
+            id: r.item.id,
+            sku: r.item.sku,
+            title: r.item.title,
+            reason: r.reason,
+          })),
+        ],
+        persisted: true,
+        catalogTotal: productsCatalog.length,
+      });
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        message: `Failed to commit catalogue import: ${err.message}. Catalogue state preserved.`,
+      });
+    } finally {
+      releaseMutationLock();
+    }
+  }
+);
+
+// POST /api/products/bulk-import/rollback - Rollback a Catalogue Import (Admin Only)
+router.post("/bulk-import/rollback", requireAdmin, (req, res) => {
+  const { importId } = req.body || {};
+
+  if (!importId || typeof importId !== "string" || !importId.trim()) {
+    return res.status(400).json({
+      success: false,
+      message: "A valid 'importId' is required for rollback.",
+    });
+  }
+
+  const cleanImportId = importId.trim();
+
+  const lock = acquireMutationLock("rollback");
+  if (!lock.acquired) {
+    return res.status(409).json({
+      success: false,
+      message: lock.reason,
+    });
+  }
+
+  try {
+    const check = isRollbackAllowed(cleanImportId);
+    if (!check.allowed) {
+      return res.status(400).json({
+        success: false,
+        message: check.reason,
+      });
+    }
+
+    const restored = rollbackToSnapshot(cleanImportId);
+    productsCatalog = restored;
+
+    res.json({
+      success: true,
+      message: `Import '${cleanImportId}' was successfully rolled back. Catalogue restored to pre-import snapshot.`,
+      importId: cleanImportId,
+      restoredProductCount: productsCatalog.length,
+    });
+  } catch (err) {
+    console.error("[Rollback Route Error]:", err.message);
+    if (
+      err instanceof RollbackEligibilityError ||
+      err.isEligibilityConflict ||
+      err.name === "RollbackEligibilityError" ||
+      err.message?.includes("Cannot rollback import") ||
+      err.message?.includes("newer catalogue modifications") ||
+      err.message?.includes("has already been rolled back") ||
+      err.message?.includes("Import snapshot")
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: err.message || err.reason,
+      });
+    }
+
+    res.status(500).json({
+      success: false,
+      message: `Rollback failed: ${err.message}`,
+    });
+  } finally {
+    releaseMutationLock();
+  }
+});
+
+// GET /api/products/bulk-import/history - View Import History & Rollback Candidates (Admin Only)
+router.get("/bulk-import/history", requireAdmin, (req, res) => {
+  res.json({
+    success: true,
+    history: getImportHistory(),
+  });
 });
 
 export default router;

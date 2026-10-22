@@ -136,24 +136,30 @@ const HeaderProfileBtn = ({ cart, handleMouseClick }) => {
 
                 {isAdmin && (
                   <div className="dropdown-admin-actions">
-                    <Link
-                      to="/admin"
+                    <a
+                      href="http://localhost:5174/admin"
                       className="dropdown-menu-item highlight-admin"
+                      target="_blank"
+                      rel="noreferrer"
                       onClick={() => setMenuOpen(false)}
                       role="menuitem"
+                      title="Open dedicated Admin Management Portal on Port 5174"
                     >
-                      <i className="fa-solid fa-gauge-high"></i>
-                      <span>Admin Dashboard</span>
-                    </Link>
-                    <Link
-                      to="/admin/add-product"
+                      <i className="fa-solid fa-shield-halved"></i>
+                      <span>Admin Portal ↗ (Port 5174)</span>
+                    </a>
+                    <a
+                      href="http://localhost:5174/admin/add-product"
                       className="dropdown-menu-item highlight-action"
+                      target="_blank"
+                      rel="noreferrer"
                       onClick={() => setMenuOpen(false)}
                       role="menuitem"
+                      title="Add product via Admin Portal on Port 5174"
                     >
                       <i className="fa-solid fa-circle-plus"></i>
-                      <span>+ Add New Product</span>
-                    </Link>
+                      <span>+ Add Product (Port 5174)</span>
+                    </a>
                   </div>
                 )}
 

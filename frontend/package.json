@@ -4,7 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --host",
+    "dev": "node scripts/dev-both.js",
+    "dev:user": "vite --port 5173 --host",
+    "dev:admin": "vite --config vite.admin.config.js --port 5174 --host",
+    "dev:both": "node scripts/dev-both.js",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"

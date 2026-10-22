@@ -4,8 +4,12 @@
   "description": "Full-stack E-commerce Application with React/Vite Frontend and Express Backend",
   "scripts": {
     "dev": "npm --prefix frontend run dev",
+    "dev:user": "npm --prefix frontend run dev:user",
+    "dev:admin": "npm --prefix frontend run dev:admin",
+    "dev:both": "npm --prefix frontend run dev:both",
     "dev:frontend": "npm --prefix frontend run dev",
     "dev:backend": "npm --prefix backend run dev",
+    "test": "npm --prefix backend test",
     "start": "npm --prefix backend start",
     "build": "npm --prefix frontend run build",
     "preview": "npm --prefix frontend run preview"

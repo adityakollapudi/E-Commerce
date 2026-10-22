@@ -413,6 +413,22 @@ export const searchProducts = (query) => {
   );
 };
 
+export const searchProductsSafe = async (query) => {
+  if (!query || !query.trim()) return PRODUCTS_DATA;
+  try {
+    const res = await fetch(`/api/products?search=${encodeURIComponent(query.trim())}`);
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.success && Array.isArray(data.products)) {
+        return data.products;
+      }
+    }
+    return searchProducts(query);
+  } catch (err) {
+    return searchProducts(query);
+  }
+};
+
 // Safe fetch connecting to Backend API with zero-latency local fallback
 export const fetchProductsSafe = async (categoryOrStyle) => {
   try {

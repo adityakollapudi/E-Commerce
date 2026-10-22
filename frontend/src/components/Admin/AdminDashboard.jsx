@@ -100,7 +100,10 @@ const AdminDashboard = () => {
                 Review existing products, check inventory, monitor prices, and add new items.
               </p>
             </div>
-            <div className="admin-header-actions">
+            <div className="admin-header-actions" style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+              <Link to="/admin/import" className="btn-admin-outline">
+                <i className="fa-solid fa-file-import"></i> Bulk Import
+              </Link>
               <Link to="/admin/add-product" className="btn-admin-cta">
                 <i className="fa-solid fa-plus-circle"></i> Add New Product
               </Link>
@@ -247,11 +250,12 @@ const AdminDashboard = () => {
                           <td>
                             <div className="product-cell-flex">
                               <img
-                                src={p.img || (p.images && p.images[0]) || "/product-img-1.png"}
+                                src={p.image || p.img || (p.images && p.images[0]) || "/introImageCompressed.jfif"}
                                 alt={p.title}
                                 className="table-thumb"
                                 onError={(e) => {
-                                  e.target.src = "/product-img-1.png";
+                                  e.target.onerror = null;
+                                  e.target.src = "/introImageCompressed.jfif";
                                 }}
                               />
                               <div className="product-cell-meta">

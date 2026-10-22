@@ -8,11 +8,16 @@ const CategoryProduct = ({
   discountPercent,
   category,
   image,
+  img,
   images,
   rating,
   id,
 }) => {
-  const displayImage = image || (images && images[0]) || "/introImageCompressed.jfif";
+  const displayImage =
+    image ||
+    img ||
+    (Array.isArray(images) && images[0]) ||
+    "/introImageCompressed.jfif";
   const numPrice = Number(price);
   const ratingValue = rating?.rate || (typeof rating === "number" ? rating : 4.5);
 
@@ -24,6 +29,10 @@ const CategoryProduct = ({
           alt={title}
           loading="lazy"
           className="items-line-img"
+          onError={(e) => {
+            e.currentTarget.onerror = null;
+            e.currentTarget.src = "/introImageCompressed.jfif";
+          }}
         />
         {discountPercent > 0 && (
           <span className="product-discount-badge">-{discountPercent}%</span>

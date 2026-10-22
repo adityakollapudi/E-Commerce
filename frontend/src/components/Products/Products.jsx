@@ -68,23 +68,57 @@ const Products = () => {
   // Load products when category or search changes
   useEffect(() => {
     setLoading(true);
+    let isCancelled = false;
+
     if (searchQuery) {
-      setProducts(searchProducts(searchQuery));
-      setLoading(false);
+      fetch(`/api/products?search=${encodeURIComponent(searchQuery)}`)
+        .then((res) => {
+          if (!res.ok) throw new Error("Search API failure");
+          return res.json();
+        })
+        .then((data) => {
+          if (!isCancelled) {
+            if (data && data.success && Array.isArray(data.products)) {
+              setProducts(data.products);
+            } else {
+              setProducts(searchProducts(searchQuery));
+            }
+          }
+        })
+        .catch(() => {
+          if (!isCancelled) {
+            setProducts(searchProducts(searchQuery));
+          }
+        })
+        .finally(() => {
+          if (!isCancelled) {
+            setLoading(false);
+          }
+        });
     } else {
       const targetCategory = params.category || styleQuery || "all";
       fetchProductsSafe(targetCategory)
         .then((data) => {
-          setProducts(data || getAllProducts());
+          if (!isCancelled) {
+            setProducts(data || getAllProducts());
+          }
         })
         .catch(() => {
-          setProducts(getAllProducts());
+          if (!isCancelled) {
+            setProducts(getAllProducts());
+          }
         })
         .finally(() => {
-          setLoading(false);
+          if (!isCancelled) {
+            setLoading(false);
+          }
         });
     }
     setActivePage(1);
+
+    return () => {
+      isCancelled = true;
+    };
   }, [params.category, searchQuery, styleQuery]);
 
   // Prevent scroll when filter drawer is open on mobile

@@ -22,6 +22,8 @@ import AuthModal from "./components/Auth/AuthModal";
 import LoginPage from "./components/Auth/LoginPage";
 import AdminDashboard from "./components/Admin/AdminDashboard";
 import AddProduct from "./components/Admin/AddProduct";
+import AdminImport from "./components/Admin/AdminImport";
+import AdminPortNotice from "./components/Admin/AdminPortNotice";
 
 function App() {
   const [cart, setCart] = useState(
@@ -95,6 +97,11 @@ function App() {
     setCart([]);
   };
 
+  // Detect whether frontend is running on the dedicated Admin Port (5174)
+  const isPortalAdmin =
+    (typeof window !== "undefined" && window.location.port === "5174") ||
+    import.meta.env.VITE_PORTAL_TYPE === "admin";
+
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route
@@ -104,34 +111,55 @@ function App() {
             removeFromCart={removeFromCart}
             toast={toast}
             setToast={setToast}
+            isPortalAdmin={isPortalAdmin}
           />
         }
       >
-        <Route path="/" element={<Home />} />
-        <Route path="/products" element={<Products />}>
-          <Route path=":category" element={<Products />}></Route>
-        </Route>
-        <Route
-          path="/products/:category/:id"
-          element={<Product addToCart={addToCart} />}
-        ></Route>
-        <Route
-          path="/cart"
-          element={
-            <Cart
-              cart={cart}
-              decreaseQuantity={decreaseQuantity}
-              increaseQuantity={increaseQuantity}
-              removeFromCart={removeFromCart}
-              clearCart={clearCart}
+        {isPortalAdmin ? (
+          // ==================== PORT 5174: ADMIN MANAGEMENT PORTAL ====================
+          <>
+            <Route path="/" element={<AdminDashboard />} />
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/add-product" element={<AddProduct />} />
+            <Route path="/admin/import" element={<AdminImport />} />
+            <Route path="/products" element={<Products />}>
+              <Route path=":category" element={<Products />} />
+            </Route>
+            <Route path="/products/:category/:id" element={<Product addToCart={addToCart} />} />
+            <Route path="*" element={<AdminDashboard />} />
+          </>
+        ) : (
+          // ==================== PORT 5173: CUSTOMER STOREFRONT (VIEW ONLY) ====================
+          <>
+            <Route path="/" element={<Home />} />
+            <Route path="/products" element={<Products />}>
+              <Route path=":category" element={<Products />} />
+            </Route>
+            <Route
+              path="/products/:category/:id"
+              element={<Product addToCart={addToCart} />}
             />
-          }
-        />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/admin" element={<AdminDashboard />} />
-        <Route path="/admin/add-product" element={<AddProduct />} />
-        <Route path="/underconstruction" element={<UnderConstruction />} />
-        <Route path="*" element={<PageNotFound />}></Route>
+            <Route
+              path="/cart"
+              element={
+                <Cart
+                  cart={cart}
+                  decreaseQuantity={decreaseQuantity}
+                  increaseQuantity={increaseQuantity}
+                  removeFromCart={removeFromCart}
+                  clearCart={clearCart}
+                />
+              }
+            />
+            <Route path="/login" element={<LoginPage />} />
+            {/* On Port 5173, accessing admin routes shows the Admin Port 5174 notice */}
+            <Route path="/admin" element={<AdminPortNotice />} />
+            <Route path="/admin/add-product" element={<AdminPortNotice />} />
+            <Route path="/admin/import" element={<AdminPortNotice />} />
+            <Route path="/underconstruction" element={<UnderConstruction />} />
+            <Route path="*" element={<PageNotFound />} />
+          </>
+        )}
       </Route>
     )
   );
@@ -139,9 +167,9 @@ function App() {
   return <RouterProvider router={router} />;
 }
 
-function Root({ cart, removeFromCart, toast, setToast }) {
+function Root({ cart, removeFromCart, toast, setToast, isPortalAdmin }) {
   const location = useLocation();
-  const isAdminRoute = location.pathname.startsWith("/admin");
+  const isAdminRoute = isPortalAdmin || location.pathname.startsWith("/admin");
 
   return (
     <>

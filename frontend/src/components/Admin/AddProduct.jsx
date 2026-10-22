@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import AdminHeader from "./AdminHeader";
@@ -97,10 +97,109 @@ const AddProduct = () => {
   const [isNew, setIsNew] = useState(true);
   const [isBestSeller, setIsBestSeller] = useState(false);
 
+  // Upload states
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [uploadError, setUploadError] = useState("");
+  const [imageFileName, setImageFileName] = useState("");
+  const [imageFileSize, setImageFileSize] = useState("");
+  const [isDragging, setIsDragging] = useState(false);
+  const [showUrlInput, setShowUrlInput] = useState(false);
+  const fileInputRef = useRef(null);
+
   // Status states
   const [submitting, setSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [createdProduct, setCreatedProduct] = useState(null);
+
+  // Image Upload handler
+  const handleImageFileChange = async (file) => {
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      setUploadError("Please select a valid image file (PNG, JPG, WEBP, GIF, SVG).");
+      return;
+    }
+
+    if (file.size > 15 * 1024 * 1024) {
+      setUploadError(`File is too large (${(file.size / (1024 * 1024)).toFixed(1)}MB). Maximum allowed is 15MB.`);
+      return;
+    }
+
+    setUploadError("");
+    setUploadingImage(true);
+    setImageFileName(file.name);
+    setImageFileSize(`${(file.size / 1024).toFixed(0)} KB`);
+
+    // Immediate local preview via DataURL so UI updates with zero delay
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      const dataUrl = e.target.result;
+      setImage(dataUrl);
+
+      try {
+        const res = await fetch("/api/upload", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            image: dataUrl,
+            fileName: file.name,
+          }),
+        });
+
+        const data = await res.json();
+        if (res.ok && data.success && data.url) {
+          setImage(data.url);
+        } else {
+          console.warn("Server upload warning, retaining local preview:", data.message);
+        }
+      } catch (err) {
+        console.warn("Image upload network error, retaining local preview:", err.message);
+      } finally {
+        setUploadingImage(false);
+      }
+    };
+
+    reader.onerror = () => {
+      setUploadError("Failed to read the selected image file.");
+      setUploadingImage(false);
+    };
+
+    reader.readAsDataURL(file);
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      handleImageFileChange(e.dataTransfer.files[0]);
+    }
+  };
+
+  const handleRemoveImage = () => {
+    setImage("");
+    setImageFileName("");
+    setImageFileSize("");
+    setUploadError("");
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
 
   // Apply a preset template
   const applyTemplate = (t) => {
@@ -113,6 +212,9 @@ const AddProduct = () => {
     setMoq(t.moq.toString());
     setDeliveryDays(t.deliveryDays);
     setImage(t.image);
+    setImageFileName("");
+    setImageFileSize("");
+    setUploadError("");
     setDescription(t.description);
     setFeatures(t.features);
     setSku(`PRD-${Math.floor(100000 + Math.random() * 900000)}`);
@@ -149,6 +251,7 @@ const AddProduct = () => {
     setSubmitting(true);
 
     try {
+      const finalImage = image.trim() || "/introImageCompressed.jfif";
       const payload = {
         title: title.trim(),
         brand: brand.trim(),
@@ -159,8 +262,9 @@ const AddProduct = () => {
         originalPrice: originalPrice ? Number(originalPrice) : Number(price),
         moq: Number(moq) || 1,
         deliveryDays,
-        image: image.trim(),
-        images: [image.trim() || "/product-img-1.png"],
+        image: finalImage,
+        img: finalImage,
+        images: [finalImage],
         description: description.trim(),
         features: features
           .split("\n")
@@ -206,6 +310,12 @@ const AddProduct = () => {
     setMoq("1");
     setDeliveryDays("3–5 Days");
     setImage("");
+    setImageFileName("");
+    setImageFileSize("");
+    setUploadError("");
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
     setDescription("");
     setFeatures("");
     setSelectedSizes(["S", "M", "L", "XL"]);
@@ -467,23 +577,163 @@ const AddProduct = () => {
 
                 {/* Section 3: Media & Images */}
                 <div className="admin-form-card">
-                  <h2 className="admin-card-heading">
-                    <i className="fa-solid fa-image"></i> 3. Product Media & Images
-                  </h2>
+                  <div className="card-heading-with-action">
+                    <h2 className="admin-card-heading" style={{ marginBottom: 0, paddingBottom: 0, borderBottom: "none" }}>
+                      <i className="fa-solid fa-image"></i> 3. Product Media & Images
+                    </h2>
+                    {image && (
+                      <span className="badge-image-ready">
+                        <i className="fa-solid fa-check"></i> Image Attached
+                      </span>
+                    )}
+                  </div>
+                  <hr style={{ margin: "14px 0 18px 0", border: "none", borderTop: "1px solid #f1f5f9" }} />
 
-                  <div className="form-group">
-                    <label htmlFor="prod-image">Image URL</label>
-                    <input
-                      id="prod-image"
-                      type="url"
-                      className="admin-input"
-                      placeholder="https://images.unsplash.com/photo-..."
-                      value={image}
-                      onChange={(e) => setImage(e.target.value)}
-                    />
-                    <small className="form-help-text">
-                      Paste a direct image URL (e.g. from Unsplash or your CDN). You can also click any of the preset cards above.
-                    </small>
+                  {/* Hidden file input for file picker dialog */}
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/png, image/jpeg, image/jpg, image/webp, image/gif, image/svg+xml"
+                    style={{ display: "none" }}
+                    onChange={(e) => {
+                      if (e.target.files && e.target.files[0]) {
+                        handleImageFileChange(e.target.files[0]);
+                      }
+                    }}
+                  />
+
+                  {uploadError && (
+                    <div className="upload-error-alert" role="alert">
+                      <i className="fa-solid fa-circle-exclamation"></i>
+                      <span>{uploadError}</span>
+                    </div>
+                  )}
+
+                  {!image ? (
+                    /* Dropzone when no image is selected */
+                    <div
+                      className={`image-upload-dropzone ${isDragging ? "dropzone-dragging" : ""}`}
+                      onDragOver={handleDragOver}
+                      onDragLeave={handleDragLeave}
+                      onDrop={handleDrop}
+                      onClick={() => fileInputRef.current && fileInputRef.current.click()}
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          fileInputRef.current && fileInputRef.current.click();
+                        }
+                      }}
+                    >
+                      <div className="dropzone-icon-circle">
+                        <i className="fa-solid fa-cloud-arrow-up"></i>
+                      </div>
+                      <div className="dropzone-text-group">
+                        <p className="dropzone-title">
+                          <strong>Click to choose image</strong> or drag & drop photo here
+                        </p>
+                        <p className="dropzone-subtitle">
+                          PNG, JPG, WEBP, GIF, SVG (Up to 15MB)
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        className="btn-upload-action"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          fileInputRef.current && fileInputRef.current.click();
+                        }}
+                      >
+                        <i className="fa-solid fa-folder-open"></i> Upload Product Image
+                      </button>
+                    </div>
+                  ) : (
+                    /* Active Uploaded Image Card */
+                    <div className="uploaded-image-preview-card">
+                      <div className="preview-img-box">
+                        <img
+                          src={image}
+                          alt="Uploaded product preview"
+                          className="preview-img-thumb"
+                          onError={(e) => {
+                            e.currentTarget.onerror = null;
+                            e.currentTarget.src = "/introImageCompressed.jfif";
+                          }}
+                        />
+                        {uploadingImage && (
+                          <div className="preview-img-overlay">
+                            <span className="spinner-small"></span>
+                            <span>Uploading to server...</span>
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="preview-meta-box">
+                        <div className="preview-meta-header">
+                          <span className="file-status-tag">
+                            <i className="fa-solid fa-circle-check"></i> Image Ready
+                          </span>
+                          {imageFileSize && <span className="file-size-tag">{imageFileSize}</span>}
+                        </div>
+                        <p className="preview-filename" title={imageFileName || image}>
+                          {imageFileName || (image.startsWith("data:") ? "Direct Image Upload" : image)}
+                        </p>
+                        <p className="preview-destination-note">
+                          <i className="fa-solid fa-store"></i> Displayed immediately on Customer & Admin catalog
+                        </p>
+
+                        <div className="preview-actions-row">
+                          <button
+                            type="button"
+                            className="btn-change-image"
+                            onClick={() => fileInputRef.current && fileInputRef.current.click()}
+                            disabled={uploadingImage}
+                          >
+                            <i className="fa-solid fa-arrow-rotate-right"></i> Choose Different Image
+                          </button>
+                          <button
+                            type="button"
+                            className="btn-remove-image"
+                            onClick={handleRemoveImage}
+                            disabled={uploadingImage}
+                          >
+                            <i className="fa-solid fa-trash-can"></i> Remove
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Manual URL Optional Toggle */}
+                  <div className="url-toggle-wrapper">
+                    <button
+                      type="button"
+                      className="btn-url-toggle"
+                      onClick={() => setShowUrlInput(!showUrlInput)}
+                    >
+                      <i className={`fa-solid ${showUrlInput ? "fa-chevron-up" : "fa-link"}`}></i>{" "}
+                      {showUrlInput ? "Hide manual image URL option" : "Or enter an image URL manually"}
+                    </button>
+
+                    {showUrlInput && (
+                      <div className="url-input-reveal">
+                        <input
+                          id="prod-image-url"
+                          type="text"
+                          className="admin-input"
+                          placeholder="https://images.unsplash.com/... or /uploads/..."
+                          value={image}
+                          onChange={(e) => {
+                            setImage(e.target.value);
+                            setImageFileName("");
+                            setImageFileSize("");
+                          }}
+                        />
+                        <small className="form-help-text">
+                          You can paste an external URL or static path. Recommended: use the upload button above for local computer files.
+                        </small>
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -603,10 +853,14 @@ const AddProduct = () => {
                     <img
                       src={
                         image ||
-                        "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80"
+                        "/introImageCompressed.jfif"
                       }
                       alt={title || "Product Preview"}
                       className="mock-img"
+                      onError={(e) => {
+                        e.currentTarget.onerror = null;
+                        e.currentTarget.src = "/introImageCompressed.jfif";
+                      }}
                     />
                     {discountPct > 0 && (
                       <span className="mock-discount-pill">-{discountPct}%</span>
