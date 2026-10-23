@@ -1,6 +1,76 @@
 // Curated catalog featuring Corporate Gifts, Drinkware, and Apparel
 export const PRODUCTS = [
   {
+    id: 1120680,
+    sku: "ATL-ALU-750",
+    brand: "Atelier Alpine",
+    title: "Atelier Alpine Pure Aluminium Water Bottle 750ml",
+    price: 349.0,
+    originalPrice: 599.0,
+    discountPercent: 42,
+    category: "Bottles",
+    subcategory: "Aluminium",
+    style: "corporate",
+    rating: { rate: 4.9, count: 184 },
+    isNew: true,
+    isBestSeller: true,
+    moq: 25,
+    deliveryDays: "2–4 Days",
+    unitLabel: "piece",
+    priceNote: "Price at MOQ of 25 units · Laser engraving ready",
+    description:
+      "Ultra-lightweight food-grade pure aluminium single-wall sports and corporate hydration bottle with leak-proof sports screw cap and carabiner clip. Specially designed for high-precision laser engraving company logos with zero fading.",
+    features: [
+      "100% Pure food-grade aluminium body with protective BPA-free inner lining",
+      "Leak-proof screw cap with tactical carabiner clip included",
+      "Featherlight 145g empty weight, highly durable and shatter-proof",
+      "Precision laser engraving ready for corporate and team logos",
+      "Official B2B GST tax invoice provided"
+    ],
+    specs: {
+      "Brand": "Atelier Alpine",
+      "Model SKU": "ATL-ALU-750",
+      "Item Code": "#1120680",
+      "Category": "Bottles",
+      "Subcategory": "Aluminium",
+      "Capacity": "750 ml / 25 oz",
+      "Material": "Pure Grade-1 Aluminium Body + Food Safe Coating",
+      "Weight": "145 grams",
+      "Packaging": "Individual eco-friendly kraft gift box with protective inserts",
+      "GST / Tax": "18% GST Applicable (Official B2B GST Tax Invoice provided)"
+    },
+    tierPricing: [
+      { minQty: 1, maxQty: 24, label: "Sample Order (1–24 units)", unitPrice: 420.0 },
+      { minQty: 25, maxQty: 99, label: "Corporate Tier (25–99 units MOQ)", unitPrice: 349.0 },
+      { minQty: 100, maxQty: 499, label: "Bulk Tier (100–499 units)", unitPrice: 299.0 },
+      { minQty: 500, maxQty: 9999, label: "Enterprise Volume (500+ units)", unitPrice: 259.0 }
+    ],
+    brandingOptions: [
+      { id: "none", name: "Plain Bottle (No Logo)", pricePerUnit: 0 },
+      { id: "laser", name: "Permanent Laser Engraved Branding", pricePerUnit: 30 },
+      { id: "uv", name: "Digital UV Full-Color Logo", pricePerUnit: 35 },
+      { id: "screen", name: "Silk Screen Printing (Single Color)", pricePerUnit: 15 }
+    ],
+    trustSignals: [
+      "GST B2B Invoice",
+      "Pan India / Global Delivery",
+      "Laser Engraving Ready",
+      "Free Sample on Bulk Orders"
+    ],
+    colors: [
+      { name: "Brushed Silver Aluminium", hex: "#e2e8f0" },
+      { name: "Matte Forest Green", hex: "#244b3c" },
+      { name: "Executive Midnight Black", hex: "#0f172a" }
+    ],
+    sizes: ["750ml Standard"],
+    image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=800&q=80",
+    img: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=800&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
     id: 1120677,
     sku: "UGDB65",
     brand: "Urban Gear",

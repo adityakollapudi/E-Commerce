@@ -1,13 +1,20 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { GIFTING_CATEGORIES } from "../../data/navigationData";
+import { useSiteContent } from "../../context/SiteContentContext";
+import { GIFTING_CATEGORIES as FALLBACK_CATEGORIES } from "../../data/navigationData";
 
 const GiftingCategoriesMegaMenu = ({ isOpen, onClose, onOpenBulkModal }) => {
-  const [activeCategoryId, setActiveCategoryId] = useState(GIFTING_CATEGORIES[0].id);
+  const { giftingCategories } = useSiteContent();
+  const categories = Array.isArray(giftingCategories) && giftingCategories.length > 0
+    ? giftingCategories
+    : FALLBACK_CATEGORIES;
+
+  const [activeCategoryId, setActiveCategoryId] = useState(categories[0]?.id || "bags");
 
   const activeCategory =
-    GIFTING_CATEGORIES.find((cat) => cat.id === activeCategoryId) ||
-    GIFTING_CATEGORIES[0];
+    categories.find((cat) => cat.id === activeCategoryId) ||
+    categories[0] ||
+    FALLBACK_CATEGORIES[0];
 
   return (
     <div
@@ -16,18 +23,18 @@ const GiftingCategoriesMegaMenu = ({ isOpen, onClose, onOpenBulkModal }) => {
       aria-label="Gifting Categories Mega Menu"
     >
       <div className="mega-menu-inner">
-        {/* Left Column: 10 Main Categories List */}
+        {/* Left Column: Main Categories List */}
         <div className="mega-main-categories-list" role="tablist" aria-label="Main Categories">
           <div className="mega-sidebar-header">
             <span className="mega-sidebar-tag">
-              <i className="fa-solid fa-gift"></i> 10 Gift Categories
+              <i className="fa-solid fa-gift"></i> {categories.length} Gift Categories
             </span>
             <span className="mega-sidebar-hint">Hover to preview</span>
           </div>
 
           <ul className="mega-cat-nav-items">
-            {GIFTING_CATEGORIES.map((cat, index) => {
-              const isActive = cat.id === activeCategoryId;
+            {categories.map((cat, index) => {
+              const isActive = cat.id === activeCategory.id;
               return (
                 <li key={cat.id} role="presentation">
                   <button
@@ -95,7 +102,7 @@ const GiftingCategoriesMegaMenu = ({ isOpen, onClose, onOpenBulkModal }) => {
             </div>
 
             <Link
-              to={`/products?search=${encodeURIComponent(activeCategory.name)}`}
+              to={`/products?category=${encodeURIComponent(activeCategory.name)}`}
               onClick={onClose}
               className="btn-mega-view-all"
             >
@@ -106,16 +113,16 @@ const GiftingCategoriesMegaMenu = ({ isOpen, onClose, onOpenBulkModal }) => {
 
           {/* Subcategories Label */}
           <div className="mega-subcat-section-title">
-            <span>Available Subcategories ({activeCategory.subcategories.length})</span>
+            <span>Available Subcategories ({(activeCategory.subcategories || []).length})</span>
             <span className="subcat-hint">Click any subcategory to explore items</span>
           </div>
 
           {/* Subcategories Grid */}
           <div className="mega-subcat-grid">
-            {activeCategory.subcategories.map((sub, idx) => (
+            {(activeCategory.subcategories || []).map((sub, idx) => (
               <Link
-                key={idx}
-                to={`/products?search=${encodeURIComponent(sub.query)}`}
+                key={sub.id || idx}
+                to={`/products?category=${encodeURIComponent(activeCategory.name)}&subcategory=${encodeURIComponent(sub.name)}`}
                 onClick={onClose}
                 className="mega-subcat-card"
               >
@@ -139,8 +146,8 @@ const GiftingCategoriesMegaMenu = ({ isOpen, onClose, onOpenBulkModal }) => {
                 <i className="fa-solid fa-wand-magic-sparkles"></i>
               </span>
               <div className="bottom-cta-text">
-                <strong>Need Custom Corporate Branding on {activeCategory.name}?</strong>
-                <p>We provide Screen Printing, Laser Engraving & Digital UV logo placement with Pan-India dispatch.</p>
+                <strong>{activeCategory.brandingPromo?.title || `Need Custom Corporate Branding on ${activeCategory.name}?`}</strong>
+                <p>{activeCategory.brandingPromo?.text || "We provide Screen Printing, Laser Engraving & Digital UV logo placement with Pan-India dispatch."}</p>
               </div>
             </div>
 
@@ -153,7 +160,7 @@ const GiftingCategoriesMegaMenu = ({ isOpen, onClose, onOpenBulkModal }) => {
                 }}
                 className="btn-mega-bulk-quote"
               >
-                <i className="fa-solid fa-file-invoice-dollar"></i> Get Bulk Quotation
+                <i className="fa-solid fa-file-invoice-dollar"></i> {activeCategory.brandingPromo?.buttonText || "Get Bulk Quotation"}
               </button>
             </div>
           </div>

@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
-import { BRANDED_GIFTING } from "../../data/navigationData";
+import { useSiteContent } from "../../context/SiteContentContext";
 
 const BrandedGiftingDropdown = ({ isOpen, onClose }) => {
+  const { brands } = useSiteContent();
+
   return (
     <div
       className={`mega-menu-dropdown branded-dropdown ${isOpen ? "is-visible" : ""}`}
@@ -16,7 +18,7 @@ const BrandedGiftingDropdown = ({ isOpen, onClose }) => {
             </span>
             <h3>Branded Corporate Gifts & Merchandise</h3>
             <p>
-              Direct corporate institutional pricing on India’s leading 22+ premium lifestyle, tech, luggage, and luxury brands with 100% manufacturer warranty.
+              Direct corporate institutional pricing on India’s leading {brands.length}+ premium lifestyle, tech, luggage, and luxury brands with 100% manufacturer warranty.
             </p>
           </div>
 
@@ -32,11 +34,11 @@ const BrandedGiftingDropdown = ({ isOpen, onClose }) => {
           </div>
         </div>
 
-        {/* Brands Grid (22 Brands from PDF) */}
+        {/* Brands Grid */}
         <div className="brands-showcase-grid">
-          {BRANDED_GIFTING.map((brand, idx) => (
+          {brands.map((brand) => (
             <Link
-              key={idx}
+              key={brand.id || brand.name}
               to={`/products?search=${encodeURIComponent(brand.name)}`}
               onClick={onClose}
               className="brand-card-item"

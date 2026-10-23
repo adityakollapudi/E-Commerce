@@ -1,0 +1,888 @@
+{
+  "announcement": {
+    "badge": "🎁 CORPORATE & FESTIVE GIFTING",
+    "text": "Custom logo branding on 10,000+ items · Free digital sample on bulk orders · Pan-India delivery.",
+    "downloadText": "Download Catalogues",
+    "enquiryText": "Enquiry for Bulk Orders"
+  },
+  "brands": [
+    {
+      "id": "brand-adidas",
+      "name": "Adidas",
+      "category": "Apparel & Sport",
+      "tag": "Global",
+      "description": "",
+      "link": ""
+    },
+    {
+      "id": "brand-reebok",
+      "name": "Reebok",
+      "category": "Apparel & Fitness",
+      "tag": "Sport",
+      "description": "",
+      "link": ""
+    },
+    {
+      "id": "brand-puma",
+      "name": "Puma",
+      "category": "Sportswear",
+      "tag": "Top Rated",
+      "description": "",
+      "link": ""
+    },
+    {
+      "id": "brand-marks-spencer",
+      "name": "Marks & Spencer’s",
+      "category": "Luxury Apparel & Gifts",
+      "tag": "Luxury",
+      "description": "",
+      "link": ""
+    },
+    {
+      "id": "brand-us-polo",
+      "name": "U S Polo",
+      "category": "Premium Polos & Bags",
+      "tag": "Trending",
+      "description": "",
+      "link": ""
+    },
+    {
+      "id": "brand-rare-rabbit",
+      "name": "Rare Rabbit",
+      "category": "Designer Apparel",
+      "tag": "Exclusive",
+      "description": "",
+      "link": ""
+    },
+    {
+      "id": "brand-jack-jones",
+      "name": "Jack & Jones",
+      "category": "Casual & Smart Wear",
+      "tag": "Youth",
+      "description": "",
+      "link": ""
+    },
+    {
+      "id": "brand-scott",
+      "name": "Scott",
+      "category": "Eyewear & Sport",
+      "tag": "Outdoor",
+      "description": "",
+      "link": ""
+    },
+    {
+      "id": "brand-american-tourister",
+      "name": "American Tourister",
+      "category": "Luggage & Backpacks",
+      "tag": "Travel",
+      "description": "",
+      "link": ""
+    },
+    {
+      "id": "brand-vip",
+      "name": "VIP",
+      "category": "Travel & Luggage",
+      "tag": "Legacy",
+      "description": "",
+      "link": ""
+    },
+    {
+      "id": "brand-sky-bags",
+      "name": "Sky Bags",
+      "category": "Luggage & Daypacks",
+      "tag": "Bestseller",
+      "description": "",
+      "link": ""
+    },
+    {
+      "id": "brand-swiss-military",
+      "name": "Swiss Military",
+      "category": "Executive Tech & Gear",
+      "tag": "Corporate",
+      "description": "",
+      "link": ""
+    },
+    {
+      "id": "brand-safari-bags",
+      "name": "Safari Bags",
+      "category": "Travel Bags & Trolleys",
+      "tag": "Durable",
+      "description": "",
+      "link": ""
+    },
+    {
+      "id": "brand-borosil",
+      "name": "Borosil",
+      "category": "Glassware & Kitchen",
+      "tag": "Premium Glass",
+      "description": "",
+      "link": ""
+    },
+    {
+      "id": "brand-milton",
+      "name": "Milton",
+      "category": "Insulated Bottles & Flasks",
+      "tag": "Household",
+      "description": "",
+      "link": ""
+    },
+    {
+      "id": "brand-cello",
+      "name": "Cello",
+      "category": "Drinkware & Containers",
+      "tag": "Trusted",
+      "description": "",
+      "link": ""
+    },
+    {
+      "id": "brand-portronics",
+      "name": "Portronics",
+      "category": "Smart Audio & Gadgets",
+      "tag": "Gadgets",
+      "description": "",
+      "link": ""
+    },
+    {
+      "id": "brand-zebronics",
+      "name": "Zebronics",
+      "category": "Speakers & Electronics",
+      "tag": "Value",
+      "description": "",
+      "link": ""
+    },
+    {
+      "id": "brand-jbl",
+      "name": "JBL",
+      "category": "Pro Audio & Speakers",
+      "tag": "Signature Sound",
+      "description": "",
+      "link": ""
+    },
+    {
+      "id": "brand-boat",
+      "name": "boAt",
+      "category": "Earwear & Speakers",
+      "tag": "Top Bestseller",
+      "description": "",
+      "link": ""
+    },
+    {
+      "id": "brand-noise",
+      "name": "Noise",
+      "category": "Smart Watches & Audio",
+      "tag": "Wearables",
+      "description": "",
+      "link": ""
+    },
+    {
+      "id": "brand-wildcraft",
+      "name": "Wildcraft",
+      "category": "Outdoor Packs & Jackets",
+      "tag": "Adventure",
+      "description": "",
+      "link": ""
+    },
+    {
+      "id": "brand-cross",
+      "name": "Cross",
+      "category": "Luxury Pens & Leather",
+      "tag": "Heritage",
+      "description": "",
+      "link": ""
+    }
+  ],
+  "aboutUs": {
+    "kicker": "Corporate Partnership",
+    "title": "Gifts That Build Real Connections.",
+    "lead": "We believe corporate gifting shouldn’t feel like cheap disposable giveaways. A truly thoughtful gift strengthens relationships, honors team milestones, and leaves an enduring impression.",
+    "paragraphs": [
+      "Atelier Gifting Solutions partners directly with enterprises, HR directors, and event coordinators across India. From temperature-controlled vacuum drinkware and handcrafted diaries to authorized audio tech from JBL, boAt, and Cross, we curate collections that recipients genuinely cherish and use every single day."
+    ],
+    "image": "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=1000&q=80",
+    "captionYear": "ATELIER B2B LAB",
+    "captionDetail": "Custom Gift Packaging & Precision Engraving",
+    "pillars": [
+      {
+        "id": "pillar-1",
+        "icon": "fa-solid fa-stamp",
+        "title": "Flawless Brand Co-Branding",
+        "description": "Digital UV color printing, high-precision laser engraving, and blind debossing aligned with your brand guidelines."
+      },
+      {
+        "id": "pillar-2",
+        "icon": "fa-solid fa-truck-ramp-box",
+        "title": "Pan-India Direct-to-Door Fulfillment",
+        "description": "Send 50 or 5,000 gifts seamlessly to consolidated headquarters or individually to remote team members across India."
+      }
+    ],
+    "buttonText": "Explore Corporate Catalog",
+    "buttonLink": "/products"
+  },
+  "services": [
+    {
+      "id": "corporate-gifting",
+      "title": "Corporate Gifting",
+      "subtitle": "Custom Logo & Executive Hampers",
+      "description": "Premium curated gift hampers, executive tech kits, and personalized corporate gifts with official B2B GST tax billing.",
+      "icon": "fa-solid fa-briefcase",
+      "tag": "High Volume",
+      "link": "/products?search=Corporate"
+    },
+    {
+      "id": "employee-gifting",
+      "title": "Employee Gifting",
+      "subtitle": "Joining Kits & Rewards",
+      "description": "Welcome day one kits, work anniversary mementos, quarterly excellence rewards, and festive bonuses.",
+      "icon": "fa-solid fa-users",
+      "tag": "HR Fav",
+      "link": "/products?search=Employee"
+    },
+    {
+      "id": "return-gifting",
+      "title": "Return Gifting",
+      "subtitle": "Weddings & Celebrations",
+      "description": "Memorable return gifts and bespoke packaging for weddings, housewarmings, anniversaries, and family celebrations.",
+      "icon": "fa-solid fa-gift",
+      "tag": "Custom Packaging",
+      "link": "/products?search=Gifting"
+    },
+    {
+      "id": "conference-events-gifting",
+      "title": "Conference/Events Gifting",
+      "subtitle": "Summits & Delegate Swag",
+      "description": "Custom delegate swag bags, keynote speaker mementos, seminar notebooks, lanyards, and event merchandise.",
+      "icon": "fa-solid fa-calendar-check",
+      "tag": "Quick Turnaround",
+      "link": "/products?search=Event"
+    }
+  ],
+  "festiveGifts": [
+    {
+      "id": "diwali-gifting",
+      "title": "Diwali Gifting",
+      "subtitle": "Festival of Lights & Prosperity",
+      "description": "Artisanal dry fruit hampers, handcrafted brass and silver diyas, luxury confectionery, and custom-branded corporate hampers.",
+      "icon": "fa-solid fa-sun",
+      "badge": "Festive Star",
+      "items": [
+        "Gourmet Dry Fruit Boxes",
+        "Silver Coins & Idols",
+        "Artisanal Brass Diyas",
+        "Scented Soy Candles",
+        "Custom Sweet Hampers"
+      ],
+      "link": "/products?search=Diwali"
+    },
+    {
+      "id": "new-year-gifting",
+      "title": "New Year Gifting",
+      "subtitle": "Welcome Success & Fresh Milestones",
+      "description": "Premium executive yearly planners, desk calendars, smart desk organizers, wireless charging mats, and motivational gift sets.",
+      "icon": "fa-solid fa-sparkles",
+      "badge": "Executive",
+      "items": [
+        "Yearly Planners 2026",
+        "Perpetual Wooden Calendars",
+        "Smart Tech Hamper Sets",
+        "Executive Pen & Diary Combos",
+        "Motivational Desk Blocks"
+      ],
+      "link": "/products?search=New+Year"
+    },
+    {
+      "id": "all-festival-occasion",
+      "title": "All Festival & Occasion Gifting",
+      "subtitle": "Year-Round Celebrations & Milestones",
+      "description": "Tailored gift collections for Holi, Eid, Christmas, Founders' Day, Women's Day, and Annual Corporate Day.",
+      "icon": "fa-solid fa-gift",
+      "badge": "Year-Round",
+      "items": [
+        "Holi Organic Color Sets",
+        "Christmas Plum Cake Hampers",
+        "Eid Celebration Boxes",
+        "Women's Day Special Kits",
+        "Milestone Trophy & Awards"
+      ],
+      "link": "/products?search=Festival"
+    }
+  ],
+  "contactInfo": {
+    "phonePrimary": "+91 98765 43210",
+    "phoneSecondary": "+91 80 4123 4567",
+    "whatsapp": "+91 98765 43210",
+    "emailGeneral": "contact@ateliergifts.com",
+    "emailBulk": "bulkorders@ateliergifts.com",
+    "addressLine1": "Atelier Gifting Solutions HQ",
+    "addressLine2": "4th Floor, Prestige Meridian, M.G. Road",
+    "city": "Bengaluru, Karnataka - 560001",
+    "workingHours": "Monday – Saturday: 9:30 AM – 7:00 PM IST",
+    "turnaroundNote": "Pan-India express delivery with GST tax invoices provided on all bulk corporate dispatches."
+  },
+  "giftingCategories": [
+    {
+      "id": "bags",
+      "name": "Bags",
+      "icon": "fa-solid fa-briefcase",
+      "badge": "Popular",
+      "description": "Durable travel luggage, executive backpacks, eco jute bags, and stylish everyday totes for corporate gifting.",
+      "leadTime": "3–5 Days Turnaround",
+      "highlightImg": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&auto=format&fit=crop&q=80",
+      "brandingPromo": {
+        "title": "Need Custom Corporate Branding on Bags?",
+        "text": "We provide Screen Printing, Laser Engraving & Digital UV logo placement with Pan-India dispatch.",
+        "buttonText": "Get Bulk Quotation"
+      },
+      "subcategories": [
+        {
+          "id": "sub-bags-1",
+          "name": "Jute Bag",
+          "query": "Jute Bag",
+          "icon": "fa-solid fa-leaf"
+        },
+        {
+          "id": "sub-bags-2",
+          "name": "Canva Bags",
+          "query": "Canva Bags",
+          "icon": "fa-solid fa-bag-shopping"
+        },
+        {
+          "id": "sub-bags-3",
+          "name": "Backpack",
+          "query": "Backpack",
+          "icon": "fa-solid fa-shield-halved"
+        },
+        {
+          "id": "sub-bags-4",
+          "name": "Duffle Bag",
+          "query": "Duffle Bag",
+          "icon": "fa-solid fa-suitcase-rolling"
+        },
+        {
+          "id": "sub-bags-5",
+          "name": "Gym Bag",
+          "query": "Gym Bag",
+          "icon": "fa-solid fa-dumbbell"
+        },
+        {
+          "id": "sub-bags-6",
+          "name": "Trolly Bag",
+          "query": "Trolly Bag",
+          "icon": "fa-solid fa-plane-departure"
+        },
+        {
+          "id": "sub-bags-7",
+          "name": "Women Hand Bags",
+          "query": "Women Hand Bags",
+          "icon": "fa-solid fa-gem"
+        },
+        {
+          "id": "sub-bags-8",
+          "name": "Carry Bags",
+          "query": "Carry Bags",
+          "icon": "fa-solid fa-box-archive"
+        }
+      ]
+    },
+    {
+      "id": "bottles",
+      "name": "Bottles",
+      "icon": "fa-solid fa-bottle-water",
+      "badge": "Best Seller",
+      "description": "Ergonomic temperature-retention flasks, eco-friendly bamboo bottles, and pure copper vessels with custom laser engraving.",
+      "leadTime": "Laser Engraved in 48 Hours",
+      "highlightImg": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=600&auto=format&fit=crop&q=80",
+      "brandingPromo": {
+        "title": "Laser Engrave Your Company Logo on Bottles",
+        "text": "Permanent precision fiber laser etching with zero fade. Food-grade certified bottles.",
+        "buttonText": "Request Engraving Sample"
+      },
+      "subcategories": [
+        {
+          "id": "sub-bottles-1",
+          "name": "Aluminium",
+          "query": "Aluminium Bottle",
+          "icon": "fa-solid fa-flask"
+        },
+        {
+          "id": "sub-bottles-2",
+          "name": "Stainless Steel",
+          "query": "Stainless Steel Bottle",
+          "icon": "fa-solid fa-shield"
+        },
+        {
+          "id": "sub-bottles-3",
+          "name": "Single & Double Insulated",
+          "query": "Insulated Bottle",
+          "icon": "fa-solid fa-temperature-arrow-down"
+        },
+        {
+          "id": "sub-bottles-4",
+          "name": "Glass Bottles",
+          "query": "Glass Bottle",
+          "icon": "fa-solid fa-wine-bottle"
+        },
+        {
+          "id": "sub-bottles-5",
+          "name": "Bamboo",
+          "query": "Bamboo Bottle",
+          "icon": "fa-solid fa-tree"
+        },
+        {
+          "id": "sub-bottles-6",
+          "name": "Copper",
+          "query": "Copper Bottle",
+          "icon": "fa-solid fa-ring"
+        }
+      ]
+    },
+    {
+      "id": "mugs",
+      "name": "Mugs",
+      "icon": "fa-solid fa-mug-hot",
+      "badge": "Trending",
+      "description": "Premium ceramic desk mugs with natural cork bases, insulated travel tumblers, and double-wall temperature keepers.",
+      "leadTime": "UV Logo Print Available",
+      "highlightImg": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600&auto=format&fit=crop&q=80",
+      "brandingPromo": {
+        "title": "Full Wrap UV Color Printing on Mugs",
+        "text": "Vibrant CMYK digital printing on ceramic, cork base & metal coffee tumblers.",
+        "buttonText": "Get Mug Mockup"
+      },
+      "subcategories": [
+        {
+          "id": "sub-mugs-1",
+          "name": "Ceramic Mugs",
+          "query": "Ceramic Mug",
+          "icon": "fa-solid fa-mug-hot"
+        },
+        {
+          "id": "sub-mugs-2",
+          "name": "Travel Tumblers",
+          "query": "Travel Tumbler",
+          "icon": "fa-solid fa-temperature-arrow-down"
+        },
+        {
+          "id": "sub-mugs-3",
+          "name": "Cork Base Mugs",
+          "query": "Cork Base Mug",
+          "icon": "fa-solid fa-mug-saucer"
+        },
+        {
+          "id": "sub-mugs-4",
+          "name": "Stainless Steel Mugs",
+          "query": "Steel Mug",
+          "icon": "fa-solid fa-shield"
+        },
+        {
+          "id": "sub-mugs-5",
+          "name": "Glass Coffee Mugs",
+          "query": "Glass Mug",
+          "icon": "fa-solid fa-whiskey-glass"
+        },
+        {
+          "id": "sub-mugs-6",
+          "name": "Bamboo Mugs",
+          "query": "Bamboo Mug",
+          "icon": "fa-solid fa-leaf"
+        }
+      ]
+    },
+    {
+      "id": "key-chains",
+      "name": "Key Chains",
+      "icon": "fa-solid fa-key",
+      "badge": "Budget Friendly",
+      "description": "Cost-effective promotional giveaways, handcrafted genuine leather key rings, and engraved metal key chains.",
+      "leadTime": "MOQ: 50 Units",
+      "highlightImg": "https://images.unsplash.com/photo-1589578527966-fdac0f44566c?w=600&auto=format&fit=crop&q=80",
+      "brandingPromo": {
+        "title": "High-Volume Event Keychains",
+        "text": "Custom metal cast, leather debossing, or soft PVC keyrings delivered in 4-6 business days.",
+        "buttonText": "Bulk Price Calculator"
+      },
+      "subcategories": [
+        {
+          "id": "sub-keys-1",
+          "name": "Rubber",
+          "query": "Rubber Key Chain",
+          "icon": "fa-solid fa-shapes"
+        },
+        {
+          "id": "sub-keys-2",
+          "name": "Plastic",
+          "query": "Plastic Key Chain",
+          "icon": "fa-solid fa-cube"
+        },
+        {
+          "id": "sub-keys-3",
+          "name": "Metal",
+          "query": "Metal Key Chain",
+          "icon": "fa-solid fa-wrench"
+        },
+        {
+          "id": "sub-keys-4",
+          "name": "Leather",
+          "query": "Leather Key Chain",
+          "icon": "fa-solid fa-tag"
+        },
+        {
+          "id": "sub-keys-5",
+          "name": "Wooden",
+          "query": "Wooden Key Chain",
+          "icon": "fa-solid fa-tree"
+        }
+      ]
+    },
+    {
+      "id": "pen",
+      "name": "Pen",
+      "icon": "fa-solid fa-pen-nib",
+      "badge": "Executive",
+      "description": "Sleek metal rollerballs, wooden gift pens, touch stylus pens, and luxury presentation box sets for signing milestones.",
+      "leadTime": "Individual Name Engraving",
+      "highlightImg": "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?w=600&auto=format&fit=crop&q=80",
+      "brandingPromo": {
+        "title": "Executive Pen Sets with Individual Name Engraving",
+        "text": "Add unique employee or client names alongside your corporate crest. Presented in velvet gift cases.",
+        "buttonText": "View Pen Sets"
+      },
+      "subcategories": [
+        {
+          "id": "sub-pen-1",
+          "name": "Rubber",
+          "query": "Rubber Pen",
+          "icon": "fa-solid fa-pen"
+        },
+        {
+          "id": "sub-pen-2",
+          "name": "Plastic",
+          "query": "Plastic Pen",
+          "icon": "fa-solid fa-pencil"
+        },
+        {
+          "id": "sub-pen-3",
+          "name": "Metal",
+          "query": "Metal Pen",
+          "icon": "fa-solid fa-pen-fancy"
+        },
+        {
+          "id": "sub-pen-4",
+          "name": "Leather",
+          "query": "Leather Pen",
+          "icon": "fa-solid fa-marker"
+        },
+        {
+          "id": "sub-pen-5",
+          "name": "Wooden",
+          "query": "Wooden Pen",
+          "icon": "fa-solid fa-feather"
+        }
+      ]
+    },
+    {
+      "id": "diary-notebooks",
+      "name": "Diary/Note Books",
+      "icon": "fa-solid fa-book-bookmark",
+      "badge": "Corporate Staple",
+      "description": "Executive dated diaries, soft-touch notebooks, and multi-functional organizers with magnetic clasps and pen loops.",
+      "leadTime": "Custom Debossed Logo",
+      "highlightImg": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80",
+      "brandingPromo": {
+        "title": "Bespoke Hardcover & Leatherette Diaries",
+        "text": "Custom watermark pages, full-color inserts, ribbon markers, and luxury foil stamping.",
+        "buttonText": "Get Diary Catalog"
+      },
+      "subcategories": [
+        {
+          "id": "sub-diary-1",
+          "name": "Spiral",
+          "query": "Spiral Notebook",
+          "icon": "fa-solid fa-bars-staggered"
+        },
+        {
+          "id": "sub-diary-2",
+          "name": "Diaries",
+          "query": "Executive Diary",
+          "icon": "fa-solid fa-book"
+        },
+        {
+          "id": "sub-diary-3",
+          "name": "Notebooks",
+          "query": "Leather Notebook",
+          "icon": "fa-solid fa-book-open"
+        }
+      ]
+    },
+    {
+      "id": "apparels",
+      "name": "Apparels",
+      "icon": "fa-solid fa-shirt",
+      "badge": "Team Wear",
+      "description": "Premium 100% bio-wash cotton round necks, breathable polo collared t-shirts, all-weather jackets, and branded hoodies.",
+      "leadTime": "Embroidery & Screen Print",
+      "highlightImg": "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=600&auto=format&fit=crop&q=80",
+      "brandingPromo": {
+        "title": "Company Swag & Uniforms with High-Density Embroidery",
+        "text": "High-grade 220+ GSM combed cotton, custom tags, and individual size packing.",
+        "buttonText": "Request Sizing Kit"
+      },
+      "subcategories": [
+        {
+          "id": "sub-apparel-1",
+          "name": "Round Neck",
+          "query": "Round Neck T-Shirt",
+          "icon": "fa-solid fa-shirt"
+        },
+        {
+          "id": "sub-apparel-2",
+          "name": "POLO T-Shirt",
+          "query": "POLO T-Shirt",
+          "icon": "fa-solid fa-vest"
+        },
+        {
+          "id": "sub-apparel-3",
+          "name": "Jackets",
+          "query": "Corporate Jacket",
+          "icon": "fa-solid fa-vest-patches"
+        },
+        {
+          "id": "sub-apparel-4",
+          "name": "Hoodies",
+          "query": "Warm Hoodie",
+          "icon": "fa-solid fa-mitten"
+        },
+        {
+          "id": "sub-apparel-5",
+          "name": "Rain Coats",
+          "query": "Rain Coat",
+          "icon": "fa-solid fa-cloud-showers-heavy"
+        }
+      ]
+    },
+    {
+      "id": "electrical-gadgets",
+      "name": "Electrical Gadgets",
+      "icon": "fa-solid fa-bolt-lightning",
+      "badge": "Tech Gifts",
+      "description": "Fast-charging power banks, wireless Bluetooth speakers, smart fitness wearables, and noise-cancelling headphones.",
+      "leadTime": "1-Year Brand Warranty",
+      "highlightImg": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&auto=format&fit=crop&q=80",
+      "brandingPromo": {
+        "title": "Certified Tech Gifts with LED Backlit Branding",
+        "text": "CE & RoHS compliant, battery tested with warranty cards included in every box.",
+        "buttonText": "Corporate Tech Packs"
+      },
+      "subcategories": [
+        {
+          "id": "sub-tech-1",
+          "name": "Bluetooth Speakers",
+          "query": "Bluetooth Speakers",
+          "icon": "fa-solid fa-volume-high"
+        },
+        {
+          "id": "sub-tech-2",
+          "name": "Smart watches",
+          "query": "Smart watch",
+          "icon": "fa-solid fa-stopwatch"
+        },
+        {
+          "id": "sub-tech-3",
+          "name": "Headphone/Headset",
+          "query": "Headphone Headset",
+          "icon": "fa-solid fa-headphones"
+        },
+        {
+          "id": "sub-tech-4",
+          "name": "Power Banks",
+          "query": "Power Bank",
+          "icon": "fa-solid fa-battery-full"
+        }
+      ]
+    },
+    {
+      "id": "home-applications",
+      "name": "Home Applications",
+      "icon": "fa-solid fa-house-chimney",
+      "badge": "Lifestyle",
+      "description": "Insulated stainless steel lunch boxes, elegant dinnerware sets, silent designer wall clocks, and modern kitchenware.",
+      "leadTime": "Gift Box Packaging",
+      "highlightImg": "https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?w=600&auto=format&fit=crop&q=80",
+      "brandingPromo": {
+        "title": "Family & Employee Home Essentials",
+        "text": "Thoughtful household gifts from Borosil, Milton, and Cello with custom packaging sleeves.",
+        "buttonText": "Browse Home Gifts"
+      },
+      "subcategories": [
+        {
+          "id": "sub-home-1",
+          "name": "Lunch Box",
+          "query": "Lunch Box",
+          "icon": "fa-solid fa-box"
+        },
+        {
+          "id": "sub-home-2",
+          "name": "Dinner set",
+          "query": "Dinner set",
+          "icon": "fa-solid fa-utensils"
+        },
+        {
+          "id": "sub-home-3",
+          "name": "Wall Clocks",
+          "query": "Wall Clocks",
+          "icon": "fa-regular fa-clock"
+        },
+        {
+          "id": "sub-home-4",
+          "name": "Kitchen Products",
+          "query": "Kitchen Products",
+          "icon": "fa-solid fa-kitchen-set"
+        }
+      ]
+    },
+    {
+      "id": "office-utilities",
+      "name": "Office Utilities",
+      "icon": "fa-solid fa-desktop",
+      "badge": "Workplace",
+      "description": "Multifunctional desk organizers, sticky note pads, non-slip mouse pads, perpetual desk calendars, and luxury tabletop items.",
+      "leadTime": "Desk-Ready Bundles",
+      "highlightImg": "https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=600&auto=format&fit=crop&q=80",
+      "brandingPromo": {
+        "title": "Welcome Kits & Executive Tabletop Sets",
+        "text": "Packaged in rigid magnetic gift boxes with personalized welcome letters.",
+        "buttonText": "Explore Desk Bundles"
+      },
+      "subcategories": [
+        {
+          "id": "sub-office-1",
+          "name": "Stationaries",
+          "query": "Stationary Items",
+          "icon": "fa-solid fa-paperclip"
+        },
+        {
+          "id": "sub-office-2",
+          "name": "Stick notes",
+          "query": "Sticky Notes",
+          "icon": "fa-regular fa-note-sticky"
+        },
+        {
+          "id": "sub-office-3",
+          "name": "Mouse pads",
+          "query": "Mouse pad",
+          "icon": "fa-solid fa-computer-mouse"
+        },
+        {
+          "id": "sub-office-4",
+          "name": "Desk Calendars",
+          "query": "Desk Calendar",
+          "icon": "fa-regular fa-calendar"
+        },
+        {
+          "id": "sub-office-5",
+          "name": "Table Top",
+          "query": "Table Top Organizer",
+          "icon": "fa-solid fa-table-cells-large"
+        }
+      ]
+    }
+  ],
+  "navigation": {
+    "brandLogo": {
+      "text": "ATELIER",
+      "subtext": "GIFTS & CO.",
+      "icon": "fa-solid fa-gift"
+    },
+    "items": [
+      {
+        "id": "nav-home",
+        "key": "home",
+        "label": "Home",
+        "type": "link",
+        "path": "/",
+        "icon": "fa-solid fa-house",
+        "badge": "",
+        "enabled": true,
+        "order": 1
+      },
+      {
+        "id": "nav-about",
+        "key": "about",
+        "label": "About Us",
+        "type": "link",
+        "path": "#brand-story",
+        "icon": "fa-solid fa-circle-info",
+        "badge": "",
+        "enabled": true,
+        "order": 2
+      },
+      {
+        "id": "nav-services",
+        "key": "services",
+        "label": "Services",
+        "type": "dropdown",
+        "path": "/",
+        "icon": "fa-solid fa-handshake",
+        "badge": "",
+        "enabled": true,
+        "order": 3
+      },
+      {
+        "id": "nav-categories",
+        "key": "categories",
+        "label": "Gifting Categories",
+        "type": "dropdown",
+        "path": "/",
+        "icon": "fa-solid fa-gift",
+        "badge": "",
+        "enabled": true,
+        "order": 4
+      },
+      {
+        "id": "nav-branded",
+        "key": "branded",
+        "label": "Branded Gifting",
+        "type": "dropdown",
+        "path": "/",
+        "icon": "fa-solid fa-crown",
+        "badge": "",
+        "enabled": true,
+        "order": 5
+      },
+      {
+        "id": "nav-festive",
+        "key": "festive",
+        "label": "Festive Gifts",
+        "type": "dropdown",
+        "path": "/",
+        "icon": "fa-solid fa-sparkles",
+        "badge": "✨",
+        "enabled": true,
+        "order": 6
+      },
+      {
+        "id": "nav-contact",
+        "key": "contact",
+        "label": "Contact Us",
+        "type": "dropdown",
+        "path": "/",
+        "icon": "fa-solid fa-phone",
+        "badge": "",
+        "enabled": true,
+        "order": 7
+      }
+    ],
+    "actions": {
+      "downloadCatalogues": {
+        "enabled": true,
+        "label": "Download Catalogues",
+        "icon": "fa-solid fa-file-arrow-down"
+      },
+      "bulkEnquiry": {
+        "enabled": true,
+        "label": "Enquiry for Bulk Orders",
+        "icon": "fa-solid fa-paper-plane"
+      }
+    }
+  },
+  "updatedAt": "2026-10-23T09:02:24.887Z"
+}

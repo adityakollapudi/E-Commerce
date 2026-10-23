@@ -1,13 +1,46 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useMemo, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { useSiteContent } from "../../context/SiteContentContext";
+import { GIFTING_CATEGORIES as FALLBACK_CATEGORIES } from "../../data/navigationData";
 import AdminHeader from "./AdminHeader";
 import AdminRoute from "./AdminRoute";
 
 const PRESET_TEMPLATES = [
   {
+    name: "Aluminium Water Bottle",
+    category: "Bottles",
+    subcategory: "Aluminium",
+    style: "corporate",
+    brand: "Atelier Alpine",
+    title: "Atelier Alpine Pure Aluminium Water Bottle 750ml",
+    price: 349,
+    originalPrice: 599,
+    moq: 25,
+    deliveryDays: "2–4 Days",
+    image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=800&q=80",
+    description: "Ultra-lightweight food-grade pure aluminium single-wall bottle with leak-proof sports screw cap. Specially crafted for laser engraving company logos and premium corporate hydration gifting.",
+    features: "100% Pure food-grade aluminium body\nLeakproof sports carabiner cap\nUltra-lightweight 145g design\nPrecision laser engraving ready\nOfficial B2B GST tax invoice",
+  },
+  {
+    name: "Stainless Steel Flask",
+    category: "Bottles",
+    subcategory: "Stainless Steel",
+    style: "corporate",
+    brand: "HydroVibe",
+    title: "HydroVibe Matte Black Double-Wall Thermos 750ml",
+    price: 649,
+    originalPrice: 999,
+    moq: 20,
+    deliveryDays: "3–5 Days",
+    image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=800&q=80",
+    description: "Keeps beverages ice-cold for 24 hours or piping hot for 12 hours. Sweat-free powder-coat exterior with ergonomic carrying handle.",
+    features: "18/8 Pro-grade stainless steel\nDouble-wall vacuum insulation\n100% Leakproof sports cap\nBPA and Phthalate free",
+  },
+  {
     name: "Ceramic Coffee Mug",
-    category: "drinkware",
+    category: "Mugs",
+    subcategory: "Ceramic Mugs",
     style: "corporate",
     brand: "Urban Gear",
     title: "Urban Gear Arctic Cork-Base Ceramic Tumbler",
@@ -20,8 +53,24 @@ const PRESET_TEMPLATES = [
     features: "Food grade ceramic body\nSplash-proof slider lid\nAnti-scratch natural cork base\nOfficial B2B GST invoice",
   },
   {
+    name: "Jute Tote Bag",
+    category: "Bags",
+    subcategory: "Jute Bag",
+    style: "corporate",
+    brand: "EcoCraft",
+    title: "EcoCraft Reinforced Natural Jute Corporate Conference Tote",
+    price: 189,
+    originalPrice: 329,
+    moq: 50,
+    deliveryDays: "3–5 Days",
+    image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80",
+    description: "Eco-friendly premium laminated jute bag with reinforced cotton padded handles and expandable gusset. Excellent for delegate gifting.",
+    features: "100% Biodegradable natural golden jute\nPadded soft cotton rope handles\nLaminated water-resistant interior\nScreen print and embroidery friendly",
+  },
+  {
     name: "Heavyweight Hoodie",
-    category: "men's clothing",
+    category: "Apparels",
+    subcategory: "T-Shirts & Polos",
     style: "casual",
     brand: "SHOP.CO Originals",
     title: "Minimalist Heavyweight French Terry Hoodie",
@@ -33,69 +82,88 @@ const PRESET_TEMPLATES = [
     description: "Crafted from 400 GSM brushed organic French Terry cotton for supreme warmth, comfort, and structured drape.",
     features: "100% Organic combed cotton\nDouble-layered hood with drawstrings\nPre-shrunk fabric to prevent sizing loss\nKangaroo front pocket",
   },
-  {
-    name: "Classic Oxford Shirt",
-    category: "men's clothing",
-    style: "formal",
-    brand: "Heritage Tailors",
-    title: "Tailored Crisp Oxford Cotton Button-Down Shirt",
-    price: 1299,
-    originalPrice: 2199,
-    moq: 1,
-    deliveryDays: "2–4 Days",
-    image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=800&q=80",
-    description: "A timeless corporate and formal staple woven with breathable 2-ply Egyptian cotton. Precision stitched collar and mother-of-pearl finish buttons.",
-    features: "100% High-thread Oxford Cotton\nReinforced button placket and collar\nWrinkle-resistant weave\nTailored modern fit",
-  },
-  {
-    name: "Stainless Steel Flask",
-    category: "drinkware",
-    style: "gym",
-    brand: "HydroVibe",
-    title: "HydroVibe Matte Black Double-Wall Thermos 750ml",
-    price: 649,
-    originalPrice: 999,
-    moq: 20,
-    deliveryDays: "3–5 Days",
-    image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=800&q=80",
-    description: "Keeps beverages ice-cold for 24 hours or piping hot for 12 hours. Sweat-free powder-coat exterior with ergonomic carrying handle.",
-    features: "18/8 Pro-grade stainless steel\nDouble-wall vacuum insulation\n100% Leakproof sports cap\nBPA and Phthalate free",
-  },
-  {
-    name: "Oversized Graphic Tee",
-    category: "women's clothing",
-    style: "party",
-    brand: "StreetVibe",
-    title: "Vintage Washed Acid Drop Oversized T-Shirt",
-    price: 899,
-    originalPrice: 1499,
-    moq: 1,
-    deliveryDays: "2–3 Days",
-    image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=800&q=80",
-    description: "Relaxed streetwear boxy cut made with 240 GSM bio-washed cotton. Vintage mineral wash finish with faded typography graphic.",
-    features: "240 GSM heavy combed jersey\nDrop-shoulder streetwear cut\nRibbed mock-neck collar\nHigh-density screen print",
-  },
 ];
 
 const AddProduct = () => {
   const { token } = useAuth();
+  const { giftingCategories } = useSiteContent();
+
+  const activeCategories = useMemo(() => {
+    return Array.isArray(giftingCategories) && giftingCategories.length > 0
+      ? giftingCategories
+      : FALLBACK_CATEGORIES;
+  }, [giftingCategories]);
 
   // Form states
   const [title, setTitle] = useState("");
-  const [brand, setBrand] = useState("SHOP.CO");
+  const [brand, setBrand] = useState("Atelier Alpine");
   const [sku, setSku] = useState(`PRD-${Math.floor(100000 + Math.random() * 900000)}`);
-  const [category, setCategory] = useState("drinkware");
+  const [category, setCategory] = useState("Bottles");
+  const [subcategory, setSubcategory] = useState("Aluminium");
+  const [customSubcategory, setCustomSubcategory] = useState("");
   const [style, setStyle] = useState("corporate");
   const [price, setPrice] = useState("");
   const [originalPrice, setOriginalPrice] = useState("");
-  const [moq, setMoq] = useState("1");
-  const [deliveryDays, setDeliveryDays] = useState("3–5 Days");
+  const [moq, setMoq] = useState("25");
+  const [deliveryDays, setDeliveryDays] = useState("2–4 Days");
   const [image, setImage] = useState("");
   const [description, setDescription] = useState("");
   const [features, setFeatures] = useState("");
-  const [selectedSizes, setSelectedSizes] = useState(["S", "M", "L", "XL"]);
+  const [selectedSizes, setSelectedSizes] = useState(["Free Size"]);
   const [isNew, setIsNew] = useState(true);
   const [isBestSeller, setIsBestSeller] = useState(false);
+
+  // Derive subcategories for active category
+  const currentCategoryData = useMemo(() => {
+    return (
+      activeCategories.find(
+        (c) =>
+          c.name.toLowerCase() === category.toLowerCase() ||
+          c.id.toLowerCase() === category.toLowerCase()
+      ) || null
+    );
+  }, [activeCategories, category]);
+
+  const currentSubcategories = useMemo(() => {
+    return currentCategoryData?.subcategories || [];
+  }, [currentCategoryData]);
+
+  const handleCategoryChange = (newCat) => {
+    setCategory(newCat);
+    const found = activeCategories.find(
+      (c) =>
+        c.name.toLowerCase() === newCat.toLowerCase() ||
+        c.id.toLowerCase() === newCat.toLowerCase()
+    );
+    if (found && Array.isArray(found.subcategories) && found.subcategories.length > 0) {
+      setSubcategory(found.subcategories[0].name);
+    } else {
+      setSubcategory("");
+    }
+    setCustomSubcategory("");
+  };
+
+  // Reactive sync: whenever active category changes or subcategories update, automatically select the first valid subcategory
+  useEffect(() => {
+    if (!currentSubcategories || currentSubcategories.length === 0) {
+      if (subcategory !== "__custom__" && subcategory !== "") {
+        setSubcategory("");
+      }
+      return;
+    }
+
+    const isCurrentSubValid = currentSubcategories.some(
+      (s) => s.name.toLowerCase() === subcategory.toLowerCase()
+    );
+
+    if (!isCurrentSubValid && subcategory !== "__custom__") {
+      setSubcategory(currentSubcategories[0].name);
+      setCustomSubcategory("");
+    }
+  }, [category, currentSubcategories, subcategory]);
+
+  const effectiveSubcategory =
+    subcategory === "__custom__" ? customSubcategory.trim() : subcategory.trim();
 
   // Upload states
   const [uploadingImage, setUploadingImage] = useState(false);
@@ -206,6 +274,8 @@ const AddProduct = () => {
     setTitle(t.title);
     setBrand(t.brand);
     setCategory(t.category);
+    setSubcategory(t.subcategory || "");
+    setCustomSubcategory("");
     setStyle(t.style);
     setPrice(t.price.toString());
     setOriginalPrice(t.originalPrice.toString());
@@ -257,6 +327,7 @@ const AddProduct = () => {
         brand: brand.trim(),
         sku: sku.trim(),
         category: category.trim(),
+        subcategory: effectiveSubcategory,
         style: style.trim(),
         price: Number(price),
         originalPrice: originalPrice ? Number(originalPrice) : Number(price),
@@ -301,14 +372,16 @@ const AddProduct = () => {
 
   const handleReset = () => {
     setTitle("");
-    setBrand("SHOP.CO");
+    setBrand("Atelier Alpine");
     setSku(`PRD-${Math.floor(100000 + Math.random() * 900000)}`);
-    setCategory("drinkware");
+    setCategory("Bottles");
+    setSubcategory("Aluminium");
+    setCustomSubcategory("");
     setStyle("corporate");
     setPrice("");
     setOriginalPrice("");
-    setMoq("1");
-    setDeliveryDays("3–5 Days");
+    setMoq("25");
+    setDeliveryDays("2–4 Days");
     setImage("");
     setImageFileName("");
     setImageFileSize("");
@@ -318,7 +391,7 @@ const AddProduct = () => {
     }
     setDescription("");
     setFeatures("");
-    setSelectedSizes(["S", "M", "L", "XL"]);
+    setSelectedSizes(["Free Size"]);
     setIsNew(true);
     setIsBestSeller(false);
     setCreatedProduct(null);
@@ -361,15 +434,16 @@ const AddProduct = () => {
               <div className="success-text-col">
                 <h3>Product Successfully Published!</h3>
                 <p>
-                  <strong>{createdProduct.title}</strong> has been added to the store catalog under the <em>{createdProduct.category}</em> category.
+                  <strong>{createdProduct.title}</strong> has been added to the store catalog under the <em>{createdProduct.category}</em> category
+                  {createdProduct.subcategory ? <> · <strong>{createdProduct.subcategory}</strong> subcategory</> : null}.
                 </p>
                 <div className="success-action-btns">
                   <Link
-                    to={`/products/${encodeURIComponent(createdProduct.category)}/${createdProduct.id}`}
+                    to={`/products?category=${encodeURIComponent(createdProduct.category)}&subcategory=${encodeURIComponent(createdProduct.subcategory || "")}`}
                     className="btn-success-view"
                     target="_blank"
                   >
-                    <i className="fa-solid fa-arrow-up-right-from-square"></i> View Live Product Page →
+                    <i className="fa-solid fa-arrow-up-right-from-square"></i> View Filtered Subcategory Page →
                   </Link>
                   <button type="button" className="btn-success-another" onClick={handleReset}>
                     <i className="fa-solid fa-plus"></i> Add Another Product
@@ -422,7 +496,7 @@ const AddProduct = () => {
                 {/* Section 1: Basic Information */}
                 <div className="admin-form-card">
                   <h2 className="admin-card-heading">
-                    <i className="fa-solid fa-tag"></i> 1. Basic Product Info
+                    <i className="fa-solid fa-tag"></i> 1. Basic Product Info & Categorization
                   </h2>
 
                   <div className="form-group">
@@ -431,7 +505,7 @@ const AddProduct = () => {
                       id="prod-title"
                       type="text"
                       className="admin-input"
-                      placeholder="e.g. Urban Gear Arctic Cork-Base Ceramic Tumbler"
+                      placeholder="e.g. Atelier Alpine Pure Aluminium Water Bottle 750ml"
                       value={title}
                       onChange={(e) => setTitle(e.target.value)}
                       required
@@ -445,7 +519,7 @@ const AddProduct = () => {
                         id="prod-brand"
                         type="text"
                         className="admin-input"
-                        placeholder="e.g. SHOP.CO, Urban Gear"
+                        placeholder="e.g. Atelier Alpine, Urban Gear, HydroVibe"
                         value={brand}
                         onChange={(e) => setBrand(e.target.value)}
                       />
@@ -463,26 +537,48 @@ const AddProduct = () => {
                     </div>
                   </div>
 
-                  <div className="form-grid-2">
+                  <div className="form-grid-3">
                     <div className="form-group">
-                      <label htmlFor="prod-category">Category *</label>
+                      <label htmlFor="prod-category">
+                        Category * <small style={{ fontWeight: 400, color: "#64748b" }}>(Mega Menu Section)</small>
+                      </label>
                       <select
                         id="prod-category"
                         className="admin-select"
                         value={category}
-                        onChange={(e) => setCategory(e.target.value)}
+                        onChange={(e) => handleCategoryChange(e.target.value)}
                         required
                       >
-                        <option value="drinkware">Drinkware & Corporate Gifts</option>
-                        <option value="men's clothing">Men's Clothing</option>
-                        <option value="women's clothing">Women's Clothing</option>
-                        <option value="accessories">Accessories</option>
-                        <option value="electronics">Electronics & Tech</option>
+                        {activeCategories.map((cat) => (
+                          <option key={cat.id || cat.name} value={cat.name}>
+                            {cat.name}
+                          </option>
+                        ))}
                       </select>
                     </div>
 
                     <div className="form-group">
-                      <label htmlFor="prod-style">Dress / Occasion Style</label>
+                      <label htmlFor="prod-subcategory">
+                        Subcategory * <small style={{ fontWeight: 500, color: "#244b3c" }}>({currentSubcategories.length} available for {category})</small>
+                      </label>
+                      <select
+                        id="prod-subcategory"
+                        className="admin-select"
+                        value={subcategory}
+                        onChange={(e) => setSubcategory(e.target.value)}
+                        required
+                      >
+                        {currentSubcategories.map((sub) => (
+                          <option key={sub.id || sub.name} value={sub.name}>
+                            {sub.name}
+                          </option>
+                        ))}
+                        <option value="__custom__">+ Enter Custom Subcategory...</option>
+                      </select>
+                    </div>
+
+                    <div className="form-group">
+                      <label htmlFor="prod-style">Occasion / Dress Style</label>
                       <select
                         id="prod-style"
                         className="admin-select"
@@ -497,6 +593,26 @@ const AddProduct = () => {
                       </select>
                     </div>
                   </div>
+
+                  {subcategory === "__custom__" && (
+                    <div className="form-group" style={{ marginTop: "12px", background: "#f8f6f1", padding: "12px 16px", borderRadius: "8px", border: "1px dashed #d8d4cc" }}>
+                      <label htmlFor="custom-subcategory" style={{ display: "flex", alignItems: "center", gap: "6px", fontWeight: 600 }}>
+                        <i className="fa-solid fa-pen-nib" style={{ color: "#244b3c" }}></i> Type Custom Subcategory Name *
+                      </label>
+                      <input
+                        id="custom-subcategory"
+                        type="text"
+                        className="admin-input"
+                        placeholder="e.g. Copper Bottles, Insulated Sipper, Executive Metal, etc."
+                        value={customSubcategory}
+                        onChange={(e) => setCustomSubcategory(e.target.value)}
+                        required={subcategory === "__custom__"}
+                      />
+                      <small style={{ color: "#64748b", marginTop: "4px", display: "block" }}>
+                        Customers will be able to filter and find this product under this exact subcategory name.
+                      </small>
+                    </div>
+                  )}
                 </div>
 
                 {/* Section 2: Pricing & Inventory */}
@@ -872,6 +988,11 @@ const AddProduct = () => {
                     <div className="mock-meta-row">
                       <span className="mock-brand">{brand || "SHOP.CO"}</span>
                       <span className="mock-category-pill">{category}</span>
+                      {effectiveSubcategory && (
+                        <span className="mock-subcategory-pill">
+                          <i className="fa-solid fa-layer-group"></i> {effectiveSubcategory}
+                        </span>
+                      )}
                     </div>
 
                     <h3 className="mock-title">

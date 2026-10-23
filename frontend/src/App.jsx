@@ -24,7 +24,9 @@ import AdminDashboard from "./components/Admin/AdminDashboard";
 import AddProduct from "./components/Admin/AddProduct";
 import AdminImport from "./components/Admin/AdminImport";
 import AdminPortNotice from "./components/Admin/AdminPortNotice";
+import ManageSiteContent from "./components/Admin/ManageSiteContent";
 import { WishlistProvider } from "./context/WishlistContext";
+import { SiteContentProvider } from "./context/SiteContentContext";
 import WishlistDrawer from "./components/Wishlist/WishlistDrawer";
 
 function App() {
@@ -124,6 +126,7 @@ function App() {
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/add-product" element={<AddProduct />} />
             <Route path="/admin/import" element={<AdminImport />} />
+            <Route path="/admin/site-content" element={<ManageSiteContent />} />
             <Route path="/products" element={<Products />}>
               <Route path=":category" element={<Products />} />
             </Route>
@@ -158,6 +161,7 @@ function App() {
             <Route path="/admin" element={<AdminPortNotice />} />
             <Route path="/admin/add-product" element={<AdminPortNotice />} />
             <Route path="/admin/import" element={<AdminPortNotice />} />
+            <Route path="/admin/site-content" element={<AdminPortNotice />} />
             <Route path="/underconstruction" element={<UnderConstruction />} />
             <Route path="*" element={<PageNotFound />} />
           </>
@@ -167,9 +171,11 @@ function App() {
   );
 
   return (
-    <WishlistProvider onAddToCart={addToCart}>
-      <RouterProvider router={router} />
-    </WishlistProvider>
+    <SiteContentProvider>
+      <WishlistProvider onAddToCart={addToCart}>
+        <RouterProvider router={router} />
+      </WishlistProvider>
+    </SiteContentProvider>
   );
 }
 

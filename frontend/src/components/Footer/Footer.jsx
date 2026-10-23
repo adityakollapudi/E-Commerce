@@ -1,8 +1,10 @@
 import SocMediaIcons from "../Misc/SocMediaIcons";
 import { Link } from "react-router-dom";
-import { CONTACT_INFO } from "../../data/navigationData";
+import { useSiteContent } from "../../context/SiteContentContext";
 
 const Footer = () => {
+  const { contactInfo } = useSiteContent();
+
   return (
     <footer className="luxury-footer" aria-label="Footer">
       <div className="container">
@@ -19,11 +21,11 @@ const Footer = () => {
             <div className="footer-contact-snippet">
               <p>
                 <i className="fa-solid fa-phone" style={{ marginRight: "6px", color: "#b65c45" }}></i>
-                {CONTACT_INFO.phonePrimary}
+                {contactInfo.phonePrimary}
               </p>
               <p>
                 <i className="fa-solid fa-envelope" style={{ marginRight: "6px", color: "#b65c45" }}></i>
-                {CONTACT_INFO.emailBulk}
+                {contactInfo.emailBulk}
               </p>
             </div>
             <div className="footer-social-wrapper">

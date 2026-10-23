@@ -1,9 +1,14 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
-import { GIFTING_CATEGORIES } from "../../data/navigationData";
+import { useSiteContent } from "../../context/SiteContentContext";
+import { GIFTING_CATEGORIES as FALLBACK_CATEGORIES } from "../../data/navigationData";
 
 const BulkEnquiryModal = ({ isOpen, onClose, initialCategory = "" }) => {
   const { user, openAuthModal } = useAuth();
+  const { giftingCategories } = useSiteContent();
+  const categories = Array.isArray(giftingCategories) && giftingCategories.length > 0
+    ? giftingCategories
+    : FALLBACK_CATEGORIES;
 
   const [formData, setFormData] = useState({
     name: "",
@@ -172,7 +177,7 @@ const BulkEnquiryModal = ({ isOpen, onClose, initialCategory = "" }) => {
                     value={formData.category}
                     onChange={handleChange}
                   >
-                    {GIFTING_CATEGORIES.map((cat) => (
+                    {categories.map((cat) => (
                       <option key={cat.id} value={cat.name}>
                         {cat.name}
                       </option>

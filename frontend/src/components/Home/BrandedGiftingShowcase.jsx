@@ -1,22 +1,24 @@
 import { Link } from "react-router-dom";
-import { BRANDED_GIFTING } from "../../data/navigationData";
+import { useSiteContent } from "../../context/SiteContentContext";
 
 const BrandedGiftingShowcase = () => {
+  const { brands } = useSiteContent();
+
   return (
     <section className="branded-showcase-section" aria-label="Authorized Brand Partners">
       <div className="container">
         <div className="section-header-editorial">
           <span className="section-kicker">Authorized Corporate Partners</span>
-          <h2 className="section-title-editorial title">22+ Leading Brands for Corporate Gifting</h2>
+          <h2 className="section-title-editorial title">{brands.length}+ Leading Brands for Corporate Gifting</h2>
           <p className="section-subtitle-editorial">
             Direct institutional pricing on India’s most trusted lifestyle, luggage, drinkware, and tech brands.
           </p>
         </div>
 
         <div className="home-brands-grid">
-          {BRANDED_GIFTING.map((b, idx) => (
+          {brands.map((b) => (
             <Link
-              key={idx}
+              key={b.id || b.name}
               to={`/products?search=${encodeURIComponent(b.name)}`}
               className="home-brand-pill-card"
             >

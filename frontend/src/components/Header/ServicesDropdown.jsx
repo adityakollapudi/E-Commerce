@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
-import { SERVICES_DATA } from "../../data/navigationData";
+import { useSiteContent } from "../../context/SiteContentContext";
 
 const ServicesDropdown = ({ isOpen, onClose, onOpenBulkModal }) => {
+  const { services } = useSiteContent();
+
   return (
     <div
       className={`mega-menu-dropdown services-dropdown ${isOpen ? "is-visible" : ""}`}
@@ -22,7 +24,7 @@ const ServicesDropdown = ({ isOpen, onClose, onOpenBulkModal }) => {
         </div>
 
         <div className="services-grid">
-          {SERVICES_DATA.map((service) => (
+          {services.map((service) => (
             <div key={service.id} className="service-card">
               <div className="service-card-top">
                 <div className="service-card-icon">

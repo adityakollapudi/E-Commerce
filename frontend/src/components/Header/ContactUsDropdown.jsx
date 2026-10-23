@@ -1,6 +1,7 @@
-import { CONTACT_INFO } from "../../data/navigationData";
+import { useSiteContent } from "../../context/SiteContentContext";
 
 const ContactUsDropdown = ({ isOpen, onClose, onOpenBulkModal }) => {
+  const { contactInfo } = useSiteContent();
   return (
     <div
       className={`mega-menu-dropdown contact-dropdown ${isOpen ? "is-visible" : ""}`}
@@ -26,12 +27,12 @@ const ContactUsDropdown = ({ isOpen, onClose, onOpenBulkModal }) => {
             </div>
             <div className="contact-box-content">
               <span className="contact-box-title">Phone & WhatsApp</span>
-              <a href={`tel:${CONTACT_INFO.phonePrimary.replace(/\s+/g, "")}`} className="contact-primary-val">
-                {CONTACT_INFO.phonePrimary}
+              <a href={`tel:${(contactInfo.phonePrimary || "").replace(/\s+/g, "")}`} className="contact-primary-val">
+                {contactInfo.phonePrimary}
               </a>
-              <span className="contact-sub-val">Landline: {CONTACT_INFO.phoneSecondary}</span>
+              <span className="contact-sub-val">Landline: {contactInfo.phoneSecondary}</span>
               <a
-                href={`https://wa.me/${CONTACT_INFO.whatsapp.replace(/[^0-9]/g, "")}?text=Hi%2C%20I%20am%20interested%20in%20corporate%20gifting%20catalog`}
+                href={`https://wa.me/${(contactInfo.whatsapp || "").replace(/[^0-9]/g, "")}?text=Hi%2C%20I%20am%20interested%20in%20corporate%20gifting%20catalog`}
                 target="_blank"
                 rel="noreferrer"
                 className="contact-whatsapp-btn"
@@ -48,10 +49,10 @@ const ContactUsDropdown = ({ isOpen, onClose, onOpenBulkModal }) => {
             </div>
             <div className="contact-box-content">
               <span className="contact-box-title">Email Enquiries</span>
-              <a href={`mailto:${CONTACT_INFO.emailBulk}`} className="contact-primary-val">
-                {CONTACT_INFO.emailBulk}
+              <a href={`mailto:${contactInfo.emailBulk}`} className="contact-primary-val">
+                {contactInfo.emailBulk}
               </a>
-              <span className="contact-sub-val">General: {CONTACT_INFO.emailGeneral}</span>
+              <span className="contact-sub-val">General: {contactInfo.emailGeneral}</span>
               <span className="contact-timing-note">
                 <i className="fa-regular fa-clock"></i> Response within 2 working hours
               </span>
@@ -66,11 +67,11 @@ const ContactUsDropdown = ({ isOpen, onClose, onOpenBulkModal }) => {
             <div className="contact-box-content">
               <span className="contact-box-title">Headquarters & Experience Studio</span>
               <p className="contact-address-text">
-                <strong>{CONTACT_INFO.addressLine1}</strong>
+                <strong>{contactInfo.addressLine1}</strong>
                 <br />
-                {CONTACT_INFO.addressLine2}
+                {contactInfo.addressLine2}
                 <br />
-                {CONTACT_INFO.city}
+                {contactInfo.city}
               </p>
               <span className="contact-shipping-note">
                 <i className="fa-solid fa-truck"></i> Pan-India & Global Express Fulfillment
@@ -82,7 +83,7 @@ const ContactUsDropdown = ({ isOpen, onClose, onOpenBulkModal }) => {
         <div className="contact-dropdown-bottom">
           <div className="contact-hours-strip">
             <i className="fa-regular fa-calendar-check"></i>
-            <span>{CONTACT_INFO.workingHours}</span>
+            <span>{contactInfo.workingHours}</span>
           </div>
 
           <div className="contact-bottom-actions">

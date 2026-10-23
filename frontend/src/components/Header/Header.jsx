@@ -7,9 +7,11 @@ import CatalogueDownloadModal from "./CatalogueDownloadModal";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { useSiteContent } from "../../context/SiteContentContext";
 
 const Header = ({ cart, removeFromCart }) => {
   const { user, isAdmin, openAuthModal } = useAuth();
+  const { announcement, navigation } = useSiteContent();
   const [mobileSearchShow, setMobileSearchShow] = useState(false);
   const [mobileMenuShow, setMobileMenuShow] = useState(false);
   const [showAnnouncement, setShowAnnouncement] = useState(true);
@@ -54,10 +56,10 @@ const Header = ({ cart, removeFromCart }) => {
           <div className="container top-announcement-content">
             <div className="announcement-left-wrap">
               <span className="announcement-badge-pill">
-                <i className="fa-solid fa-gift"></i> Corporate & Festive Gifting
+                <i className="fa-solid fa-gift"></i> {announcement?.badge?.replace(/^[^\w]+/, "") || "Corporate & Festive Gifting"}
               </span>
               <p className="announcement-text">
-                Custom logo branding on 10,000+ items · Free digital sample on bulk orders · Pan-India delivery.
+                {announcement?.text || "Custom logo branding on 10,000+ items · Free digital sample on bulk orders · Pan-India delivery."}
               </p>
             </div>
 
@@ -139,11 +141,11 @@ const Header = ({ cart, removeFromCart }) => {
 
             <Link to="/" className="luxury-brand-wordmark gifting-logo" aria-label="Atelier Gifts Home">
               <div className="brand-logo-icon">
-                <i className="fa-solid fa-gift"></i>
+                <i className={navigation?.brandLogo?.icon || "fa-solid fa-gift"}></i>
               </div>
               <div className="brand-logo-text-block">
-                <span className="brand-logo-text">ATELIER</span>
-                <span className="brand-logo-sub">GIFTS & CO.</span>
+                <span className="brand-logo-text">{navigation?.brandLogo?.text || "ATELIER"}</span>
+                <span className="brand-logo-sub">{navigation?.brandLogo?.subtext || "GIFTS & CO."}</span>
               </div>
             </Link>
           </div>
