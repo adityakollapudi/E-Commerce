@@ -87,7 +87,7 @@ export const GIFTING_CATEGORIES = [
       { name: "Aluminium", query: "Aluminium Mug", icon: "fa-solid fa-mug-saucer" },
       { name: "Stainless Steel", query: "Stainless Steel Mug", icon: "fa-solid fa-shield" },
       { name: "Single & Double Insulated", query: "Insulated Mug", icon: "fa-solid fa-temperature-high" },
-      { name: "Glass Bottles / Cups", query: "Glass Mug", icon: "fa-solid fa-whiskey-glass" },
+      { name: "Glass Bottles", query: "Glass Mug", icon: "fa-solid fa-whiskey-glass" },
       { name: "Bamboo", query: "Bamboo Mug", icon: "fa-solid fa-leaf" },
       { name: "Copper", query: "Copper Mug", icon: "fa-solid fa-award" },
     ],

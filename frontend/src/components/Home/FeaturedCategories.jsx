@@ -5,7 +5,7 @@ const COLLECTIONS = [
     id: "corporate-drinkware",
     title: "Executive Bottles & Mugs",
     description: "Vacuum insulated temperature-retaining flasks, eco bamboo tumblers, and cork-base ceramic mugs tailored for desk and travel.",
-    image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=1000&q=80",
+    image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=1000&q=80",
     link: "/products?search=Mug",
     tag: "High Volume · Laser Engraved",
     isLarge: true,

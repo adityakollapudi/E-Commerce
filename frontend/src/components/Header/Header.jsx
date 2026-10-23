@@ -80,10 +80,10 @@ const Header = ({ cart, removeFromCart }) => {
                 type="button"
                 onClick={() => handleOpenBulkModal()}
                 className="top-quick-cta-btn highlight-bulk-btn"
-                title="Enquiry for Bulk Orders"
+                title="Enquiry for Bulk Orders (Login/Signup)"
               >
                 <i className="fa-solid fa-boxes-packing"></i>
-                <span>Bulk Enquiry</span>
+                <span>Enquiry for Bulk Orders</span>
               </button>
 
               <span className="top-auth-pipe">|</span>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useWishlist } from "../../context/WishlistContext";
 import {
@@ -18,6 +18,8 @@ const HamburgerMobile = ({
 }) => {
   const { user, isAdmin, openAuthModal, logout } = useAuth();
   const { wishlistCount, openWishlist } = useWishlist();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   // Accordion toggle states
   const [openSection, setOpenSection] = useState(null);
@@ -33,6 +35,23 @@ const HamburgerMobile = ({
 
   const handleNavClick = () => {
     handleMouseClick();
+  };
+
+  const handleAboutClick = (e) => {
+    e.preventDefault();
+    handleMouseClick();
+    if (location.pathname === "/") {
+      const el = document.getElementById("brand-story");
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      navigate("/");
+      setTimeout(() => {
+        const el = document.getElementById("brand-story");
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      }, 150);
+    }
   };
 
   return (
@@ -115,9 +134,10 @@ const HamburgerMobile = ({
               if (onOpenBulkModal) onOpenBulkModal();
             }}
             className="btn-mobile-cta btn-mobile-bulk"
+            title="Enquiry for Bulk Orders (Login/Signup)"
           >
             <i className="fa-solid fa-boxes-packing"></i>
-            <span>Bulk Enquiry</span>
+            <span>Enquiry for Bulk Orders</span>
           </button>
 
           <button
@@ -127,9 +147,10 @@ const HamburgerMobile = ({
               if (onOpenCatalogueModal) onOpenCatalogueModal();
             }}
             className="btn-mobile-cta btn-mobile-catalogues"
+            title="Download Catalogues"
           >
             <i className="fa-solid fa-file-arrow-down"></i>
-            <span>Catalogues</span>
+            <span>Download Catalogues</span>
           </button>
         </div>
 
@@ -144,7 +165,7 @@ const HamburgerMobile = ({
 
           {/* 2. About Us */}
           <li className="mobile-nav-link-row">
-            <a href="#brand-story" onClick={handleNavClick}>
+            <a href="#brand-story" onClick={handleAboutClick}>
               <i className="fa-solid fa-circle-info"></i> About Us
             </a>
           </li>

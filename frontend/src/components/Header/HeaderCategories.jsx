@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import ServicesDropdown from "./ServicesDropdown";
 import GiftingCategoriesMegaMenu from "./GiftingCategoriesMegaMenu";
 import BrandedGiftingDropdown from "./BrandedGiftingDropdown";
@@ -9,6 +9,8 @@ import ContactUsDropdown from "./ContactUsDropdown";
 const HeaderCategories = ({ onOpenBulkModal, onOpenCatalogueModal }) => {
   const [activeMenu, setActiveMenu] = useState(null);
   const timeoutRef = useRef(null);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const handleMouseEnter = (menuName) => {
     if (timeoutRef.current) {
@@ -30,6 +32,23 @@ const HeaderCategories = ({ onOpenBulkModal, onOpenCatalogueModal }) => {
     setActiveMenu(null);
   };
 
+  const handleAboutClick = (e) => {
+    e.preventDefault();
+    closeMenu();
+    if (location.pathname === "/") {
+      const el = document.getElementById("brand-story");
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      navigate("/");
+      setTimeout(() => {
+        const el = document.getElementById("brand-story");
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      }, 150);
+    }
+  };
+
   return (
     <nav className="header-nav luxury-gifting-nav" aria-label="Main Navigation">
       <ul className="flex-header flex-categories gifting-nav-list">
@@ -42,7 +61,7 @@ const HeaderCategories = ({ onOpenBulkModal, onOpenCatalogueModal }) => {
 
         {/* 2. About Us */}
         <li className="nav-item">
-          <a href="#brand-story" className="nav-link-item" onClick={closeMenu}>
+          <a href="#brand-story" className="nav-link-item" onClick={handleAboutClick}>
             About Us
           </a>
         </li>
@@ -169,10 +188,10 @@ const HeaderCategories = ({ onOpenBulkModal, onOpenCatalogueModal }) => {
               if (onOpenCatalogueModal) onOpenCatalogueModal();
             }}
             className="nav-action-btn btn-catalogues"
-            title="Download PDF Catalogues"
+            title="Download Catalogues"
           >
             <i className="fa-solid fa-file-arrow-down"></i>
-            <span>Catalogues</span>
+            <span>Download Catalogues</span>
           </button>
         </li>
 
@@ -185,10 +204,10 @@ const HeaderCategories = ({ onOpenBulkModal, onOpenCatalogueModal }) => {
               if (onOpenBulkModal) onOpenBulkModal();
             }}
             className="nav-action-btn btn-bulk-nav-cta"
-            title="Request Bulk Quotation"
+            title="Enquiry for Bulk Orders (Login/Signup)"
           >
             <i className="fa-solid fa-paper-plane"></i>
-            <span>Bulk Enquiry</span>
+            <span>Enquiry for Bulk Orders</span>
           </button>
         </li>
       </ul>
