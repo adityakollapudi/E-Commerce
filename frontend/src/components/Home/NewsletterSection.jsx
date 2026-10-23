@@ -52,10 +52,10 @@ const NewsletterSection = () => {
     <section className="newsletter-editorial-section" aria-label="Newsletter Subscription">
       <div className="container">
         <div className="newsletter-editorial-card">
-          <span className="newsletter-kicker">The Atelier Dispatch</span>
-          <h2 className="newsletter-headline title">A Little Something Worth Opening.</h2>
+          <span className="newsletter-kicker">Corporate Lookbook 2026</span>
+          <h2 className="newsletter-headline title">Get Master Catalogues & Volume Slabs.</h2>
           <p className="newsletter-subtext">
-            Receive thoughtful updates, new collections, and occasional notes from our world.
+            Subscribe to receive our latest 92-page PDF corporate gifting catalog, volume discount structures, and festive early-bird booking alerts.
           </p>
 
           {status === "success" ? (
@@ -63,10 +63,10 @@ const NewsletterSection = () => {
               <div className="success-icon">
                 <i className="fa-solid fa-circle-check"></i>
               </div>
-              <h3 className="success-title">Welcome to the Inner Circle.</h3>
+              <h3 className="success-title">Catalogue Access Confirmed!</h3>
               <p className="success-desc">
-                Your demonstration subscription is confirmed for <strong>{email}</strong> (saved to local demonstration storage). Use code{" "}
-                <span className="promo-code-pill">SHOP20</span> for 20% off your inaugural order.
+                Thank you! We have dispatched our 2026 Corporate Gifting Lookbook link to <strong>{email}</strong>. Use code{" "}
+                <span className="promo-code-pill">GIFT20</span> for volume discounts on your first corporate dispatch.
               </p>
               <button
                 type="button"

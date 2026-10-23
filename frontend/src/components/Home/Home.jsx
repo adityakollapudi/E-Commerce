@@ -1,7 +1,9 @@
 import HeroSection from "./HeroSection";
 import TrustValueStrip from "./TrustValueStrip";
+import GiftingServicesSection from "./GiftingServicesSection";
 import FeaturedCategories from "./FeaturedCategories";
 import HomeCategory from "./HomeCategory/HomeCategory";
+import BrandedGiftingShowcase from "./BrandedGiftingShowcase";
 import BrandStorySection from "./BrandStorySection";
 import PromotionalBanner from "./PromotionalBanner";
 import ShoppingReassurance from "./ShoppingReassurance";
@@ -11,46 +13,52 @@ import NewsletterSection from "./NewsletterSection";
 const Home = () => {
   return (
     <main id="main-content" className="home-page luxury-storefront">
-      {/* Section 03: Editorial Collage Hero */}
+      {/* 01: Hero Section - Bespoke Hampers, Tech Kits & Branded Gifts */}
       <HeroSection />
 
-      {/* Section 04: Trust and Value Strip */}
+      {/* 02: Trust & Value Strip - Logo Branding, B2B GST, Pan-India Logistics, Volume Pricing */}
       <TrustValueStrip />
 
-      {/* Section 05: Featured Collections (Find Your Everyday Essentials) */}
+      {/* 03: Four Bespoke Services - Corporate, Employee, Return, Event Gifting */}
+      <GiftingServicesSection />
+
+      {/* 04: Core Gifting Categories - Drinkware, Bags, Tech, Festive */}
       <FeaturedCategories />
 
-      {/* Section 06: Best Sellers (Considered Favourites) */}
-      <section className="home-best-sellers-section" aria-label="Considered Favourites">
+      {/* 05: Trending Corporate Bestsellers */}
+      <section className="home-best-sellers-section" aria-label="Trending Corporate Bestsellers">
         <HomeCategory
-          title="Considered Favourites"
-          subtitle="Discover the pieces customers return to."
+          title="Trending Corporate Bestsellers"
+          subtitle="Handpicked executive drinkware, onboarding kits, and custom-branded gifts."
           filterType="bestSeller"
         />
       </section>
 
-      {/* Section 08: Brand Story (Less, But Better) */}
+      {/* 06: Authorized 22+ Corporate Brand Partners */}
+      <BrandedGiftingShowcase />
+
+      {/* 07: Why 500+ Corporate Brands Partner With Atelier Gifting */}
       <BrandStorySection />
 
-      {/* Section 09: Seasonal Campaign Banner (The New Season Edit) */}
+      {/* 08: Seasonal & Festive Gifting Campaign Banner */}
       <PromotionalBanner />
 
-      {/* Section 07: New Arrivals */}
-      <section className="home-new-arrivals-section" aria-label="New Arrivals">
+      {/* 09: New Season Gifting Arrivals */}
+      <section className="home-new-arrivals-section" aria-label="New Gifting Arrivals">
         <HomeCategory
-          title="New Arrivals"
-          subtitle="Fresh silhouettes and tactile textures recently welcomed to our catalog."
+          title="New Season Gifting Arrivals"
+          subtitle="Innovative tech gadgets, insulated drinkware, and sustainable gift sets recently added."
           filterType="newArrival"
         />
       </section>
 
-      {/* Section 10: Shopping Reassurance & Policies */}
+      {/* 10: Enterprise Assurance & Corporate Policies */}
       <ShoppingReassurance />
 
-      {/* Section 11: Customer Testimonials (Patron Reflections) */}
+      {/* 11: Verified Client Reflections & Testimonials */}
       <CustomerTestimonials />
 
-      {/* Section 12: Newsletter (A Little Something Worth Opening) */}
+      {/* 12: Corporate Lookbook 2026 Subscription */}
       <NewsletterSection />
     </main>
   );

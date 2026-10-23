@@ -1,33 +1,33 @@
 const BENEFITS = [
   {
-    id: "materials",
-    icon: "fa-solid fa-shapes",
-    title: "Considered Materials",
-    description: "Pure combed cotton, tactile linen, and durable woven textiles.",
+    id: "branding",
+    icon: "fa-solid fa-wand-magic-sparkles",
+    title: "Custom Logo Branding",
+    description: "Precision Digital UV printing, laser engraving, and screen print on every item.",
   },
   {
-    id: "shipping",
+    id: "gst-billing",
+    icon: "fa-solid fa-receipt",
+    title: "Official B2B GST 18% Invoices",
+    description: "100% compliant business invoices provided for input tax credit on all bulk dispatches.",
+  },
+  {
+    id: "pan-india",
     icon: "fa-solid fa-truck-fast",
-    title: "Complimentary Delivery",
-    description: "Free express shipping across India on orders above ₹1,999.",
+    title: "Pan-India Multi-City Delivery",
+    description: "Doorstep delivery to remote employee residences or consolidated branch shipments.",
   },
   {
-    id: "returns",
-    icon: "fa-solid fa-arrow-rotate-left",
-    title: "30-Day Returns",
-    description: "Simple, unhurried returns and exchanges on all eligible pieces.",
-  },
-  {
-    id: "security",
-    icon: "fa-solid fa-shield-halved",
-    title: "Secure Checkout",
-    description: "Bank-grade 256-bit SSL encryption and verified payment channels.",
+    id: "volume-pricing",
+    icon: "fa-solid fa-boxes-stacked",
+    title: "Tiered Volume Pricing",
+    description: "Institutional discounts, free digital sample proofs, and dedicated account manager.",
   },
 ];
 
 const TrustValueStrip = () => {
   return (
-    <section className="trust-strip-section" aria-label="Brand Benefits">
+    <section className="trust-strip-section" aria-label="Gifting Value Pillars">
       <div className="container">
         <div className="trust-strip-grid">
           {BENEFITS.map((b, idx) => (

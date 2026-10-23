@@ -2,65 +2,64 @@ import { Link } from "react-router-dom";
 
 const BrandStorySection = () => {
   return (
-    <section id="brand-story" className="brand-story-section" aria-label="Brand Story">
+    <section id="brand-story" className="brand-story-section" aria-label="Why Atelier Gifting">
       <div className="container brand-story-grid">
         <div className="brand-story-media">
           <div className="brand-story-img-container">
             <img
-              src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1000&q=80"
-              alt="Atelier craft and textile design studio"
+              src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=1000&q=80"
+              alt="Atelier bespoke corporate gift packaging and unboxing studio"
               className="brand-story-img"
               loading="lazy"
             />
             <div className="brand-story-caption">
-              <span className="caption-year">ATELIER ARCHIVE</span>
-              <span className="caption-detail">Milanese Design & Artisan Hand-Finish</span>
+              <span className="caption-year">ATELIER B2B LAB</span>
+              <span className="caption-detail">Custom Gift Packaging & Precision Engraving</span>
             </div>
           </div>
         </div>
 
         <div className="brand-story-content">
-          <span className="section-kicker">Design Philosophy</span>
-          <h2 className="brand-story-title title">Less, But Better.</h2>
+          <span className="section-kicker">Corporate Partnership</span>
+          <h2 className="brand-story-title title">Gifts That Build Real Connections.</h2>
 
           <div className="brand-story-copy">
             <p className="brand-story-lead">
-              We believe everyday objects should earn their place. Thoughtful details,
-              considered materials, and timeless forms make the ordinary feel exceptional.
+              We believe corporate gifting shouldn’t feel like cheap disposable giveaways. 
+              A truly thoughtful gift strengthens relationships, honors team milestones, and leaves an enduring impression.
             </p>
             <p>
-              In contrast to the cycle of disposable fast trends, our studio approaches every piece
-              as a long-term companion. From breathable natural cottons and tactile linen weaves to
-              precision hardware and double-turn hems, we construct garments and daily objects that
-              wear gracefully over time.
+              Atelier Gifting Solutions partners directly with enterprises, HR directors, and event coordinators 
+              across India. From temperature-controlled vacuum drinkware and handcrafted diaries to authorized 
+              audio tech from JBL, boAt, and Cross, we curate collections that recipients genuinely cherish and use every single day.
             </p>
           </div>
 
           <div className="brand-story-pillars">
             <div className="pillar-item">
               <div className="pillar-icon">
-                <i className="fa-solid fa-compass-drafting"></i>
+                <i className="fa-solid fa-stamp"></i>
               </div>
               <div className="pillar-text">
-                <h4>Intentional Silhouette</h4>
-                <p>Proportions tested and balanced for ease of movement and enduring aesthetic longevity.</p>
+                <h4>Flawless Brand Co-Branding</h4>
+                <p>Digital UV color printing, high-precision laser engraving, and blind debossing aligned with your brand guidelines.</p>
               </div>
             </div>
 
             <div className="pillar-item">
               <div className="pillar-icon">
-                <i className="fa-solid fa-feather-pointed"></i>
+                <i className="fa-solid fa-truck-ramp-box"></i>
               </div>
               <div className="pillar-text">
-                <h4>Honest Craftsmanship</h4>
-                <p>Reinforced seam construction and durable natural textiles selected for daily utility.</p>
+                <h4>Pan-India Direct-to-Door Fulfillment</h4>
+                <p>Send 50 or 5,000 gifts seamlessly to consolidated headquarters or individually to remote team members across India.</p>
               </div>
             </div>
           </div>
 
           <div className="brand-story-cta-row">
-            <Link to="/underconstruction" className="btn-luxury btn-outline brand-story-btn">
-              Discover Our Story <i className="fa-solid fa-arrow-right"></i>
+            <Link to="/products" className="btn-luxury btn-outline brand-story-btn">
+              Explore Corporate Catalog <i className="fa-solid fa-arrow-right"></i>
             </Link>
           </div>
         </div>

@@ -2,52 +2,52 @@ import { Link } from "react-router-dom";
 
 const COLLECTIONS = [
   {
-    id: "everyday-essentials",
-    title: "Everyday Essentials",
-    description: "Foundational wardrobe pieces, breathable organic cotton tees, and relaxed trousers designed for effortless daily comfort.",
-    image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1000&q=80",
-    link: "/products?style=casual",
-    tag: "Foundational Pieces",
+    id: "corporate-drinkware",
+    title: "Executive Bottles & Mugs",
+    description: "Vacuum insulated temperature-retaining flasks, eco bamboo tumblers, and cork-base ceramic mugs tailored for desk and travel.",
+    image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=1000&q=80",
+    link: "/products?search=Mug",
+    tag: "High Volume · Laser Engraved",
     isLarge: true,
   },
   {
-    id: "signature-tailoring",
-    title: "Signature Tailoring",
-    description: "Architectural blazers and refined cuts crafted from structured virgin wool twill.",
-    image: "https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?auto=format&fit=crop&w=800&q=80",
-    link: "/products?style=formal",
-    tag: "Refined Cuts",
+    id: "bags-luggage",
+    title: "Bags & Executive Backpacks",
+    description: "Ballistic nylon laptop bags, gym duffles, and sustainable biodegradable jute conference totes.",
+    image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80",
+    link: "/products?search=Bag",
+    tag: "Custom Logo Badging",
     isLarge: false,
   },
   {
-    id: "new-arrivals",
-    title: "New Season Arrivals",
-    description: "Tactile textures, earth tones, and lightweight overshirts tailored for seasonal transition.",
-    image: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=800&q=80",
-    link: "/products?new=true",
-    tag: "Just Landed",
+    id: "tech-gadgets",
+    title: "Smart Tech & Gadgets",
+    description: "High-speed power banks, Bluetooth speakers, wireless earbuds, and smart wearable fitness trackers.",
+    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+    link: "/products?search=Speaker",
+    tag: "1-Year Brand Warranty",
     isLarge: false,
   },
   {
-    id: "living-accessories",
-    title: "Considered Objects",
-    description: "Glazed ceramic drinkware and cork-insulated travel mugs engineered for daily ritual.",
-    image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80",
-    link: "/products?category=drinkware",
-    tag: "Daily Ritual",
+    id: "festive-hampers",
+    title: "Festive & Diwali Hampers",
+    description: "Artisanal dry fruit boxes, handcrafted brass diyas, luxury confectionery, and executive New Year planners.",
+    image: "https://images.unsplash.com/photo-1513885535751-8b9238bd345a?auto=format&fit=crop&w=800&q=80",
+    link: "/products?search=Hamper",
+    tag: "Seasonal Bestseller",
     isLarge: false,
   },
 ];
 
 const FeaturedCategories = () => {
   return (
-    <section className="featured-categories-section" aria-label="Featured Collections">
+    <section className="featured-categories-section" aria-label="Featured Gifting Collections">
       <div className="container">
         <div className="section-header-editorial">
-          <span className="section-kicker">Curated Chapters</span>
-          <h2 className="section-title-editorial title">Find Your Everyday Essentials.</h2>
+          <span className="section-kicker">Core Gifting Categories</span>
+          <h2 className="section-title-editorial title">Curated Gifts for Every Occasion.</h2>
           <p className="section-subtitle-editorial">
-            Explore considered pieces for the moments that matter.
+            Discover precision-branded executive merchandise, onboarding gift kits, and festive hampers.
           </p>
         </div>
 

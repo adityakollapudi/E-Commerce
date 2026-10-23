@@ -37,7 +37,7 @@ const SearchMobile = ({ mobileSearchShow, handleMouseClick }) => {
           name="search-product"
           id="search-product"
           aria-label="Search Products"
-          placeholder="Search for clothes, styles..."
+          placeholder="Search gifts, bottles, bags, gadgets..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />

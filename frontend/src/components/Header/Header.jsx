@@ -2,17 +2,23 @@ import HeaderCategories from "./HeaderCategories";
 import SearchMobile from "./SearchMobile";
 import HeaderProfileBtn from "./HeaderProfileBtn";
 import HamburgerMobile from "./HamburgerMobile";
+import BulkEnquiryModal from "./BulkEnquiryModal";
+import CatalogueDownloadModal from "./CatalogueDownloadModal";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
 const Header = ({ cart, removeFromCart }) => {
   const { user, isAdmin, openAuthModal } = useAuth();
-  const [dropdownShow, setDropdownShow] = useState(false);
   const [mobileSearchShow, setMobileSearchShow] = useState(false);
   const [mobileMenuShow, setMobileMenuShow] = useState(false);
   const [showAnnouncement, setShowAnnouncement] = useState(true);
   const [isScrolled, setIsScrolled] = useState(false);
+
+  // Modals for Bulk Enquiry and Catalogue Download
+  const [bulkModalOpen, setBulkModalOpen] = useState(false);
+  const [bulkInitialCategory, setBulkInitialCategory] = useState("");
+  const [catalogueModalOpen, setCatalogueModalOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,14 +33,13 @@ const Header = ({ cart, removeFromCart }) => {
     document.body.classList.toggle("body-noscroll");
   };
 
-  const handleMouseIn = () => {
-    setDropdownShow("active");
+  const handleOpenBulkModal = (category = "") => {
+    setBulkInitialCategory(category || "");
+    setBulkModalOpen(true);
   };
 
-  const handleMouseOut = (e) => {
-    if (!e.currentTarget.contains(e.relatedTarget)) {
-      setDropdownShow("");
-    }
+  const handleOpenCatalogueModal = () => {
+    setCatalogueModalOpen(true);
   };
 
   return (
@@ -43,17 +48,46 @@ const Header = ({ cart, removeFromCart }) => {
         Skip to main content
       </a>
 
+      {/* Top Announcement & Corporate Quick Strip */}
       {showAnnouncement && (
-        <div className="top-announcement-bar">
+        <div className="top-announcement-bar gifting-top-bar">
           <div className="container top-announcement-content">
-            <p className="announcement-text">
-              Complimentary shipping on orders above ₹1,999.{" "}
-              <Link to="/products" className="announcement-link">
-                Use code <strong>SHOP20</strong> for 20% off
-              </Link>
-            </p>
+            <div className="announcement-left-wrap">
+              <span className="announcement-badge-pill">
+                <i className="fa-solid fa-gift"></i> Corporate & Festive Gifting
+              </span>
+              <p className="announcement-text">
+                Custom logo branding on 10,000+ items · Free digital sample on bulk orders · Pan-India delivery.
+              </p>
+            </div>
 
-            <div className="top-auth-actions">
+            <div className="top-auth-actions gifting-top-actions">
+              {/* Download Catalogues Top Link */}
+              <button
+                type="button"
+                onClick={handleOpenCatalogueModal}
+                className="top-quick-cta-btn"
+                title="Download Corporate & Festive Catalogues"
+              >
+                <i className="fa-solid fa-file-arrow-down"></i>
+                <span>Download Catalogues</span>
+              </button>
+
+              <span className="top-auth-pipe">|</span>
+
+              {/* Enquiry for Bulk Orders (Login/Signup) */}
+              <button
+                type="button"
+                onClick={() => handleOpenBulkModal()}
+                className="top-quick-cta-btn highlight-bulk-btn"
+                title="Enquiry for Bulk Orders"
+              >
+                <i className="fa-solid fa-boxes-packing"></i>
+                <span>Bulk Enquiry</span>
+              </button>
+
+              <span className="top-auth-pipe">|</span>
+
               {!user ? (
                 <>
                   <button
@@ -61,7 +95,7 @@ const Header = ({ cart, removeFromCart }) => {
                     onClick={() => openAuthModal("user")}
                     className="top-auth-btn"
                   >
-                    <i className="fa-regular fa-user"></i> Customer Login
+                    <i className="fa-regular fa-user"></i> Login / Signup
                   </button>
                   <span className="top-auth-pipe">|</span>
                   <button
@@ -90,9 +124,11 @@ const Header = ({ cart, removeFromCart }) => {
         </div>
       )}
 
-      <header className={`header-bg sticky-luxury-header ${isScrolled ? "is-scrolled" : ""}`}>
-        <div className="container flex-header header">
-          <div className="flex-title">
+      {/* Sticky Main Header */}
+      <header className={`header-bg sticky-luxury-header gifting-header ${isScrolled ? "is-scrolled" : ""}`}>
+        <div className="container flex-header header gifting-header-container">
+          {/* Brand Logo & Mobile Hamburger Trigger */}
+          <div className="flex-title gifting-brand-wrapper">
             <button
               onClick={() => handleMouseClick(setMobileMenuShow)}
               className="btn-profile btn-search btn-hamburger"
@@ -100,35 +136,60 @@ const Header = ({ cart, removeFromCart }) => {
             >
               <i className="fa-solid fa-bars" style={{ fontSize: "18px" }}></i>
             </button>
-            <Link to="/" className="luxury-brand-wordmark" aria-label="Atelier Home">
-              <span className="brand-logo-text">ATELIER</span>
-              <span className="brand-logo-sub">& CO.</span>
+
+            <Link to="/" className="luxury-brand-wordmark gifting-logo" aria-label="Atelier Gifts Home">
+              <div className="brand-logo-icon">
+                <i className="fa-solid fa-gift"></i>
+              </div>
+              <div className="brand-logo-text-block">
+                <span className="brand-logo-text">ATELIER</span>
+                <span className="brand-logo-sub">GIFTS & CO.</span>
+              </div>
             </Link>
           </div>
 
+          {/* Main Desktop Navigation Items */}
           <HeaderCategories
-            handleMouseIn={handleMouseIn}
-            dropdownShow={dropdownShow}
-            handleMouseOut={handleMouseOut}
+            onOpenBulkModal={handleOpenBulkModal}
+            onOpenCatalogueModal={handleOpenCatalogueModal}
           />
 
+          {/* Right Header Controls: Search, Saved Items, Cart, Account */}
           <HeaderProfileBtn
             handleMouseClick={() => handleMouseClick(setMobileSearchShow)}
             cart={cart}
             removeFromCart={removeFromCart}
+            onOpenBulkModal={handleOpenBulkModal}
           />
 
+          {/* Mobile Search Overlay */}
           <SearchMobile
             mobileSearchShow={mobileSearchShow}
             handleMouseClick={() => handleMouseClick(setMobileSearchShow)}
           />
 
+          {/* Mobile Drawer Navigation */}
           <HamburgerMobile
             handleMouseClick={() => handleMouseClick(setMobileMenuShow)}
             mobileMenuShow={mobileMenuShow}
+            onOpenBulkModal={handleOpenBulkModal}
+            onOpenCatalogueModal={handleOpenCatalogueModal}
           />
         </div>
       </header>
+
+      {/* Bulk Order Enquiry Modal with Login/Signup */}
+      <BulkEnquiryModal
+        isOpen={bulkModalOpen}
+        onClose={() => setBulkModalOpen(false)}
+        initialCategory={bulkInitialCategory}
+      />
+
+      {/* Catalogue Download Modal */}
+      <CatalogueDownloadModal
+        isOpen={catalogueModalOpen}
+        onClose={() => setCatalogueModalOpen(false)}
+      />
     </>
   );
 };

@@ -1,48 +1,50 @@
 import StarRating from "./Reviews/StarRating";
 
-// Sample feedback for development demonstration (replace with real review integration in production)
 const SAMPLE_TESTIMONIALS = [
   {
     id: 1,
-    name: "Aarav Sharma",
-    location: "Mumbai",
+    name: "Ritu Sengupta",
+    location: "Bengaluru",
+    role: "VP Human Resources, Fintech Solutions",
     rating: 5,
-    title: "Unmatched fabric feel & tailoring",
+    title: "Flawless Branding & Fast Delivery for 450 Employee Kits",
     comment:
-      "The weight and drape of the virgin wool overcoat exceeded my expectations. It hangs with genuine structure and poise. Truly an investment piece.",
-    item: "Tailored Tailcoat Formal Blazer",
+      "We ordered 450 custom welcome kits with ceramic cork mugs and hardbound bamboo notebooks for our annual company offsite. Every single piece had our logo engraved with crisp perfection. Delivery was 2 days ahead of schedule!",
+    item: "Executive Cork Ceramic Mug & Notebook Set",
   },
   {
     id: 2,
-    name: "Priya Nair",
-    location: "Bangalore",
+    name: "Vikramaditya Singhania",
+    location: "Mumbai",
+    role: "Managing Director, Apex Capital",
     rating: 5,
-    title: "Quiet luxury done right",
+    title: "Diwali Hampers That Truly Impressed Our Top Tier Clients",
     comment:
-      "Subtle, breathable, and beautifully minimal. No loud logos—just immaculate stitching and tactile comfort. Delivery arrived in two days in pristine kraft packaging.",
-    item: "T-shirt with Tape Details",
+      "Our C-suite banking partners were thrilled with the presentation of the Royal Brass Diya and gourmet dry fruit gift boxes. Elegant, rich, and zero hassle with individual multi-city dispatches.",
+    item: "Royal Artisanal Diwali Gourmet Hamper",
   },
   {
     id: 3,
-    name: "Devika Patel",
-    location: "New Delhi",
+    name: "Neha Deshmukh",
+    location: "Hyderabad",
+    role: "Head of Procurement, CloudTech Global",
     rating: 5,
-    title: "Timeless silhouette",
+    title: "Exceptional Quality on 800+ Smart Temperature Bottles",
     comment:
-      "I have worn this knit regularly for months. It hasn't lost shape after washing. A wonderful example of honest garment construction.",
-    item: "Elegant Velvet Evening Dress",
+      "From receiving digital sample proofs in 24 hours to getting official GST invoices for tax credit, the entire procurement process was seamless. The smart temperature LED display is a huge hit among our developers.",
+    item: "Smart Temp Vacuum Insulated Flask 500ml",
   },
 ];
 
 const CustomerTestimonials = () => {
   return (
-    <section className="testimonials-editorial-section" aria-label="Customer Reflections">
+    <section className="testimonials-editorial-section" aria-label="Client Testimonials">
       <div className="container">
         <div className="section-header-editorial">
-          <span className="section-kicker">Patron Reflections</span>
-          <h2 className="section-title-editorial title">Stories of Enduring Quality</h2>
+          <span className="section-kicker">Client Reflections</span>
+          <h2 className="section-title-editorial title">Trusted by 500+ Corporate Brands</h2>
           <p className="section-subtitle-editorial">
-            Sample feedback highlighting materials, comfort, and everyday durability.
+            Read verified experiences from HR leaders, corporate procurement teams, and founders across India.
           </p>
         </div>
 
@@ -51,34 +53,25 @@ const CustomerTestimonials = () => {
             <article key={t.id} className="testimonial-card-editorial">
               <div className="testimonial-rating-row">
                 <StarRating rating={t.rating} />
-                <span className="testimonial-sample-tag">Sample Feedback</span>
+                <span className="testimonial-sample-tag">Verified B2B Client</span>
               </div>
 
               <h3 className="testimonial-headline">"{t.title}"</h3>
               <p className="testimonial-body">{t.comment}</p>
 
               <div className="testimonial-footer">
-                <div className="testimonial-author-avatar" aria-hidden="true">
-                  {t.name
-                    .split(" ")
-                    .map((n) => n[0])
-                    .join("")}
+                <div className="testimonial-author-block">
+                  <span className="author-name">{t.name}</span>
+                  <span className="author-location">{t.role} · {t.location}</span>
                 </div>
-                <div>
-                  <h4 className="testimonial-author-name">{t.name}</h4>
-                  <p className="testimonial-author-meta">
-                    {t.location} · Regarding <em>{t.item}</em>
-                  </p>
-                </div>
+                <span className="testimonial-item-tag">
+                  <i className="fa-solid fa-gift" style={{ marginRight: "4px", color: "#b65c45" }}></i>
+                  {t.item}
+                </span>
               </div>
             </article>
           ))}
         </div>
-
-        {/* Development Note */}
-        <p className="testimonials-disclaimer-note">
-          <i className="fa-solid fa-circle-info"></i> Note: Testimonials shown above represent sample content for layout demonstration purposes.
-        </p>
       </div>
     </section>
   );

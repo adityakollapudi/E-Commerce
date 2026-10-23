@@ -179,6 +179,183 @@ export const PRODUCTS_DATA = [
     ]
   },
   {
+    id: 1120680,
+    sku: "VOYAGER-BAG-02",
+    brand: "Urban Gear",
+    title: "Urban Gear Voyager Executive 15.6\" Laptop Backpack",
+    price: 899.0,
+    originalPrice: 1699.0,
+    discountPercent: 47,
+    category: "bags",
+    style: "corporate",
+    rating: { rate: 4.9, count: 240 },
+    isNew: true,
+    isBestSeller: true,
+    moq: 25,
+    deliveryDays: "5–7 Days",
+    unitLabel: "piece",
+    priceNote: "Water-repellent ballistic nylon with USB charging port",
+    description:
+      "Engineered for corporate commuters and executive travelers. Features high-density shockproof laptop padding, hidden anti-theft rear pocket, and custom embroidered or metal-badge company branding.",
+    colors: [
+      { name: "Executive Grey", hex: "#475569" },
+      { name: "Matte Black", hex: "#0f172a" },
+      { name: "Deep Navy", hex: "#1e3a8a" }
+    ],
+    sizes: ["15.6 Inch"],
+    images: [
+      "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    id: 1120681,
+    sku: "FESTIVE-ROYAL-01",
+    brand: "Atelier Festive",
+    title: "Royal Diwali Artisanal Gourmet Dry Fruit & Brass Diya Gift Hamper",
+    price: 1250.0,
+    originalPrice: 1999.0,
+    discountPercent: 37,
+    category: "festive",
+    style: "corporate",
+    rating: { rate: 5.0, count: 310 },
+    isNew: true,
+    isBestSeller: true,
+    moq: 20,
+    deliveryDays: "3–5 Days",
+    unitLabel: "hamper box",
+    priceNote: "Handcrafted festive keepsake box with personalized greeting card",
+    description:
+      "A grand festive celebration box containing 200g California Almonds, 200g Roasted Cashews, 2 handcrafted solid brass diyas, and scented beeswax candles in a velvet-lined gold foil embossed rigid box.",
+    colors: [
+      { name: "Imperial Maroon & Gold", hex: "#831843" },
+      { name: "Emerald Festive Green", hex: "#065f46" }
+    ],
+    sizes: ["Standard Box"],
+    images: [
+      "https://images.unsplash.com/photo-1513885535751-8b9238bd345a?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    id: 1120682,
+    sku: "PORT-SOUND-15",
+    brand: "Portronics",
+    title: "Portronics SoundDrum Wireless Bluetooth 15W Corporate Speaker",
+    price: 999.0,
+    originalPrice: 1999.0,
+    discountPercent: 50,
+    category: "gadgets",
+    style: "corporate",
+    rating: { rate: 4.8, count: 420 },
+    isNew: true,
+    isBestSeller: true,
+    moq: 30,
+    deliveryDays: "3–5 Days",
+    unitLabel: "unit",
+    priceNote: "IPX6 water resistant with 8-hour playtime and UV logo branding",
+    description:
+      "Ultra-portable cylinder speaker with high-fidelity acoustic drivers and deep bass radiator. Includes multi-connectivity (Bluetooth 5.0, FM, USB, AUX) and custom full-color logo print option on speaker grille.",
+    colors: [
+      { name: "Midnight Black", hex: "#0f172a" },
+      { name: "Army Green", hex: "#3f6212" },
+      { name: "Ocean Blue", hex: "#0369a1" }
+    ],
+    sizes: ["Portable"],
+    images: [
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1543512214-318c7553f230?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    id: 1120683,
+    sku: "CROSS-PEN-CENT",
+    brand: "Cross",
+    title: "Cross Classic Century Lustrous Chrome Executive Rollerball Pen",
+    price: 1850.0,
+    originalPrice: 2800.0,
+    discountPercent: 34,
+    category: "pen",
+    style: "corporate",
+    rating: { rate: 4.9, count: 195 },
+    isNew: true,
+    isBestSeller: true,
+    moq: 15,
+    deliveryDays: "3–5 Days",
+    unitLabel: "piece",
+    priceNote: "Presented in signature Cross luxury gift box with lifetime mechanical warranty",
+    description:
+      "The icon of American design and corporate prestige since 1946. Subtle incised line pattern with brilliant chrome plate finish. Supports individual recipient name laser engraving on cap.",
+    colors: [
+      { name: "Lustrous Chrome", hex: "#cbd5e1" },
+      { name: "Classic 23K Gold Trim", hex: "#eab308" }
+    ],
+    sizes: ["Fine Nib"],
+    images: [
+      "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1585336261026-7f8a7d2d31f0?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    id: 1120684,
+    sku: "MILTON-DUO-1000",
+    brand: "Milton",
+    title: "Milton Thermosteel Duo Deluxe 1000ml Stainless Steel Flask",
+    price: 749.0,
+    originalPrice: 1199.0,
+    discountPercent: 38,
+    category: "bottles",
+    style: "corporate",
+    rating: { rate: 4.9, count: 580 },
+    isNew: true,
+    isBestSeller: true,
+    moq: 40,
+    deliveryDays: "3–5 Days",
+    unitLabel: "unit",
+    priceNote: "24-hour hot & cold retention · 100% rustproof copper-coated inner wall",
+    description:
+      "India's most trusted corporate flask. Fabricated inside and outside in 18/8 food grade steel. Keeps beverages hot or cold for 24 hours. Comes with convenient fabric carry jacket and custom laser branding.",
+    colors: [
+      { name: "Silver Steel", hex: "#e2e8f0" },
+      { name: "Matte Black", hex: "#1e293b" }
+    ],
+    sizes: ["1000ml"],
+    images: [
+      "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    id: 1120685,
+    sku: "JUTE-CONF-TOTE",
+    brand: "Atelier Eco",
+    title: "Premium Laminated Eco Jute Conference & Exhibition Bag",
+    price: 145.0,
+    originalPrice: 249.0,
+    discountPercent: 42,
+    category: "bags",
+    style: "corporate",
+    rating: { rate: 4.7, count: 390 },
+    isNew: true,
+    isBestSeller: true,
+    moq: 100,
+    deliveryDays: "5–7 Days",
+    unitLabel: "piece",
+    priceNote: "100% natural biodegradable jute with soft padded cotton handles",
+    description:
+      "Eco-conscious tote bag featuring sturdy laminated interior for water resistance and shape retention. Large branding surface for high-impact company logo screen printing at trade shows, summits, and AGMs.",
+    colors: [
+      { name: "Natural Golden Jute", hex: "#b45309" },
+      { name: "Jute with Navy Gusset", hex: "#1e3a8a" },
+      { name: "Jute with Forest Gusset", hex: "#14532d" }
+    ],
+    sizes: ["14\" x 16\" x 5\""],
+    images: [
+      "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
     id: 1,
     title: "T-shirt with Tape Details",
     price: 120.0,
@@ -392,7 +569,12 @@ export const getProductsByStyle = (style) => {
 };
 
 export const getNewArrivals = (limit = 4) => {
-  return PRODUCTS_DATA.filter((p) => p.isNew).slice(0, limit);
+  const news = PRODUCTS_DATA.filter((p) => p.isNew);
+  if (news.length > limit) {
+    // Return items from offset so New Arrivals displays distinct gifts from Best Sellers
+    return news.slice(limit, limit + limit);
+  }
+  return news.slice(0, limit);
 };
 
 export const getBestSellers = (limit = 4) => {

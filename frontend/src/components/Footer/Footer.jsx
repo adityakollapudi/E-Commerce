@@ -1,10 +1,8 @@
 import SocMediaIcons from "../Misc/SocMediaIcons";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { CONTACT_INFO } from "../../data/navigationData";
 
 const Footer = () => {
-  const location = useLocation();
-  const isHomePage = location.pathname === "/";
-
   return (
     <footer className="luxury-footer" aria-label="Footer">
       <div className="container">
@@ -13,79 +11,94 @@ const Footer = () => {
           <div className="footer-brand-column">
             <Link to="/" className="footer-brand-logo">
               <span className="logo-wordmark">ATELIER</span>
-              <span className="logo-subtitle">& CO.</span>
+              <span className="logo-subtitle">GIFTS & CO.</span>
             </Link>
             <p className="footer-brand-desc">
-              Purveyors of modern luxury and enduring essentials. Thoughtfully conceived,
-              responsibly sourced, and made to outlive fast-trend cycles.
+              India's premier corporate and festive gifting specialist. Curating 10,000+ customizable corporate gifts, executive drinkware, tech gadgets, and luxury festive hampers with official GST tax billing and Pan-India doorstep delivery.
             </p>
+            <div className="footer-contact-snippet">
+              <p>
+                <i className="fa-solid fa-phone" style={{ marginRight: "6px", color: "#b65c45" }}></i>
+                {CONTACT_INFO.phonePrimary}
+              </p>
+              <p>
+                <i className="fa-solid fa-envelope" style={{ marginRight: "6px", color: "#b65c45" }}></i>
+                {CONTACT_INFO.emailBulk}
+              </p>
+            </div>
             <div className="footer-social-wrapper">
               <SocMediaIcons />
             </div>
           </div>
 
-          {/* Quick Links Column */}
+          {/* Core Categories Column */}
           <div className="footer-links-column">
-            <h3 className="footer-column-heading">Quick Links</h3>
+            <h3 className="footer-column-heading">Gifting Categories</h3>
             <ul className="footer-links-list">
               <li>
-                <Link to="/products">Shop All</Link>
+                <Link to="/products?search=Bottle">Bottles & Insulated Flasks</Link>
               </li>
               <li>
-                <Link to="/products?style=casual">Everyday Essentials</Link>
+                <Link to="/products?search=Mug">Ceramic & Cork Mugs</Link>
               </li>
               <li>
-                <Link to="/products?style=formal">Signature Collection</Link>
+                <Link to="/products?search=Bag">Bags & Executive Backpacks</Link>
               </li>
               <li>
-                <Link to="/products?new=true">New Arrivals</Link>
+                <Link to="/products?search=Gadget">Tech & Electrical Gadgets</Link>
               </li>
               <li>
-                <Link to="/underconstruction">About Us</Link>
+                <Link to="/products?search=Pen">Executive Pens & Stylus</Link>
+              </li>
+              <li>
+                <Link to="/products?search=Notebook">Diaries & Organizers</Link>
               </li>
             </ul>
           </div>
 
-          {/* Customer Service Column */}
+          {/* Bespoke Services Column */}
           <div className="footer-links-column">
-            <h3 className="footer-column-heading">Customer Care</h3>
+            <h3 className="footer-column-heading">Gifting Services</h3>
             <ul className="footer-links-list">
               <li>
-                <Link to="/underconstruction">Shipping & Delivery</Link>
+                <Link to="/products?search=Corporate">Corporate Gifting</Link>
               </li>
               <li>
-                <Link to="/underconstruction">Complimentary Returns</Link>
+                <Link to="/products?search=Employee">Employee Joining Kits</Link>
               </li>
               <li>
-                <Link to="/underconstruction">Track Your Order</Link>
+                <Link to="/products?search=Return">Return Gifting for Events</Link>
               </li>
               <li>
-                <Link to="/underconstruction">Garment Care Guide</Link>
+                <Link to="/products?search=Conference">Conference & Summit Swags</Link>
               </li>
               <li>
-                <Link to="/underconstruction">Frequently Asked Questions</Link>
+                <Link to="/products?search=Festive">Diwali & Festive Hampers</Link>
+              </li>
+              <li>
+                <Link to="/products?search=Branded">Branded Corporate Catalog</Link>
               </li>
             </ul>
           </div>
 
-          {/* Legal & Trust Column */}
+          {/* Corporate Support Column */}
           <div className="footer-links-column">
-            <h3 className="footer-column-heading">Company & Legal</h3>
+            <h3 className="footer-column-heading">Corporate Support</h3>
             <ul className="footer-links-list">
               <li>
-                <Link to="/underconstruction">Our Craft & Mills</Link>
+                <a href="#brand-story">Why Atelier Gifting</a>
               </li>
               <li>
-                <Link to="/underconstruction">Sustainability Manifesto</Link>
+                <Link to="/products">Free Digital Sample Mockups</Link>
               </li>
               <li>
-                <Link to="/underconstruction">Privacy Policy</Link>
+                <Link to="/products">B2B GST Tax Billing & Compliance</Link>
               </li>
               <li>
-                <Link to="/underconstruction">Terms of Service</Link>
+                <Link to="/products">Volume Tier Quotations</Link>
               </li>
               <li>
-                <a href="#brand-story" className="footer-story-link">Discover Our Story</a>
+                <Link to="/products">Multi-City Doorstep Delivery</Link>
               </li>
             </ul>
           </div>
@@ -94,24 +107,13 @@ const Footer = () => {
         {/* Bottom Bar: Copyright & Payment Badges */}
         <div className="footer-bottom-bar">
           <div className="footer-copyright-text">
-            © {new Date().getFullYear()} ATELIER & CO. Storefront. All rights reserved. Designed for the Art of Everyday Living.
+            © {new Date().getFullYear()} ATELIER GIFTS & CO. All rights reserved. Bespoke Corporate & Festive Gifting Solutions.
           </div>
 
           <div className="footer-payment-methods">
-            <span className="payment-badge" title="Visa">
-              <i className="fa-brands fa-cc-visa"></i> Visa
-            </span>
-            <span className="payment-badge" title="Mastercard">
-              <i className="fa-brands fa-cc-mastercard"></i> Mastercard
-            </span>
-            <span className="payment-badge" title="UPI">
-              <i className="fa-solid fa-qrcode"></i> UPI
-            </span>
-            <span className="payment-badge" title="Apple Pay">
-              <i className="fa-brands fa-apple-pay"></i> Apple Pay
-            </span>
-            <span className="payment-badge" title="Secure SSL">
-              <i className="fa-solid fa-lock"></i> 256-bit SSL
+            <span className="payment-badge-text">
+              <i className="fa-solid fa-shield-halved" style={{ marginRight: "6px", color: "#10b981" }}></i>
+              Official GST 18% Tax Billing · Pan-India Dispatch
             </span>
           </div>
         </div>

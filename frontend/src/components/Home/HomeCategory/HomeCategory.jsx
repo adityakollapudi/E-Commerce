@@ -25,18 +25,12 @@ const HomeCategory = ({
         }
       });
     } else {
-      // If no category specified, pull the appropriate curated set
-      fetchProductsSafe("all").then((data) => {
-        if (isMounted && data && data.length > 0) {
-          if (filterType === "newArrival" || title.toLowerCase().includes("new")) {
-            const news = data.filter((p) => p.isNew);
-            setProductList(news.length >= 4 ? news.slice(0, 4) : data.slice(0, 4));
-          } else {
-            const bests = data.filter((p) => p.isBestSeller);
-            setProductList(bests.length >= 4 ? bests.slice(0, 4) : data.slice(0, 4));
-          }
-        }
-      });
+      // Prioritize curated corporate & festive gifting catalog
+      if (filterType === "newArrival" || title.toLowerCase().includes("new")) {
+        setProductList(getNewArrivals(4));
+      } else {
+        setProductList(getBestSellers(4));
+      }
     }
     return () => {
       isMounted = false;

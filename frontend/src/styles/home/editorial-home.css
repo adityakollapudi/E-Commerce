@@ -1951,3 +1951,233 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* ==========================================================================
+   GIFTING SERVICES SECTION (4 SERVICES FROM PDF)
+   ========================================================================== */
+.gifting-services-section {
+  padding: 64px 0 32px 0;
+  background: #fafaf9;
+  border-top: 1px solid #f5f5f4;
+  border-bottom: 1px solid #f5f5f4;
+}
+
+.home-services-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-top: 24px;
+}
+
+.home-service-card {
+  padding: 24px 20px;
+  border-radius: 14px;
+  background: #ffffff;
+  border: 1px solid #e7e5e4;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.home-service-card:hover {
+  transform: translateY(-4px);
+  border-color: #cbd5e1;
+  box-shadow: 0 12px 28px -6px rgba(15, 23, 42, 0.08);
+}
+
+.home-service-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.home-service-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: #0f172a;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.home-service-tag {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 3px 8px;
+  border-radius: 20px;
+  background: #f1f5f9;
+  color: #334155;
+}
+
+.home-service-title {
+  margin: 0 0 4px 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.home-service-subtitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: #b65c45;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.home-service-desc {
+  margin: 0 0 16px 0;
+  font-size: 12.5px;
+  color: #64748b;
+  line-height: 1.5;
+  flex: 1;
+}
+
+.home-service-footer {
+  padding-top: 12px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.home-service-link {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #0f172a;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: color 0.15s ease;
+}
+
+.home-service-link:hover {
+  color: #b65c45;
+}
+
+@media (max-width: 1024px) {
+  .home-services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .home-services-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   BRANDED GIFTING SHOWCASE SECTION (22 BRANDS FROM PDF)
+   ========================================================================== */
+.branded-showcase-section {
+  padding: 72px 0;
+  background: #ffffff;
+}
+
+.home-brands-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.home-brand-pill-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  border-radius: 12px;
+  background: #fafaf9;
+  border: 1px solid #f5f5f4;
+  text-decoration: none;
+  color: #1e293b;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.home-brand-pill-card:hover {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  box-shadow: 0 6px 16px -2px rgba(15, 23, 42, 0.08);
+  transform: translateY(-2px);
+}
+
+.brand-pill-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #0f172a;
+  color: #ffffff;
+  font-size: 11.5px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.brand-pill-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+
+.brand-pill-name {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #0f172a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.brand-pill-cat {
+  font-size: 11px;
+  color: #64748b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.brand-pill-tag {
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: #f1f5f9;
+  color: #475569;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.brand-showcase-trust-bar {
+  margin-top: 32px;
+  padding: 16px 24px;
+  border-radius: 14px;
+  background: #fafaf9;
+  border: 1px solid #e7e5e4;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.trust-bar-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.trust-bar-item i {
+  color: #d97706;
+  font-size: 14px;
+}
+

@@ -145,7 +145,7 @@ const SearchBar = () => {
           name="search-product"
           aria-label="Search Products"
           className="input-search"
-          placeholder="Search for clothes, styles, brands..."
+          placeholder="Search gifts, bottles, bags, gadgets, brands..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           onKeyDown={handleKeyDown}

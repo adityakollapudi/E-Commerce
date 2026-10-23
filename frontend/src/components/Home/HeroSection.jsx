@@ -16,44 +16,44 @@ const HeroSection = () => {
         <div className="hero-editorial-content">
           <div className="hero-kicker">
             <span className="hero-kicker-dot"></span>
-            <span className="hero-kicker-text">Edition 2026 · Autumn / Winter</span>
+            <span className="hero-kicker-text">Edition 2026 · Corporate & Festive Gifting</span>
           </div>
 
           <h1 className="hero-editorial-title">
-            Designed for the Art of Everyday Living.
+            Bespoke Hampers, Tech Kits & Branded Gifts.
           </h1>
 
           <p className="hero-editorial-description">
-            Thoughtful essentials, considered materials, and timeless design for the way you live.
+            Tailored corporate gifting, employee onboarding kits, festive hampers, and authorized branded merchandise with custom logo printing, official GST tax billing, and Pan-India delivery.
           </p>
 
           <div className="hero-editorial-actions">
             <Link to="/products" className="btn-luxury btn-primary hero-primary-cta">
-              Shop Collection <i className="fa-solid fa-arrow-right"></i>
+              Explore Gifting Catalog <i className="fa-solid fa-arrow-right"></i>
             </Link>
             <a
               href="#brand-story"
               onClick={scrollToStory}
               className="btn-luxury btn-outline hero-secondary-cta"
             >
-              Discover Our Story
+              Why Atelier Gifting
             </a>
           </div>
 
           <div className="hero-editorial-highlights">
             <div className="hero-highlight-item">
+              <span className="highlight-number">10,000+</span>
+              <span className="highlight-label">Curated Gift Items</span>
+            </div>
+            <div className="hero-highlight-divider" aria-hidden="true"></div>
+            <div className="hero-highlight-item">
               <span className="highlight-number">100%</span>
-              <span className="highlight-label">Natural Fibres</span>
+              <span className="highlight-label">Custom Logo Branding</span>
             </div>
             <div className="hero-highlight-divider" aria-hidden="true"></div>
             <div className="hero-highlight-item">
-              <span className="highlight-number">₹1,999+</span>
-              <span className="highlight-label">Complimentary Shipping</span>
-            </div>
-            <div className="hero-highlight-divider" aria-hidden="true"></div>
-            <div className="hero-highlight-item">
-              <span className="highlight-number">30-Day</span>
-              <span className="highlight-label">Hassle-Free Returns</span>
+              <span className="highlight-number">Pan-India</span>
+              <span className="highlight-label">Doorstep Delivery</span>
             </div>
           </div>
         </div>
@@ -64,27 +64,27 @@ const HeroSection = () => {
             {/* Dominant Lifestyle Anchor Image */}
             <div className="hero-image-wrapper hero-anchor-image">
               <img
-                src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=85"
-                alt="Atelier collection editorial model in relaxed tailored coat"
+                src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=1200&q=85"
+                alt="Atelier luxury corporate gift hamper box with bespoke packaging"
                 className="hero-main-img"
                 loading="eager"
               />
               <div className="hero-image-badge">
-                <span className="badge-tag">Atelier Silhouette</span>
-                <span className="badge-title">Cut from Pure Natural Wool</span>
+                <span className="badge-tag">Corporate Hamper Edition</span>
+                <span className="badge-title">Custom Logo Engraved & Gift Boxed</span>
               </div>
             </div>
 
             {/* Supporting Detail Image Crop */}
             <div className="hero-supporting-crop" aria-hidden="true">
               <img
-                src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=600&q=80"
-                alt="Tactile knit detail and honest seam finish"
+                src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80"
+                alt="Executive ceramic cork mug with custom brand imprint"
                 className="hero-sub-img"
                 loading="lazy"
               />
               <span className="hero-supporting-caption">
-                Tactile Knit · Studio No. 04
+                Laser Precision · QC Certified
               </span>
             </div>
           </div>
