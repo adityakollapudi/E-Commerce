@@ -295,8 +295,7 @@
   box-shadow: 0 16px 40px rgba(28, 28, 28, 0.08);
   aspect-ratio: 4 / 5;
   background-color: var(--bg-secondary, #eae4d9);
-  width: 90%;
-  margin-left: auto;
+  width: 100%;
 }
 .hero-main-img {
   width: 100%;

@@ -75,18 +75,7 @@ const HeroSection = () => {
               </div>
             </div>
 
-            {/* Supporting Detail Image Crop */}
-            <div className="hero-supporting-crop" aria-hidden="true">
-              <img
-                src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80"
-                alt="Executive ceramic cork mug with custom brand imprint"
-                className="hero-sub-img"
-                loading="lazy"
-              />
-              <span className="hero-supporting-caption">
-                Laser Precision · QC Certified
-              </span>
-            </div>
+
           </div>
         </div>
       </div>
