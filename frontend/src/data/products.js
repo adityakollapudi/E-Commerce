@@ -211,7 +211,7 @@ export const PRODUCTS_DATA = [
   {
     id: 1120681,
     sku: "FESTIVE-ROYAL-01",
-    brand: "Atelier Festive",
+    brand: "Giftingwellness Festive",
     title: "Royal Diwali Artisanal Gourmet Dry Fruit & Brass Diya Gift Hamper",
     price: 1250.0,
     originalPrice: 1999.0,
@@ -328,7 +328,7 @@ export const PRODUCTS_DATA = [
   {
     id: 1120685,
     sku: "JUTE-CONF-TOTE",
-    brand: "Atelier Eco",
+    brand: "Giftingwellness Eco",
     title: "Premium Laminated Eco Jute Conference & Exhibition Bag",
     price: 145.0,
     originalPrice: 249.0,

@@ -11,12 +11,19 @@ const Footer = () => {
         <div className="footer-top-grid">
           {/* Brand Info */}
           <div className="footer-brand-column">
-            <Link to="/" className="footer-brand-logo">
-              <span className="logo-wordmark">ATELIER</span>
-              <span className="logo-subtitle">GIFTS & CO.</span>
+            <Link to="/" className="footer-brand-logo" aria-label="Giftingwellness Home">
+              <img
+                src="/giftingwellness-logo.png"
+                alt="Giftingwellness Logo"
+                className="footer-brand-img"
+              />
+              <div className="footer-brand-text-block">
+                <span className="logo-wordmark">Giftingwellness</span>
+                <span className="logo-subtitle">— Corporate Gifting Solutions —</span>
+              </div>
             </Link>
             <p className="footer-brand-desc">
-              India's premier corporate and festive gifting specialist. Curating 10,000+ customizable corporate gifts, executive drinkware, tech gadgets, and luxury festive hampers with official GST tax billing and Pan-India doorstep delivery.
+              Founded by Ravi Kinnera in 2019 in Hyderabad, Giftingwellness is a premier corporate gifting solutions company. Thoughtfully chosen. Meaningfully delivered.
             </p>
             <div className="footer-contact-snippet">
               <p>
@@ -88,7 +95,7 @@ const Footer = () => {
             <h3 className="footer-column-heading">Corporate Support</h3>
             <ul className="footer-links-list">
               <li>
-                <a href="#brand-story">Why Atelier Gifting</a>
+                <Link to="/about">About Gifting Wellness</Link>
               </li>
               <li>
                 <Link to="/products">Free Digital Sample Mockups</Link>
@@ -109,7 +116,7 @@ const Footer = () => {
         {/* Bottom Bar: Copyright & Payment Badges */}
         <div className="footer-bottom-bar">
           <div className="footer-copyright-text">
-            © {new Date().getFullYear()} ATELIER GIFTS & CO. All rights reserved. Bespoke Corporate & Festive Gifting Solutions.
+            © {new Date().getFullYear()} GIFTING WELLNESS. All rights reserved. Corporate Gifting Solutions. Thoughtfully Chosen. Meaningfully Delivered.
           </div>
 
           <div className="footer-payment-methods">

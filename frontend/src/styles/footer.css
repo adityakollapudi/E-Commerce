@@ -25,23 +25,43 @@
 
   .footer-brand-logo {
     display: inline-flex;
-    align-items: baseline;
-    gap: 6px;
+    align-items: center;
+    gap: 12px;
     text-decoration: none;
     color: var(--bg-primary, #f8f6f1);
+    transition: opacity 0.2s ease;
+  }
+  .footer-brand-logo:hover {
+    opacity: 0.92;
+  }
+  .footer-brand-img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #ffffff;
+    object-fit: contain;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    flex-shrink: 0;
+  }
+  .footer-brand-text-block {
+    display: flex;
+    flex-direction: column;
   }
   .footer-brand-logo .logo-wordmark {
-    font-family: var(--font-heading, 'Playfair Display', serif);
-    font-size: 24px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    color: var(--bg-primary, #f8f6f1);
+    font-family: var(--font-body, 'Inter', sans-serif);
+    font-size: 21px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    color: #ffffff;
+    line-height: 1.15;
   }
   .footer-brand-logo .logo-subtitle {
-    font-size: 13px;
-    letter-spacing: 0.15em;
-    color: #a8a49c;
-    font-weight: 400;
+    font-size: 9.5px;
+    letter-spacing: 0.12em;
+    color: #d11e24;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-top: 2px;
   }
 
   .footer-brand-desc {

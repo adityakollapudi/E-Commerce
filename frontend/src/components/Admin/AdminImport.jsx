@@ -910,7 +910,7 @@ const AdminImport = () => {
                                 <td>
                                   <span style={{ textTransform: "capitalize" }}>{r.item.category || "—"}</span>
                                 </td>
-                                <td>{r.item.brand || "SHOP.CO"}</td>
+                                <td>{r.item.brand || "Giftingwellness"}</td>
                                 <td style={{ fontSize: 11.5 }}>
                                   {Array.isArray(r.item.sizes) ? r.item.sizes.join(", ") : r.item.sizes || "—"}
                                 </td>

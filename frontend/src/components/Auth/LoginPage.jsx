@@ -85,8 +85,12 @@ const LoginPage = () => {
             
             {/* Header Brand */}
             <div className="login-brand-header">
-              <Link to="/">
-                <img src="/SHOP.CO.png" alt="SHOP.CO" className="login-logo" />
+              <Link to="/" className="login-brand-link">
+                <img src="/giftingwellness-logo.png" alt="Giftingwellness" className="login-logo" />
+                <div className="login-brand-text-col">
+                  <span className="login-brand-name">Giftingwellness</span>
+                  <span className="login-brand-tagline">Corporate Gifting Solutions</span>
+                </div>
               </Link>
               {mode === "admin" ? (
                 <div className="admin-status-badge">
@@ -208,7 +212,7 @@ const LoginPage = () => {
                   <input
                     id="lp-email"
                     type="email"
-                    placeholder={mode === "admin" ? "admin@shop.co" : "name@example.com"}
+                    placeholder={mode === "admin" ? "admin@giftingwellness.com" : "name@example.com"}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
@@ -258,11 +262,11 @@ const LoginPage = () => {
               <div className="form-info-note">
                 {mode === "admin" ? (
                   <span>
-                    <i className="fa-solid fa-shield-cat"></i> Preset Admin: <code>admin@shop.co</code> / <code>admin123</code>
+                    <i className="fa-solid fa-shield-cat"></i> Preset Admin: <code>admin@giftingwellness.com</code> / <code>admin123</code>
                   </span>
                 ) : (
                   <span>
-                    <i className="fa-solid fa-user-check"></i> Preset Customer: <code>user@shop.co</code> / <code>user123</code>
+                    <i className="fa-solid fa-user-check"></i> Preset Customer: <code>user@giftingwellness.com</code> / <code>user123</code>
                   </span>
                 )}
               </div>
@@ -281,7 +285,7 @@ const LoginPage = () => {
                 ) : mode === "register" ? (
                   "Create Free Account"
                 ) : (
-                  "Sign In to SHOP.CO"
+                  "Sign In to Giftingwellness"
                 )}
               </button>
             </form>

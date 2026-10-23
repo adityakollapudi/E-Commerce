@@ -28,6 +28,7 @@ import ManageSiteContent from "./components/Admin/ManageSiteContent";
 import { WishlistProvider } from "./context/WishlistContext";
 import { SiteContentProvider } from "./context/SiteContentContext";
 import WishlistDrawer from "./components/Wishlist/WishlistDrawer";
+import AboutUs from "./components/About/AboutUs";
 
 function App() {
   const [cart, setCart] = useState(
@@ -126,7 +127,6 @@ function App() {
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/add-product" element={<AddProduct />} />
             <Route path="/admin/import" element={<AdminImport />} />
-            <Route path="/admin/site-content" element={<ManageSiteContent />} />
             <Route path="/products" element={<Products />}>
               <Route path=":category" element={<Products />} />
             </Route>
@@ -137,6 +137,7 @@ function App() {
           // ==================== PORT 5173: CUSTOMER STOREFRONT (VIEW ONLY) ====================
           <>
             <Route path="/" element={<Home />} />
+            <Route path="/about" element={<AboutUs />} />
             <Route path="/products" element={<Products />}>
               <Route path=":category" element={<Products />} />
             </Route>

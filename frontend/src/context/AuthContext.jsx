@@ -146,9 +146,17 @@ export const AuthProvider = ({ children }) => {
   // One-click demo login (dev mode)
   const quickLogin = async (role = "user") => {
     if (role === "admin") {
-      return await login("admin@shop.co", "admin123", "admin");
+      try {
+        return await login("admin@giftingwellness.com", "admin123", "admin");
+      } catch {
+        return await login("admin@shop.co", "admin123", "admin");
+      }
     } else {
-      return await login("user@shop.co", "user123", "user");
+      try {
+        return await login("user@giftingwellness.com", "user123", "user");
+      } catch {
+        return await login("user@shop.co", "user123", "user");
+      }
     }
   };
 

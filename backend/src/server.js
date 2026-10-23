@@ -1,5 +1,5 @@
 import express from "express";
-// SHOP.CO Dual-Port Unified Backend Server
+// Giftingwellness Dual-Port Unified Backend Server
 import cors from "cors";
 import dotenv from "dotenv";
 import path from "path";
@@ -14,6 +14,8 @@ import siteContentRouter from "./routes/siteContent.js";
 import { validateAuthConfig } from "./middleware/auth.js";
 import { quoteRequestLimiter } from "./middleware/rateLimiter.js";
 import { validateQuotePayload } from "./middleware/validation.js";
+import { connectDB, isMongoConnected } from "./db.js";
+import { BulkEnquiry } from "./models/BulkEnquiry.js";
 
 dotenv.config();
 
@@ -86,13 +88,14 @@ export const createApp = ({ isUserPort = false, port = USER_PORT, peerPort = ADM
     res.json({
       status: "ok",
       service: isUserPort
-        ? "SHOP.CO User Storefront API (View & Checkout)"
-        : "SHOP.CO Admin Management API (Full CRUD & Import)",
+        ? "Giftingwellness Storefront API (View & Checkout)"
+        : "Giftingwellness Admin Management API (Full CRUD & Import)",
       role: isUserPort ? "user" : "admin",
       port,
       peerPort,
       catalogueEditingAllowed: !isUserPort,
       sharedDatabase: "catalogStore & catalog.json",
+      mongodb: isMongoConnected() ? "connected" : "disconnected",
       uptime: process.uptime(),
       timestamp: new Date().toISOString(),
     });
@@ -120,6 +123,41 @@ export const createApp = ({ isUserPort = false, port = USER_PORT, peerPort = ADM
         createdAt: new Date().toISOString(),
       },
     });
+  });
+
+  // Bulk Enquiry Endpoint (Corporate Gifting Lookbooks & Quotes)
+  app.post("/api/enquiries", async (req, res) => {
+    try {
+      const { name, email, phone, company, category, quantity, customBranding, targetDate, notes } = req.body;
+      const enquiryId = `ENQ-${Date.now().toString(36).toUpperCase()}-${Math.floor(100 + Math.random() * 900)}`;
+
+      if (isMongoConnected()) {
+        try {
+          await BulkEnquiry.create({
+            enquiryId,
+            name: name ? String(name).trim() : "Corporate Client",
+            email: email ? String(email).trim().toLowerCase() : "",
+            phone: phone ? String(phone).trim() : "",
+            company: company ? String(company).trim() : "",
+            category: category ? String(category).trim() : "General Gifting",
+            quantity: quantity ? String(quantity).trim() : "100 units",
+            customBranding: customBranding ? String(customBranding).trim() : "Yes",
+            targetDate: targetDate ? String(targetDate).trim() : "",
+            notes: notes ? String(notes).trim().slice(0, 1000) : "",
+          });
+        } catch (dbErr) {
+          console.warn("[MongoDB Enquiry Save Notice]:", dbErr.message);
+        }
+      }
+
+      res.status(201).json({
+        success: true,
+        message: "Enquiry submitted successfully! Our representative will contact you within 2 working hours.",
+        enquiryId,
+      });
+    } catch (err) {
+      res.status(500).json({ success: false, message: "Failed to submit enquiry." });
+    }
   });
 
   // Mount auth router
@@ -216,11 +254,16 @@ export const adminApp = createApp({ isUserPort: false, port: ADMIN_PORT, peerPor
 
 // Start both dual-port servers
 export const startServers = () => {
+  // Connect to MongoDB Atlas
+  connectDB().catch((err) => {
+    console.warn("MongoDB Atlas connection notice:", err.message);
+  });
+
   const servers = {};
 
   // 1. User Storefront API Listener (Port 5000)
   const userServer = userApp.listen(USER_PORT, () => {
-    console.log(`🚀 SHOP.CO User Storefront API running on http://localhost:${USER_PORT}`);
+    console.log(`🚀 Giftingwellness Storefront API running on http://localhost:${USER_PORT}`);
     console.log(`   Role: Customer View & Checkout (Mutations blocked)`);
     console.log(`   Health check: http://localhost:${USER_PORT}/api/health`);
   });
@@ -236,7 +279,7 @@ export const startServers = () => {
 
   // 2. Admin Management API Listener (Port 5001)
   const adminServer = adminApp.listen(ADMIN_PORT, () => {
-    console.log(`🛡️ SHOP.CO Admin Management API running on http://localhost:${ADMIN_PORT}`);
+    console.log(`🛡️ Giftingwellness Admin Management API running on http://localhost:${ADMIN_PORT}`);
     console.log(`   Role: Admin Management (Full Edit & Bulk Import enabled)`);
     console.log(`   Health check: http://localhost:${ADMIN_PORT}/api/health`);
     console.log(`📦 Shared Database: Single synchronized catalogStore & catalog.json`);

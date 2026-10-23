@@ -1,4 +1,4 @@
-/* Enhanced styles for SHOP.CO e-commerce experience */
+/* Enhanced styles for Giftingwellness Corporate Gifting Platform */
 
 /* Top Announcement Banner */
 .top-announcement-bar {
@@ -49,8 +49,13 @@
 /* Search Bar Wrapper & Autocomplete */
 .search-bar-wrapper {
   position: relative;
-  flex: 1;
-  max-width: 560px;
+  width: 200px;
+  max-width: 240px;
+  transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.search-bar-wrapper:focus-within {
+  width: 260px;
+  max-width: 300px;
 }
 .search-clear-btn {
   background: none;

@@ -19,7 +19,7 @@ const CatalogueDownloadModal = ({ isOpen, onClose }) => {
       const element = document.createElement("a");
       const file = new Blob(
         [
-          `ATELIER CORPORATE & FESTIVE GIFTING CATALOGUE 2026\n=======================================================\nTitle: ${catalog.title}\nSubtitle: ${catalog.subtitle}\nVerified B2B Institutional Collection\n\nTo place orders or request samples, contact:\nPhone: ${CONTACT_INFO.phonePrimary}\nEmail: ${CONTACT_INFO.emailBulk}\nPan-India Delivery with GST Billing.\nWebsite: http://localhost:5173/`,
+          `GIFTINGWELLNESS CORPORATE & FESTIVE GIFTING CATALOGUE 2026\n=======================================================\nTitle: ${catalog.title}\nSubtitle: ${catalog.subtitle}\nVerified B2B Institutional Collection\n\nTo place orders or request samples, contact:\nPhone: ${CONTACT_INFO.phonePrimary}\nEmail: ${CONTACT_INFO.emailBulk}\nPan-India Delivery with GST Billing.\nWebsite: http://localhost:5173/`,
         ],
         { type: "text/plain" }
       );

@@ -36,7 +36,7 @@ const HeroSection = () => {
               onClick={scrollToStory}
               className="btn-luxury btn-outline hero-secondary-cta"
             >
-              Why Atelier Gifting
+              Why Giftingwellness
             </a>
           </div>
 

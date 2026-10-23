@@ -25,10 +25,10 @@ const NewsletterSection = () => {
 
     // Duplicate subscription check via localStorage
     try {
-      const stored = JSON.parse(localStorage.getItem("atelier_newsletter_subscribers") || "[]");
+      const stored = JSON.parse(localStorage.getItem("giftingwellness_newsletter_subscribers") || "[]");
       if (stored.includes(trimmed)) {
         setStatus("error");
-        setErrorMessage("This email is already subscribed to our journal.");
+        setErrorMessage("This email is already subscribed to our gifting updates.");
         return;
       }
     } catch {
@@ -38,9 +38,9 @@ const NewsletterSection = () => {
     setStatus("loading");
     setTimeout(() => {
       try {
-        const stored = JSON.parse(localStorage.getItem("atelier_newsletter_subscribers") || "[]");
+        const stored = JSON.parse(localStorage.getItem("giftingwellness_newsletter_subscribers") || "[]");
         stored.push(trimmed);
-        localStorage.setItem("atelier_newsletter_subscribers", JSON.stringify(stored));
+        localStorage.setItem("giftingwellness_newsletter_subscribers", JSON.stringify(stored));
       } catch {
         // Fallback
       }

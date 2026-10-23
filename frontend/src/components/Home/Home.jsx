@@ -37,7 +37,7 @@ const Home = () => {
       {/* 06: Authorized 22+ Corporate Brand Partners */}
       <BrandedGiftingShowcase />
 
-      {/* 07: Why 500+ Corporate Brands Partner With Atelier Gifting */}
+      {/* 07: Why 500+ Corporate Brands Partner With Giftingwellness */}
       <BrandStorySection />
 
       {/* 08: Seasonal & Festive Gifting Campaign Banner */}

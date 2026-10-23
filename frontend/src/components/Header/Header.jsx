@@ -139,13 +139,17 @@ const Header = ({ cart, removeFromCart }) => {
               <i className="fa-solid fa-bars" style={{ fontSize: "18px" }}></i>
             </button>
 
-            <Link to="/" className="luxury-brand-wordmark gifting-logo" aria-label="Atelier Gifts Home">
-              <div className="brand-logo-icon">
-                <i className={navigation?.brandLogo?.icon || "fa-solid fa-gift"}></i>
-              </div>
+            <Link to="/" className="luxury-brand-wordmark gifting-logo" aria-label="Giftingwellness Home">
+              <img
+                src="/giftingwellness-logo.png"
+                alt="Giftingwellness Logo"
+                className="brand-logo-img"
+              />
               <div className="brand-logo-text-block">
-                <span className="brand-logo-text">{navigation?.brandLogo?.text || "ATELIER"}</span>
-                <span className="brand-logo-sub">{navigation?.brandLogo?.subtext || "GIFTS & CO."}</span>
+                <span className="brand-logo-text">Giftingwellness</span>
+                <span className="brand-logo-sub">
+                  <span className="sub-dash">—</span> Corporate Gifting Solutions <span className="sub-dash">—</span>
+                </span>
               </div>
             </Link>
           </div>

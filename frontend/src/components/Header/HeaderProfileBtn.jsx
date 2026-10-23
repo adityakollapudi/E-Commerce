@@ -86,7 +86,7 @@ const HeaderProfileBtn = ({ cart, handleMouseClick }) => {
           title="Sign in as customer"
         >
           <i className="fa-regular fa-user"></i>
-          <span className="customer-login-label">Customer Login</span>
+          <span className="customer-login-label">Login</span>
         </button>
       )}
 
@@ -263,7 +263,7 @@ const HeaderProfileBtn = ({ cart, handleMouseClick }) => {
                         quickLogin("user");
                         setMenuOpen(false);
                       }}
-                      title="user@shop.co"
+                      title="user@giftingwellness.com"
                     >
                       👤 Customer Demo
                     </button>
@@ -274,7 +274,7 @@ const HeaderProfileBtn = ({ cart, handleMouseClick }) => {
                         quickLogin("admin");
                         setMenuOpen(false);
                       }}
-                      title="admin@shop.co"
+                      title="admin@giftingwellness.com"
                     >
                       🛡️ Admin Demo
                     </button>

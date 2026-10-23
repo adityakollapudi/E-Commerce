@@ -927,8 +927,43 @@
   margin-bottom: 24px;
 }
 
+.login-brand-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
 .login-logo {
-  height: 24px;
+  height: 52px;
+  width: 52px;
+  border-radius: 50%;
+  object-fit: contain;
+  background: #ffffff;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.login-brand-text-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-brand-name {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #0f172a;
+  line-height: 1.15;
+}
+
+.login-brand-tagline {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #d11e24;
+  text-transform: uppercase;
+  margin-top: 2px;
 }
 
 .admin-status-badge {
@@ -1140,6 +1175,46 @@
   gap: 14px;
 }
 
+.admin-logo-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.admin-brand-img {
+  height: 38px;
+  width: 38px;
+  border-radius: 50%;
+  object-fit: contain;
+  background: #ffffff;
+  padding: 1px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  filter: none;
+}
+
+.admin-brand-text {
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: -0.01em;
+  font-family: var(--font-body, 'Inter', sans-serif);
+}
+
+.admin-portal-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  background: rgba(251, 191, 36, 0.12);
+  color: #fbbf24;
+  border: 1px solid rgba(251, 191, 36, 0.35);
+  padding: 4px 10px;
+  border-radius: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
 .admin-nav-links {
   display: flex;
   align-items: center;

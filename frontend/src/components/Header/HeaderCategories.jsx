@@ -77,9 +77,9 @@ const HeaderCategories = ({ onOpenBulkModal, onOpenCatalogueModal }) => {
           if (item.key === "about") {
             return (
               <li key={item.id} className="nav-item">
-                <a href={item.path || "#brand-story"} className="nav-link-item" onClick={handleAboutClick}>
+                <Link to="/about" className="nav-link-item" onClick={closeMenu}>
                   {item.label || "About Us"}
-                </a>
+                </Link>
               </li>
             );
           }
@@ -235,6 +235,7 @@ const HeaderCategories = ({ onOpenBulkModal, onOpenCatalogueModal }) => {
         })}
 
         {/* 8. Download Catalogues Button */}
+        {/* 8. Download Catalogues Button */}
         {downloadAction?.enabled !== false && (
           <li className="nav-item nav-item-action">
             <button
@@ -247,7 +248,8 @@ const HeaderCategories = ({ onOpenBulkModal, onOpenCatalogueModal }) => {
               title={downloadAction?.label || "Download Catalogues"}
             >
               <i className={downloadAction?.icon || "fa-solid fa-file-arrow-down"}></i>
-              <span>{downloadAction?.label || "Download Catalogues"}</span>
+              <span className="btn-label-desktop">{downloadAction?.label || "Download Catalogues"}</span>
+              <span className="btn-label-compact">Catalogues</span>
             </button>
           </li>
         )}
@@ -265,7 +267,8 @@ const HeaderCategories = ({ onOpenBulkModal, onOpenCatalogueModal }) => {
               title={bulkAction?.label || "Enquiry for Bulk Orders"}
             >
               <i className={bulkAction?.icon || "fa-solid fa-paper-plane"}></i>
-              <span>{bulkAction?.label || "Enquiry for Bulk Orders"}</span>
+              <span className="btn-label-desktop">{bulkAction?.label || "Enquiry for Bulk Orders"}</span>
+              <span className="btn-label-compact">Bulk Enquiry</span>
             </button>
           </li>
         )}

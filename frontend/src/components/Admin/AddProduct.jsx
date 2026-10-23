@@ -72,7 +72,7 @@ const PRESET_TEMPLATES = [
     category: "Apparels",
     subcategory: "T-Shirts & Polos",
     style: "casual",
-    brand: "SHOP.CO Originals",
+    brand: "Giftingwellness Originals",
     title: "Minimalist Heavyweight French Terry Hoodie",
     price: 1899,
     originalPrice: 2899,
@@ -96,7 +96,7 @@ const AddProduct = () => {
 
   // Form states
   const [title, setTitle] = useState("");
-  const [brand, setBrand] = useState("Atelier Alpine");
+  const [brand, setBrand] = useState("Giftingwellness");
   const [sku, setSku] = useState(`PRD-${Math.floor(100000 + Math.random() * 900000)}`);
   const [category, setCategory] = useState("Bottles");
   const [subcategory, setSubcategory] = useState("Aluminium");
@@ -372,7 +372,7 @@ const AddProduct = () => {
 
   const handleReset = () => {
     setTitle("");
-    setBrand("Atelier Alpine");
+    setBrand("Giftingwellness");
     setSku(`PRD-${Math.floor(100000 + Math.random() * 900000)}`);
     setCategory("Bottles");
     setSubcategory("Aluminium");
@@ -519,7 +519,7 @@ const AddProduct = () => {
                         id="prod-brand"
                         type="text"
                         className="admin-input"
-                        placeholder="e.g. Atelier Alpine, Urban Gear, HydroVibe"
+                        placeholder="e.g. Giftingwellness, Urban Gear, HydroVibe"
                         value={brand}
                         onChange={(e) => setBrand(e.target.value)}
                       />
@@ -986,7 +986,7 @@ const AddProduct = () => {
 
                   <div className="mock-details">
                     <div className="mock-meta-row">
-                      <span className="mock-brand">{brand || "SHOP.CO"}</span>
+                      <span className="mock-brand">{brand || "Giftingwellness"}</span>
                       <span className="mock-category-pill">{category}</span>
                       {effectiveSubcategory && (
                         <span className="mock-subcategory-pill">

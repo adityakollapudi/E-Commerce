@@ -264,14 +264,18 @@ export const FESTIVE_GIFTS = [
 ];
 
 export const CONTACT_INFO = {
+  companyName: "Gifting Wellness",
+  founder: "Ravi Kinnera",
+  foundedYear: "2019",
+  tagline: "Corporate Gifting Solutions. Thoughtfully Chosen. Meaningfully Delivered.",
   phonePrimary: "+91 98765 43210",
-  phoneSecondary: "+91 80 4123 4567",
+  phoneSecondary: "+91 40 2345 6789",
   whatsapp: "+91 98765 43210",
-  emailGeneral: "contact@ateliergifts.com",
-  emailBulk: "bulkorders@ateliergifts.com",
-  addressLine1: "Atelier Gifting Solutions HQ",
-  addressLine2: "4th Floor, Prestige Meridian, M.G. Road",
-  city: "Bengaluru, Karnataka - 560001",
+  emailGeneral: "contact@giftingwellness.com",
+  emailBulk: "bulkorders@giftingwellness.com",
+  addressLine1: "Gifting Wellness Corporate Office",
+  addressLine2: "HITEC City, Madhapur",
+  city: "Hyderabad, Telangana - 500081, India",
   workingHours: "Monday – Saturday: 9:30 AM – 7:00 PM IST",
   turnaroundNote: "Pan-India express delivery with GST tax invoices provided on all bulk corporate dispatches.",
 };

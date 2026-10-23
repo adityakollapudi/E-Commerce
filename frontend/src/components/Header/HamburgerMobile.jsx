@@ -65,10 +65,15 @@ const HamburgerMobile = ({
         {/* Mobile Header Bar */}
         <div className="mobile-menu-header">
           <div className="mobile-menu-brand-wrap">
-            <span className="mobile-gift-icon">
-              <i className="fa-solid fa-gift"></i>
-            </span>
-            <span className="mobile-menu-brand">ATELIER GIFTS</span>
+            <img
+              src="/giftingwellness-logo.png"
+              alt="Giftingwellness Logo"
+              className="mobile-brand-img"
+            />
+            <div className="mobile-brand-text-col">
+              <span className="mobile-menu-brand">Giftingwellness</span>
+              <span className="mobile-menu-sub">Corporate Gifting Solutions</span>
+            </div>
           </div>
           <button
             onClick={handleMouseClick}
@@ -164,9 +169,9 @@ const HamburgerMobile = ({
 
           {/* 2. About Us */}
           <li className="mobile-nav-link-row">
-            <a href="#brand-story" onClick={handleAboutClick}>
+            <Link to="/about" onClick={handleNavClick}>
               <i className="fa-solid fa-circle-info"></i> About Us
-            </a>
+            </Link>
           </li>
 
           {/* 3. Services Accordion */}

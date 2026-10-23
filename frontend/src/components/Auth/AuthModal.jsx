@@ -193,19 +193,26 @@ const AuthModal = () => {
 
         {/* Title & Description */}
         <div className="auth-header-copy">
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: "12px" }}>
+            <img
+              src="/giftingwellness-logo.png"
+              alt="Giftingwellness Logo"
+              style={{ width: "50px", height: "50px", borderRadius: "50%", objectFit: "contain", background: "#ffffff", boxShadow: "0 2px 8px rgba(0,0,0,0.08)" }}
+            />
+          </div>
           <h2 id="auth-modal-title" className="auth-title">
             {authModalTab === "admin"
               ? "Store Administrator Portal"
               : authModalTab === "register"
-              ? "Create Customer Account"
-              : "Welcome Back to SHOP.CO"}
+              ? "Create Corporate Account"
+              : "Welcome to Giftingwellness"}
           </h2>
           <p className="auth-subtitle">
             {authModalTab === "admin"
               ? "Authorized store management area. Manage inventory and add new products."
               : authModalTab === "register"
-              ? "Join to track your orders, save favorites, and receive VIP offers."
-              : "Sign in to access your cart, order history, and exclusive discounts."}
+              ? "Join to track your bulk orders, download catalogues, and receive VIP corporate rates."
+              : "Corporate Gifting Solutions. Sign in to access your cart, order history, and exclusive discounts."}
           </p>
         </div>
 
@@ -253,7 +260,7 @@ const AuthModal = () => {
                 id="auth-email"
                 type="email"
                 placeholder={
-                  authModalTab === "admin" ? "admin@shop.co" : "your.email@example.com"
+                  authModalTab === "admin" ? "admin@giftingwellness.com" : "your.email@example.com"
                 }
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -321,14 +328,14 @@ const AuthModal = () => {
           {authModalTab === "admin" && (
             <div className="admin-hint-box">
               <i className="fa-solid fa-key"></i>
-              <span>Default Credentials: <strong>admin@shop.co</strong> / <strong>admin123</strong></span>
+              <span>Default Credentials: <strong>admin@giftingwellness.com</strong> / <strong>admin123</strong></span>
             </div>
           )}
 
           {authModalTab === "user" && (
             <div className="customer-hint-box">
               <i className="fa-solid fa-user-tag"></i>
-              <span>Default Credentials: <strong>user@shop.co</strong> / <strong>user123</strong></span>
+              <span>Default Credentials: <strong>user@giftingwellness.com</strong> / <strong>user123</strong></span>
             </div>
           )}
 

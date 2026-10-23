@@ -25,6 +25,8 @@ import {
   setImportLock,
   resetStoreForTesting,
 } from "../data/catalogStore.js";
+import { Product } from "../models/Product.js";
+import { isMongoConnected } from "../db.js";
 
 export const STANDARDIZED_SIZES = [
   "XS",
@@ -310,7 +312,7 @@ router.get("/:id", validateIdParam("id"), (req, res) => {
 });
 
 // POST /api/products - Create New Product (Admin Only + Validated)
-router.post("/", requireAdmin, validateProductCreatePayload, (req, res) => {
+router.post("/", requireAdmin, validateProductCreatePayload, async (req, res) => {
   const lock = acquireMutationLock("crud");
   if (!lock.acquired) {
     return res.status(409).json({
@@ -427,6 +429,20 @@ router.post("/", requireAdmin, validateProductCreatePayload, (req, res) => {
     advanceCatalogRevision("create_product");
     productsCatalog = candidateCatalog;
 
+    // Real-time synchronization to MongoDB Atlas
+    if (isMongoConnected()) {
+      try {
+        await Product.findOneAndUpdate(
+          { id: String(newProduct.id) },
+          { ...newProduct, id: String(newProduct.id) },
+          { upsert: true, new: true, setDefaultsOnInsert: true }
+        );
+        console.log(`🍃 [MongoDB] Synced newly added product #${newProduct.id} ("${newProduct.title}") to Atlas.`);
+      } catch (dbErr) {
+        console.warn("[MongoDB Sync Error on Create]:", dbErr.message);
+      }
+    }
+
     res.status(201).json({
       success: true,
       message: "Product added successfully to catalog!",
@@ -445,7 +461,7 @@ router.put(
   requireAdmin,
   validateIdParam("id"),
   validateProductUpdatePayload,
-  (req, res) => {
+  async (req, res) => {
     const lock = acquireMutationLock("crud");
     if (!lock.acquired) {
       return res.status(409).json({
@@ -511,6 +527,20 @@ router.put(
       advanceCatalogRevision("update_product");
       productsCatalog = candidateCatalog;
 
+      // Real-time synchronization to MongoDB Atlas
+      if (isMongoConnected()) {
+        try {
+          await Product.findOneAndUpdate(
+            { id: String(id) },
+            { ...updatedProduct, id: String(id) },
+            { upsert: true, new: true }
+          );
+          console.log(`🍃 [MongoDB] Synced updated product #${id} ("${updatedProduct.title}") to Atlas.`);
+        } catch (dbErr) {
+          console.warn("[MongoDB Sync Error on Update]:", dbErr.message);
+        }
+      }
+
       res.json({
         success: true,
         message: "Product updated successfully!",
@@ -525,7 +555,7 @@ router.put(
 );
 
 // DELETE /api/products/:id - Delete Product (Admin Only + ID Validated)
-router.delete("/:id", requireAdmin, validateIdParam("id"), (req, res) => {
+router.delete("/:id", requireAdmin, validateIdParam("id"), async (req, res) => {
   const lock = acquireMutationLock("crud");
   if (!lock.acquired) {
     return res.status(409).json({
@@ -548,6 +578,16 @@ router.delete("/:id", requireAdmin, validateIdParam("id"), (req, res) => {
     advanceCatalogRevision("delete_product");
     productsCatalog = candidateCatalog;
 
+    // Real-time synchronization to MongoDB Atlas
+    if (isMongoConnected()) {
+      try {
+        await Product.deleteOne({ id: String(id) });
+        console.log(`🍃 [MongoDB] Deleted product #${id} from Atlas.`);
+      } catch (dbErr) {
+        console.warn("[MongoDB Sync Error on Delete]:", dbErr.message);
+      }
+    }
+
     res.json({
       success: true,
       message: `Product #${id} was deleted successfully from the catalog.`,
@@ -565,7 +605,7 @@ router.post(
   "/bulk-import",
   requireAdmin,
   validateBulkImportPayload,
-  (req, res) => {
+  async (req, res) => {
     const items = req.bulkImportData.products;
     const { duplicateStrategy, dryRun } = req.bulkImportData;
 
@@ -839,6 +879,37 @@ router.post(
       // 4. Commit to in-memory state
       productsCatalog = updatedCatalog;
 
+      // Real-time synchronization to MongoDB Atlas
+      if (isMongoConnected() && (addedProducts.length > 0 || toUpdate.length > 0)) {
+        try {
+          const bulkOps = [
+            ...addedProducts.map((p) => ({
+              updateOne: {
+                filter: { id: String(p.id) },
+                update: { $set: { ...p, id: String(p.id) } },
+                upsert: true,
+              },
+            })),
+            ...toUpdate.map((r) => {
+              const fullProd = updatedCatalog.find((p) => p.id === r.existingProduct.id);
+              return {
+                updateOne: {
+                  filter: { id: String(r.existingProduct.id) },
+                  update: { $set: { ...(fullProd || r.item), id: String(r.existingProduct.id) } },
+                  upsert: true,
+                },
+              };
+            }),
+          ];
+          if (bulkOps.length > 0) {
+            await Product.bulkWrite(bulkOps);
+            console.log(`🍃 [MongoDB] Synced ${bulkOps.length} bulk imported products to Atlas.`);
+          }
+        } catch (dbErr) {
+          console.warn("[MongoDB Bulk Import Sync Error]:", dbErr.message);
+        }
+      }
+
       res.status(201).json({
         success: true,
         message: "Bulk catalogue import committed successfully.",
@@ -889,7 +960,7 @@ router.post(
 );
 
 // POST /api/products/bulk-import/rollback - Rollback a Catalogue Import (Admin Only)
-router.post("/bulk-import/rollback", requireAdmin, (req, res) => {
+router.post("/bulk-import/rollback", requireAdmin, async (req, res) => {
   const { importId } = req.body || {};
 
   if (!importId || typeof importId !== "string" || !importId.trim()) {
@@ -920,6 +991,23 @@ router.post("/bulk-import/rollback", requireAdmin, (req, res) => {
 
     const restored = rollbackToSnapshot(cleanImportId);
     productsCatalog = restored;
+
+    // Real-time synchronization of restored state to MongoDB Atlas
+    if (isMongoConnected()) {
+      try {
+        await Product.deleteMany({});
+        const docs = restored.map((p) => ({
+          ...p,
+          id: String(p.id),
+        }));
+        if (docs.length > 0) {
+          await Product.insertMany(docs);
+        }
+        console.log(`🍃 [MongoDB] Restored ${docs.length} products to Atlas after rollback.`);
+      } catch (dbErr) {
+        console.warn("[MongoDB Rollback Sync Error]:", dbErr.message);
+      }
+    }
 
     res.json({
       success: true,
