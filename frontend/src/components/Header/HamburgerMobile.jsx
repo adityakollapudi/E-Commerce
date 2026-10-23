@@ -2,13 +2,8 @@ import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useWishlist } from "../../context/WishlistContext";
-import {
-  SERVICES_DATA,
-  GIFTING_CATEGORIES,
-  BRANDED_GIFTING,
-  FESTIVE_GIFTS,
-  CONTACT_INFO,
-} from "../../data/navigationData";
+import { useSiteContent } from "../../context/SiteContentContext";
+import { GIFTING_CATEGORIES } from "../../data/navigationData";
 
 const HamburgerMobile = ({
   mobileMenuShow,
@@ -18,6 +13,10 @@ const HamburgerMobile = ({
 }) => {
   const { user, isAdmin, openAuthModal, logout } = useAuth();
   const { wishlistCount, openWishlist } = useWishlist();
+  const { brands, services, festiveGifts, contactInfo, giftingCategories } = useSiteContent();
+  const categories = Array.isArray(giftingCategories) && giftingCategories.length > 0
+    ? giftingCategories
+    : GIFTING_CATEGORIES;
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -184,7 +183,7 @@ const HamburgerMobile = ({
             </button>
             {openSection === "services" && (
               <ul className="mobile-subnav-list">
-                {SERVICES_DATA.map((srv) => (
+                {services.map((srv) => (
                   <li key={srv.id}>
                     <Link to={srv.link} onClick={handleNavClick}>
                       <i className={srv.icon}></i>
@@ -207,13 +206,13 @@ const HamburgerMobile = ({
               onClick={() => toggleSection("categories")}
             >
               <span>
-                <i className="fa-solid fa-gift"></i> Gifting Categories (10)
+                <i className="fa-solid fa-gift"></i> Gifting Categories ({categories.length})
               </span>
               <i className={`fa-solid fa-chevron-down ${openSection === "categories" ? "rotate" : ""}`}></i>
             </button>
             {openSection === "categories" && (
               <ul className="mobile-subnav-list mobile-cat-list">
-                {GIFTING_CATEGORIES.map((cat, idx) => {
+                {categories.map((cat, idx) => {
                   const isCatOpen = openSubcatId === cat.id;
                   return (
                     <li key={cat.id} className="mobile-nested-cat-item">
@@ -232,10 +231,10 @@ const HamburgerMobile = ({
 
                       {isCatOpen && (
                         <div className="mobile-subcat-chips">
-                          {cat.subcategories.map((sub, sIdx) => (
+                          {(cat.subcategories || []).map((sub, sIdx) => (
                             <Link
                               key={sIdx}
-                              to={`/products?search=${encodeURIComponent(sub.query)}`}
+                              to={`/products?category=${encodeURIComponent(cat.name)}&subcategory=${encodeURIComponent(sub.name)}`}
                               onClick={handleNavClick}
                               className="mobile-chip-link"
                             >
@@ -243,7 +242,7 @@ const HamburgerMobile = ({
                             </Link>
                           ))}
                           <Link
-                            to={`/products?search=${encodeURIComponent(cat.name)}`}
+                            to={`/products?category=${encodeURIComponent(cat.name)}`}
                             onClick={handleNavClick}
                             className="mobile-chip-link-all"
                           >
@@ -266,15 +265,15 @@ const HamburgerMobile = ({
               onClick={() => toggleSection("branded")}
             >
               <span>
-                <i className="fa-solid fa-crown"></i> Branded Gifting ({BRANDED_GIFTING.length})
+                <i className="fa-solid fa-crown"></i> Branded Gifting ({brands.length})
               </span>
               <i className={`fa-solid fa-chevron-down ${openSection === "branded" ? "rotate" : ""}`}></i>
             </button>
             {openSection === "branded" && (
               <div className="mobile-brands-chips-wrap">
-                {BRANDED_GIFTING.map((brand, bIdx) => (
+                {brands.map((brand, bIdx) => (
                   <Link
-                    key={bIdx}
+                    key={brand.id || bIdx}
                     to={`/products?search=${encodeURIComponent(brand.name)}`}
                     onClick={handleNavClick}
                     className="mobile-brand-chip"
@@ -300,7 +299,7 @@ const HamburgerMobile = ({
             </button>
             {openSection === "festive" && (
               <ul className="mobile-subnav-list">
-                {FESTIVE_GIFTS.map((festive) => (
+                {festiveGifts.map((festive) => (
                   <li key={festive.id}>
                     <Link to={festive.link} onClick={handleNavClick}>
                       <i className={festive.icon}></i>
@@ -331,22 +330,22 @@ const HamburgerMobile = ({
               <div className="mobile-contact-panel">
                 <div className="mobile-contact-row">
                   <i className="fa-solid fa-phone-volume"></i>
-                  <a href={`tel:${CONTACT_INFO.phonePrimary.replace(/\s+/g, "")}`}>
-                    {CONTACT_INFO.phonePrimary}
+                  <a href={`tel:${(contactInfo.phonePrimary || "").replace(/\s+/g, "")}`}>
+                    {contactInfo.phonePrimary}
                   </a>
                 </div>
                 <div className="mobile-contact-row">
                   <i className="fa-solid fa-envelope"></i>
-                  <a href={`mailto:${CONTACT_INFO.emailBulk}`}>
-                    {CONTACT_INFO.emailBulk}
+                  <a href={`mailto:${contactInfo.emailBulk}`}>
+                    {contactInfo.emailBulk}
                   </a>
                 </div>
                 <div className="mobile-contact-row">
                   <i className="fa-solid fa-location-dot"></i>
-                  <span>{CONTACT_INFO.addressLine1}, {CONTACT_INFO.city}</span>
+                  <span>{contactInfo.addressLine1}, {contactInfo.city}</span>
                 </div>
                 <a
-                  href={`https://wa.me/${CONTACT_INFO.whatsapp.replace(/[^0-9]/g, "")}`}
+                  href={`https://wa.me/${(contactInfo.whatsapp || "").replace(/[^0-9]/g, "")}`}
                   target="_blank"
                   rel="noreferrer"
                   className="mobile-whatsapp-btn"

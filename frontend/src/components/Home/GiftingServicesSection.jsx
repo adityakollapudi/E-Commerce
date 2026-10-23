@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
-import { SERVICES_DATA } from "../../data/navigationData";
+import { useSiteContent } from "../../context/SiteContentContext";
 
 const GiftingServicesSection = () => {
+  const { services } = useSiteContent();
+
   return (
     <section className="gifting-services-section" aria-label="Bespoke Gifting Services">
       <div className="container">
@@ -14,7 +16,7 @@ const GiftingServicesSection = () => {
         </div>
 
         <div className="home-services-grid">
-          {SERVICES_DATA.map((srv) => (
+          {services.map((srv) => (
             <div key={srv.id} className="home-service-card">
               <div className="home-service-header">
                 <div className="home-service-icon">

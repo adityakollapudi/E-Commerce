@@ -10,6 +10,7 @@ const AdminDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedSubcategory, setSelectedSubcategory] = useState("all");
   const [deleteId, setDeleteId] = useState(null);
   const [deleting, setDeleting] = useState(false);
   const [actionNotice, setActionNotice] = useState(null);
@@ -72,17 +73,33 @@ const AdminDashboard = () => {
       p.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       p.sku?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       p.brand?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      p.category?.toLowerCase().includes(searchTerm.toLowerCase());
+      p.category?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      p.subcategory?.toLowerCase().includes(searchTerm.toLowerCase());
 
     const matchesCategory =
       selectedCategory === "all" ||
       p.category?.toLowerCase() === selectedCategory.toLowerCase();
 
-    return matchesSearch && matchesCategory;
+    const matchesSubcategory =
+      selectedSubcategory === "all" ||
+      p.subcategory?.toLowerCase() === selectedSubcategory.toLowerCase();
+
+    return matchesSearch && matchesCategory && matchesSubcategory;
   });
 
   // Unique categories for filter
   const categoriesList = ["all", ...new Set(products.map((p) => p.category?.toLowerCase()).filter(Boolean))];
+
+  // Unique subcategories for filter
+  const subcategoriesList = [
+    "all",
+    ...new Set(
+      products
+        .filter((p) => selectedCategory === "all" || p.category?.toLowerCase() === selectedCategory.toLowerCase())
+        .map((p) => p.subcategory)
+        .filter(Boolean)
+    ),
+  ];
 
   return (
     <AdminRoute>
@@ -192,7 +209,10 @@ const AdminDashboard = () => {
                 <select
                   id="cat-filter"
                   value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value)}
+                  onChange={(e) => {
+                    setSelectedCategory(e.target.value);
+                    setSelectedSubcategory("all");
+                  }}
                   className="admin-select-filter"
                 >
                   {categoriesList.map((cat) => (
@@ -201,6 +221,24 @@ const AdminDashboard = () => {
                     </option>
                   ))}
                 </select>
+
+                {subcategoriesList.length > 1 && (
+                  <>
+                    <label htmlFor="subcat-filter">Subcategory:</label>
+                    <select
+                      id="subcat-filter"
+                      value={selectedSubcategory}
+                      onChange={(e) => setSelectedSubcategory(e.target.value)}
+                      className="admin-select-filter"
+                    >
+                      {subcategoriesList.map((sub) => (
+                        <option key={sub} value={sub}>
+                          {sub === "all" ? "All Subcategories" : sub}
+                        </option>
+                      ))}
+                    </select>
+                  </>
+                )}
 
                 <button
                   type="button"
@@ -234,7 +272,7 @@ const AdminDashboard = () => {
                   <thead>
                     <tr>
                       <th>Product</th>
-                      <th>Category & Style</th>
+                      <th>Category & Subcategory</th>
                       <th>Selling Price</th>
                       <th>M.R.P. / Discount</th>
                       <th>MOQ / Delivery</th>
@@ -274,6 +312,11 @@ const AdminDashboard = () => {
                           <td>
                             <div className="category-cell">
                               <span className="pill-category">{p.category}</span>
+                              {p.subcategory && (
+                                <span className="pill-subcategory" title={`Subcategory: ${p.subcategory}`}>
+                                  <i className="fa-solid fa-layer-group"></i> {p.subcategory}
+                                </span>
+                              )}
                               {p.style && <span className="pill-style">{p.style}</span>}
                             </div>
                           </td>

@@ -10,6 +10,7 @@ import ordersRouter from "./routes/orders.js";
 import couponsRouter from "./routes/coupons.js";
 import authRouter from "./routes/auth.js";
 import uploadRouter from "./routes/upload.js";
+import siteContentRouter from "./routes/siteContent.js";
 import { validateAuthConfig } from "./middleware/auth.js";
 import { quoteRequestLimiter } from "./middleware/rateLimiter.js";
 import { validateQuotePayload } from "./middleware/validation.js";
@@ -151,6 +152,20 @@ export const createApp = ({ isUserPort = false, port = USER_PORT, peerPort = ADM
       }
       next();
     });
+
+    app.use("/api/site-content", (req, res, next) => {
+      const isMutationMethod = ["POST", "PUT", "DELETE", "PATCH"].includes(req.method);
+      if (isMutationMethod) {
+        return res.status(403).json({
+          success: false,
+          error: "FORBIDDEN_PORT_MUTATION",
+          message: `Site content modification is disabled on the User Storefront port (${port}). Please perform editing on the Admin Management port (${peerPort}).`,
+          userPort: port,
+          adminPort: peerPort,
+        });
+      }
+      next();
+    });
   }
 
   // Mount shared modular routes (Both apps share the SAME in-memory catalogStore and catalog.json file!)
@@ -158,6 +173,7 @@ export const createApp = ({ isUserPort = false, port = USER_PORT, peerPort = ADM
   app.use("/api/products", productsRouter);
   app.use("/api/orders", ordersRouter);
   app.use("/api/coupons", couponsRouter);
+  app.use("/api/site-content", siteContentRouter);
 
   // 404 handler for unknown API routes
   app.use("/api/*", (req, res) => {

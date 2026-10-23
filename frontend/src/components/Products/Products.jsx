@@ -26,6 +26,8 @@ const Products = () => {
   const params = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const searchQuery = searchParams.get("search") || "";
+  const categoryQuery = searchParams.get("category") || params.category || "";
+  const subcategoryQuery = searchParams.get("subcategory") || "";
   const styleQuery = searchParams.get("style") || "";
 
   // Dynamic catalog max price safely derived from active catalog (baseline: 2000)
@@ -65,61 +67,60 @@ const Products = () => {
     }
   }, [styleQuery]);
 
-  // Load products when category or search changes
+  // Load products when category, subcategory, search, or style changes
   useEffect(() => {
     setLoading(true);
     let isCancelled = false;
 
-    if (searchQuery) {
-      fetch(`/api/products?search=${encodeURIComponent(searchQuery)}`)
-        .then((res) => {
-          if (!res.ok) throw new Error("Search API failure");
-          return res.json();
-        })
-        .then((data) => {
-          if (!isCancelled) {
-            if (data && data.success && Array.isArray(data.products)) {
-              setProducts(data.products);
-            } else {
-              setProducts(searchProducts(searchQuery));
-            }
-          }
-        })
-        .catch(() => {
-          if (!isCancelled) {
-            setProducts(searchProducts(searchQuery));
-          }
-        })
-        .finally(() => {
-          if (!isCancelled) {
-            setLoading(false);
-          }
-        });
-    } else {
-      const targetCategory = params.category || styleQuery || "all";
-      fetchProductsSafe(targetCategory)
-        .then((data) => {
-          if (!isCancelled) {
-            setProducts(data || getAllProducts());
-          }
-        })
-        .catch(() => {
-          if (!isCancelled) {
+    const queryParts = [];
+    if (searchQuery) queryParts.push(`search=${encodeURIComponent(searchQuery)}`);
+    if (categoryQuery && categoryQuery !== "all") queryParts.push(`category=${encodeURIComponent(categoryQuery)}`);
+    if (subcategoryQuery && subcategoryQuery !== "all") queryParts.push(`subcategory=${encodeURIComponent(subcategoryQuery)}`);
+    if (styleQuery && styleQuery !== "all") queryParts.push(`style=${encodeURIComponent(styleQuery)}`);
+    const qs = queryParts.length > 0 ? `?${queryParts.join("&")}` : "";
+
+    fetch(`/api/products${qs}`)
+      .then((res) => {
+        if (!res.ok) throw new Error("Catalog API error");
+        return res.json();
+      })
+      .then((data) => {
+        if (!isCancelled) {
+          if (data && data.success && Array.isArray(data.products)) {
+            setProducts(data.products);
+          } else {
             setProducts(getAllProducts());
           }
-        })
-        .finally(() => {
-          if (!isCancelled) {
-            setLoading(false);
+        }
+      })
+      .catch(() => {
+        if (!isCancelled) {
+          if (searchQuery) {
+            setProducts(searchProducts(searchQuery));
+          } else {
+            const targetCategory = categoryQuery || styleQuery || "all";
+            fetchProductsSafe(targetCategory)
+              .then((p) => {
+                if (!isCancelled) setProducts(p || getAllProducts());
+              })
+              .catch(() => {
+                if (!isCancelled) setProducts(getAllProducts());
+              });
           }
-        });
-    }
+        }
+      })
+      .finally(() => {
+        if (!isCancelled) {
+          setLoading(false);
+        }
+      });
+
     setActivePage(1);
 
     return () => {
       isCancelled = true;
     };
-  }, [params.category, searchQuery, styleQuery]);
+  }, [categoryQuery, subcategoryQuery, searchQuery, styleQuery]);
 
   // Prevent scroll when filter drawer is open on mobile
   useEffect(() => {
@@ -200,6 +201,29 @@ const Products = () => {
   const filteredProducts = useMemo(() => {
     let result = products.filter(productsFilterFn);
 
+    // Apply category & subcategory filters locally as safety net
+    if (categoryQuery && categoryQuery !== "all") {
+      const cat = categoryQuery.toLowerCase();
+      result = result.filter(
+        (p) =>
+          p.category?.toLowerCase() === cat ||
+          p.style?.toLowerCase() === cat ||
+          (cat === "bottles" && (p.category?.toLowerCase().includes("bottle") || p.title?.toLowerCase().includes("bottle"))) ||
+          (cat === "mugs" && (p.category?.toLowerCase().includes("mug") || p.title?.toLowerCase().includes("mug")))
+      );
+    }
+
+    if (subcategoryQuery && subcategoryQuery !== "all") {
+      const sub = subcategoryQuery.toLowerCase();
+      result = result.filter(
+        (p) =>
+          p.subcategory?.toLowerCase() === sub ||
+          p.subcategory?.toLowerCase().includes(sub) ||
+          p.title?.toLowerCase().includes(sub) ||
+          p.description?.toLowerCase().includes(sub)
+      );
+    }
+
     if (sortOption === "price-low") {
       result = [...result].sort((a, b) => Number(a.price) - Number(b.price));
     } else if (sortOption === "price-high") {
@@ -211,7 +235,7 @@ const Products = () => {
     }
 
     return result;
-  }, [products, appliedPrice, appliedSize, selectedStyle, sortOption, catalogMaxPrice]);
+  }, [products, appliedPrice, appliedSize, selectedStyle, sortOption, catalogMaxPrice, categoryQuery, subcategoryQuery]);
 
   // Paginated slice
   const paginatedProducts = useMemo(() => {
@@ -222,20 +246,41 @@ const Products = () => {
 
   // Title generation
   const pageTitle = useMemo(() => {
+    if (subcategoryQuery && (categoryQuery || params.category)) {
+      return `${capitalize(categoryQuery || params.category)} — ${subcategoryQuery}`;
+    }
+    if (subcategoryQuery) return `${subcategoryQuery} Collection`;
+    if (categoryQuery && categoryQuery !== "all") return `${capitalize(categoryQuery)} Collection`;
     if (searchQuery) return `Search: "${searchQuery}"`;
     if (selectedStyle) return `${capitalize(selectedStyle)} Collection`;
     if (params.category) return capitalize(params.category);
     return "All Products";
-  }, [searchQuery, selectedStyle, params.category]);
+  }, [categoryQuery, subcategoryQuery, searchQuery, selectedStyle, params.category]);
 
   return (
     <main id="main-content" className="products-container">
       <Path
         path={[
           {
-            route: params.category || selectedStyle || (searchQuery ? "Search" : "Products"),
+            route: "All Products",
             link: "/products",
           },
+          ...(categoryQuery && categoryQuery !== "all"
+            ? [
+                {
+                  route: capitalize(categoryQuery),
+                  link: `/products?category=${encodeURIComponent(categoryQuery)}`,
+                },
+              ]
+            : []),
+          ...(subcategoryQuery
+            ? [
+                {
+                  route: subcategoryQuery,
+                  link: `/products?category=${encodeURIComponent(categoryQuery || "")}&subcategory=${encodeURIComponent(subcategoryQuery)}`,
+                },
+              ]
+            : []),
         ]}
       />
       <div className="container products-flex">
@@ -261,14 +306,51 @@ const Products = () => {
           <div className="products-heading-flex">
             <div>
               <h1 className="title">{pageTitle}</h1>
-              {searchQuery && (
-                <button
-                  onClick={() => setSearchParams({})}
-                  className="btn-clear-search"
-                >
-                  Clear search ✕
-                </button>
-              )}
+              <div className="active-cat-subcat-pills" style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginTop: "8px", alignItems: "center" }}>
+                {categoryQuery && categoryQuery !== "all" && (
+                  <span className="active-filter-badge" style={{ display: "inline-flex", alignItems: "center", gap: "6px", background: "rgba(36, 75, 60, 0.08)", color: "#244b3c", padding: "4px 10px", border: "1px solid rgba(36, 75, 60, 0.2)", borderRadius: "14px", fontSize: "12px", fontWeight: "600" }}>
+                    <i className="fa-solid fa-shapes"></i> Category: <strong>{capitalize(categoryQuery)}</strong>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const next = new URLSearchParams(searchParams);
+                        next.delete("category");
+                        setSearchParams(next);
+                      }}
+                      style={{ background: "none", border: "none", cursor: "pointer", color: "#244b3c", padding: "0 2px", fontWeight: "700" }}
+                      title="Clear category filter"
+                    >
+                      ✕
+                    </button>
+                  </span>
+                )}
+                {subcategoryQuery && (
+                  <span className="active-filter-badge subcategory-badge" style={{ display: "inline-flex", alignItems: "center", gap: "6px", background: "#244b3c", color: "#ffffff", padding: "4px 10px", borderRadius: "14px", fontSize: "12px", fontWeight: "600", boxShadow: "0 2px 6px rgba(36, 75, 60, 0.2)" }}>
+                    <i className="fa-solid fa-tag"></i> Subcategory: <strong>{subcategoryQuery}</strong>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const next = new URLSearchParams(searchParams);
+                        next.delete("subcategory");
+                        setSearchParams(next);
+                      }}
+                      style={{ background: "none", border: "none", cursor: "pointer", color: "#ffffff", padding: "0 2px", fontWeight: "700" }}
+                      title="Clear subcategory filter"
+                    >
+                      ✕
+                    </button>
+                  </span>
+                )}
+                {(searchQuery || (categoryQuery && categoryQuery !== "all") || subcategoryQuery) && (
+                  <button
+                    onClick={() => setSearchParams({})}
+                    className="btn-clear-search"
+                    style={{ fontSize: "12px", color: "#b65c45", background: "none", border: "none", cursor: "pointer", fontWeight: "600", textDecoration: "underline" }}
+                  >
+                    Clear all filters ✕
+                  </button>
+                )}
+              </div>
             </div>
             <div className="products-sort">
               <button

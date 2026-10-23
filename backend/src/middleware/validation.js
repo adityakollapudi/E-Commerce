@@ -32,7 +32,7 @@ export const validateIdParam = (paramName = "id") => {
 
 // Validate and sanitize catalog query parameters (search, filter, sort, pagination)
 export const validateCatalogQueryParams = (req, res, next) => {
-  const { search, category, style, minPrice, maxPrice, sort, page, limit } = req.query;
+  const { search, category, subcategory, style, minPrice, maxPrice, sort, page, limit } = req.query;
 
   // 1. Sanitize search query (cap to 100 characters, remove control characters)
   if (search !== undefined) {
@@ -40,6 +40,15 @@ export const validateCatalogQueryParams = (req, res, next) => {
       req.query.search = "";
     } else {
       req.query.search = search.replace(/[\x00-\x1F\x7F]/g, "").slice(0, 100);
+    }
+  }
+
+  // Sanitize subcategory query parameter if present
+  if (subcategory !== undefined) {
+    if (typeof subcategory !== "string") {
+      req.query.subcategory = "";
+    } else {
+      req.query.subcategory = subcategory.replace(/[\x00-\x1F\x7F]/g, "").slice(0, 100);
     }
   }
 
@@ -102,7 +111,7 @@ export const validateCatalogQueryParams = (req, res, next) => {
 
 // Validate product creation payload (POST /api/products)
 export const validateProductCreatePayload = (req, res, next) => {
-  const { title, price, originalPrice, category, style, description, moq } = req.body;
+  const { title, price, originalPrice, category, subcategory, style, description, moq } = req.body;
 
   if (!title || typeof title !== "string" || !title.trim()) {
     return res.status(400).json({
@@ -150,6 +159,13 @@ export const validateProductCreatePayload = (req, res, next) => {
     });
   }
 
+  if (subcategory && (typeof subcategory !== "string" || subcategory.trim().length > 100)) {
+    return res.status(400).json({
+      success: false,
+      message: "Subcategory cannot exceed 100 characters.",
+    });
+  }
+
   if (style && (typeof style !== "string" || style.trim().length > 50)) {
     return res.status(400).json({
       success: false,
@@ -192,6 +208,7 @@ export const validateProductUpdatePayload = (req, res, next) => {
     "price",
     "originalPrice",
     "category",
+    "subcategory",
     "style",
     "brand",
     "sku",

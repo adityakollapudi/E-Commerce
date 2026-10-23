@@ -116,6 +116,7 @@ router.get("/", validateCatalogQueryParams, (req, res) => {
   try {
     const {
       category,
+      subcategory,
       style,
       search,
       sort,
@@ -136,6 +137,7 @@ router.get("/", validateCatalogQueryParams, (req, res) => {
           p.title?.toLowerCase().includes(q) ||
           p.description?.toLowerCase().includes(q) ||
           p.category?.toLowerCase().includes(q) ||
+          p.subcategory?.toLowerCase().includes(q) ||
           p.style?.toLowerCase().includes(q) ||
           p.brand?.toLowerCase().includes(q) ||
           p.sku?.toLowerCase().includes(q)
@@ -148,7 +150,22 @@ router.get("/", validateCatalogQueryParams, (req, res) => {
       result = result.filter(
         (p) =>
           p.category?.toLowerCase() === cat ||
-          p.style?.toLowerCase() === cat
+          p.style?.toLowerCase() === cat ||
+          (cat === "bottles" && (p.category?.toLowerCase().includes("bottle") || p.title?.toLowerCase().includes("bottle"))) ||
+          (cat === "mugs" && (p.category?.toLowerCase().includes("mug") || p.title?.toLowerCase().includes("mug"))) ||
+          (cat === "key chains" && (p.category?.toLowerCase().includes("key") || p.title?.toLowerCase().includes("key")))
+      );
+    }
+
+    // Subcategory filter (e.g. Aluminium, Stainless Steel, etc.)
+    if (subcategory && subcategory !== "all") {
+      const sub = safeDecode(subcategory).toLowerCase();
+      result = result.filter(
+        (p) =>
+          p.subcategory?.toLowerCase() === sub ||
+          p.subcategory?.toLowerCase().includes(sub) ||
+          p.title?.toLowerCase().includes(sub) ||
+          p.description?.toLowerCase().includes(sub)
       );
     }
 
@@ -308,6 +325,7 @@ router.post("/", requireAdmin, validateProductCreatePayload, (req, res) => {
       price,
       originalPrice,
       category,
+      subcategory,
       style,
       brand,
       sku,
@@ -361,6 +379,9 @@ router.post("/", requireAdmin, validateProductCreatePayload, (req, res) => {
       ];
     }
 
+    const cleanCategory = category.trim();
+    const cleanSubcategory = typeof subcategory === "string" && subcategory.trim() ? subcategory.trim().slice(0, 100) : "";
+
     const newProduct = {
       id: newId,
       sku: typeof sku === "string" && sku.trim() ? sku.trim().slice(0, 50) : `PRD-${newId.toString().slice(-6)}`,
@@ -369,8 +390,9 @@ router.post("/", requireAdmin, validateProductCreatePayload, (req, res) => {
       price: numericPrice,
       originalPrice: numericOriginalPrice,
       discountPercent: discount,
-      category: category.trim().toLowerCase().slice(0, 50),
-      style: typeof style === "string" && style.trim() ? style.trim().toLowerCase().slice(0, 50) : "casual",
+      category: cleanCategory,
+      subcategory: cleanSubcategory,
+      style: typeof style === "string" && style.trim() ? style.trim().toLowerCase().slice(0, 50) : "corporate",
       rating: { rate: 5.0, count: 1 },
       isNew: Boolean(isNew),
       isBestSeller: Boolean(isBestSeller),
@@ -385,8 +407,9 @@ router.post("/", requireAdmin, validateProductCreatePayload, (req, res) => {
       features: parsedFeatures,
       specs: specs || {
         Brand: typeof brand === "string" && brand.trim() ? brand.trim().slice(0, 50) : "SHOP.CO",
-        Category: category.trim(),
-        Style: style || "Casual",
+        Category: cleanCategory,
+        Subcategory: cleanSubcategory || "Standard",
+        Style: style || "Corporate",
         Warranty: "1 Year Official Guarantee",
       },
       sizes: Array.isArray(sizes) && sizes.length > 0 ? sizes.map(normalizeSize) : ["S", "M", "L", "XL"],

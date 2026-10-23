@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
-import { FESTIVE_GIFTS } from "../../data/navigationData";
+import { useSiteContent } from "../../context/SiteContentContext";
 
 const FestiveGiftsDropdown = ({ isOpen, onClose, onOpenBulkModal }) => {
+  const { festiveGifts } = useSiteContent();
+
   return (
     <div
       className={`mega-menu-dropdown festive-dropdown ${isOpen ? "is-visible" : ""}`}
@@ -34,7 +36,7 @@ const FestiveGiftsDropdown = ({ isOpen, onClose, onOpenBulkModal }) => {
         </div>
 
         <div className="festive-cards-grid">
-          {FESTIVE_GIFTS.map((festive) => (
+          {festiveGifts.map((festive) => (
             <div key={festive.id} className="festive-col-card">
               <div className="festive-card-header">
                 <span className="festive-icon-circle">

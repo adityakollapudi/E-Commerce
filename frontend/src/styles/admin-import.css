@@ -38,8 +38,8 @@
 }
 
 .import-tab-btn.active {
-  color: #0f172a;
-  border-bottom-color: #fbbf24;
+  color: #244b3c;
+  border-bottom-color: #244b3c;
 }
 
 .import-tab-badge {
@@ -51,8 +51,9 @@
 }
 
 .import-tab-btn.active .import-tab-badge {
-  background: #0f172a;
-  color: #fbbf24;
+  background: rgba(36, 75, 60, 0.12);
+  color: #244b3c;
+  font-weight: 700;
 }
 
 /* Upload Dropzone */
@@ -77,8 +78,8 @@
 
 .dropzone-box:hover,
 .dropzone-box.drag-active {
-  border-color: #fbbf24;
-  background: rgba(251, 191, 36, 0.05);
+  border-color: #244b3c;
+  background: rgba(36, 75, 60, 0.04);
 }
 
 .dropzone-icon {
@@ -89,7 +90,7 @@
 
 .dropzone-box:hover .dropzone-icon,
 .dropzone-box.drag-active .dropzone-icon {
-  color: #d97706;
+  color: #244b3c;
 }
 
 .dropzone-title {
@@ -252,8 +253,8 @@
 }
 
 .strategy-card.selected {
-  border-color: #d97706;
-  background: rgba(251, 191, 36, 0.06);
+  border-color: #244b3c;
+  background: rgba(36, 75, 60, 0.05);
 }
 
 .strategy-card-header {
