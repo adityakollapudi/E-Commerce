@@ -1,0 +1,9 @@
+@layer component {
+    .container {
+        margin-inline: auto;
+        width: 100%;
+        max-width: 1460px;
+        padding-inline: 20px;
+        
+    }
+}

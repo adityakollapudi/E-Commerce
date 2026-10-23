@@ -1,0 +1,107 @@
+@layer component {
+  .product-page {
+    padding-bottom: var(--footer-subscribe-height);
+  }
+
+  .product-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+  }
+
+  .product-info {
+    flex: 1;
+  }
+  .product-info > :not(:last-child) {
+    border-bottom: 1px solid var(--hr-border-color);
+  }
+  .product-description {
+    padding-block: 15px;
+  }
+  .filter-sizes {
+    padding-block: 15px;
+    text-align: left;
+  }
+  .filter-sizes.required {
+    border: 1px solid red;
+  }
+  .error-text {
+    display: block;
+    margin-top: 10px;
+    color: red;
+  }
+  .product-tabs-container {
+    margin-top: 20px;
+    margin-bottom: 50px;
+  }
+  .product-tabs {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  .tab-link {
+    flex: 1;
+    text-align: center;
+
+    border-bottom: 2px solid var(--hr-border-color);
+  }
+  .tab-link.current {
+    border-bottom-color: black;
+  }
+  .tab-link-btn {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 20px;
+  }
+  .tab-content {
+    display: none;
+  }
+  .tab-content.current {
+    display: initial;
+  }
+
+  .product-reviews-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .quantity-controls-container {
+    margin-top: 20px;
+    display: flex;
+    gap: 5px;
+  }
+  .item-number-container {
+    display: flex;
+    justify-content: space-between;
+    width: 150px;
+    padding-inline: 0;
+  }
+  .item-number {
+    width: 5ch;
+  }
+  .change-quantity {
+    flex: 1;
+    max-width: 400px;
+  }
+  .item-number[type="number"]::-webkit-inner-spin-button,
+  .item-number[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  .item-number[type="number"] {
+    appearance: none;
+    -moz-appearance: textfield;
+  }
+  @media (max-width: 1060px) {
+    .product-container {
+      flex-direction: column;
+    }
+    .product-reviews-grid {
+      grid-template-columns: 1fr;
+    }
+    .item-number-container {
+      width: 130px;
+    }
+  }
+}

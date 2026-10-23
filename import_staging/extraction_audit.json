@@ -1,0 +1,1032 @@
+[
+  {
+    "row": 1,
+    "sku": "MS-MEN-02-WHIT",
+    "title": "M&S Classic Cotton Polo T-Shirt - White",
+    "brand": "Marks & Spencer",
+    "price": 1899.0,
+    "category": "men's clothing",
+    "sourceFile": "M&S 2026.pdf",
+    "sourcePage": 2
+  },
+  {
+    "row": 2,
+    "sku": "MS-MEN-03-ROYA",
+    "title": "M&S Classic Cotton Polo T-Shirt - Royal Blue",
+    "brand": "Marks & Spencer",
+    "price": 1899.0,
+    "category": "men's clothing",
+    "sourceFile": "M&S 2026.pdf",
+    "sourcePage": 3
+  },
+  {
+    "row": 3,
+    "sku": "MS-MEN-04-RED",
+    "title": "M&S Classic Cotton Polo T-Shirt - Red",
+    "brand": "Marks & Spencer",
+    "price": 1899.0,
+    "category": "men's clothing",
+    "sourceFile": "M&S 2026.pdf",
+    "sourcePage": 4
+  },
+  {
+    "row": 4,
+    "sku": "MS-MEN-05-NAVY",
+    "title": "M&S Classic Cotton Polo T-Shirt - Navy Blue",
+    "brand": "Marks & Spencer",
+    "price": 1899.0,
+    "category": "men's clothing",
+    "sourceFile": "M&S 2026.pdf",
+    "sourcePage": 5
+  },
+  {
+    "row": 5,
+    "sku": "MS-MEN-06-BLAC",
+    "title": "M&S Classic Cotton Polo T-Shirt - Black",
+    "brand": "Marks & Spencer",
+    "price": 1899.0,
+    "category": "men's clothing",
+    "sourceFile": "M&S 2026.pdf",
+    "sourcePage": 6
+  },
+  {
+    "row": 6,
+    "sku": "MS-MEN-07-AQUA",
+    "title": "M&S Classic Cotton Polo T-Shirt - Aqua Blue",
+    "brand": "Marks & Spencer",
+    "price": 1899.0,
+    "category": "men's clothing",
+    "sourceFile": "M&S 2026.pdf",
+    "sourcePage": 7
+  },
+  {
+    "row": 7,
+    "sku": "MS-MEN-08-PLUM",
+    "title": "M&S Classic Cotton Polo T-Shirt - Plum",
+    "brand": "Marks & Spencer",
+    "price": 1899.0,
+    "category": "men's clothing",
+    "sourceFile": "M&S 2026.pdf",
+    "sourcePage": 8
+  },
+  {
+    "row": 8,
+    "sku": "MS-MEN-09-SKYB",
+    "title": "M&S Classic Cotton Polo T-Shirt - Sky Blue",
+    "brand": "Marks & Spencer",
+    "price": 1899.0,
+    "category": "men's clothing",
+    "sourceFile": "M&S 2026.pdf",
+    "sourcePage": 9
+  },
+  {
+    "row": 9,
+    "sku": "MS-MEN-10-NAVY",
+    "title": "M&S Jacquard Knit Collar T-Shirt - Navy Blue",
+    "brand": "Marks & Spencer",
+    "price": 1899.0,
+    "category": "men's clothing",
+    "sourceFile": "M&S 2026.pdf",
+    "sourcePage": 10
+  },
+  {
+    "row": 10,
+    "sku": "MS-MEN-11-WHIT",
+    "title": "M&S Jacquard Knit Collar T-Shirt - White",
+    "brand": "Marks & Spencer",
+    "price": 1899.0,
+    "category": "men's clothing",
+    "sourceFile": "M&S 2026.pdf",
+    "sourcePage": 11
+  },
+  {
+    "row": 11,
+    "sku": "MS-MEN-12-BLAC",
+    "title": "M&S Jacquard Knit Collar T-Shirt - Black",
+    "brand": "Marks & Spencer",
+    "price": 1899.0,
+    "category": "men's clothing",
+    "sourceFile": "M&S 2026.pdf",
+    "sourcePage": 12
+  },
+  {
+    "row": 12,
+    "sku": "MS-MEN-13-WHIT",
+    "title": "M&S Classic Cotton Polo T-Shirt - White",
+    "brand": "Marks & Spencer",
+    "price": 1699.0,
+    "category": "men's clothing",
+    "sourceFile": "M&S 2026.pdf",
+    "sourcePage": 13
+  },
+  {
+    "row": 13,
+    "sku": "MS-MEN-14-SEAB",
+    "title": "M&S Classic Cotton Polo T-Shirt - Sea Blue",
+    "brand": "Marks & Spencer",
+    "price": 1699.0,
+    "category": "men's clothing",
+    "sourceFile": "M&S 2026.pdf",
+    "sourcePage": 14
+  },
+  {
+    "row": 14,
+    "sku": "MS-MEN-15-BLAC",
+    "title": "M&S Classic Cotton Polo T-Shirt - Black",
+    "brand": "Marks & Spencer",
+    "price": 1699.0,
+    "category": "men's clothing",
+    "sourceFile": "M&S 2026.pdf",
+    "sourcePage": 15
+  },
+  {
+    "row": 15,
+    "sku": "MS-MEN-16-NAVY",
+    "title": "M&S Classic Cotton Polo T-Shirt - Navy Blue",
+    "brand": "Marks & Spencer",
+    "price": 1699.0,
+    "category": "men's clothing",
+    "sourceFile": "M&S 2026.pdf",
+    "sourcePage": 16
+  },
+  {
+    "row": 16,
+    "sku": "MS-MEN-17-PETR",
+    "title": "M&S Classic Cotton Polo T-Shirt - Petrol",
+    "brand": "Marks & Spencer",
+    "price": 1699.0,
+    "category": "men's clothing",
+    "sourceFile": "M&S 2026.pdf",
+    "sourcePage": 17
+  },
+  {
+    "row": 17,
+    "sku": "MS-MEN-18-BERR",
+    "title": "M&S Classic Cotton Polo T-Shirt - Berry",
+    "brand": "Marks & Spencer",
+    "price": 1699.0,
+    "category": "men's clothing",
+    "sourceFile": "M&S 2026.pdf",
+    "sourcePage": 18
+  },
+  {
+    "row": 18,
+    "sku": "MS-MEN-19-GREY",
+    "title": "M&S Classic Cotton Polo T-Shirt - Grey",
+    "brand": "Marks & Spencer",
+    "price": 1699.0,
+    "category": "men's clothing",
+    "sourceFile": "M&S 2026.pdf",
+    "sourcePage": 19
+  },
+  {
+    "row": 19,
+    "sku": "MS-MEN-20-DARK",
+    "title": "M&S Classic Crew Round Neck T-Shirt - Dark Khakhi",
+    "brand": "Marks & Spencer",
+    "price": 1299.0,
+    "category": "men's clothing",
+    "sourceFile": "M&S 2026.pdf",
+    "sourcePage": 20
+  },
+  {
+    "row": 20,
+    "sku": "MS-MEN-21-TEAL",
+    "title": "M&S Classic Crew Round Neck T-Shirt - Teal",
+    "brand": "Marks & Spencer",
+    "price": 1299.0,
+    "category": "men's clothing",
+    "sourceFile": "M&S 2026.pdf",
+    "sourcePage": 21
+  },
+  {
+    "row": 21,
+    "sku": "MS-MEN-22-BLAC",
+    "title": "M&S Classic Crew Round Neck T-Shirt - Black",
+    "brand": "Marks & Spencer",
+    "price": 1299.0,
+    "category": "men's clothing",
+    "sourceFile": "M&S 2026.pdf",
+    "sourcePage": 22
+  },
+  {
+    "row": 22,
+    "sku": "MS-MEN-23-CHAR",
+    "title": "M&S Classic Crew Round Neck T-Shirt - Charcoal Grey",
+    "brand": "Marks & Spencer",
+    "price": 1299.0,
+    "category": "men's clothing",
+    "sourceFile": "M&S 2026.pdf",
+    "sourcePage": 23
+  },
+  {
+    "row": 23,
+    "sku": "MS-MEN-24-NAVY",
+    "title": "M&S Classic Crew Round Neck T-Shirt - Navy Blue",
+    "brand": "Marks & Spencer",
+    "price": 1299.0,
+    "category": "men's clothing",
+    "sourceFile": "M&S 2026.pdf",
+    "sourcePage": 24
+  },
+  {
+    "row": 24,
+    "sku": "MS-MEN-25-WHIT",
+    "title": "M&S Classic Crew Round Neck T-Shirt - White",
+    "brand": "Marks & Spencer",
+    "price": 1299.0,
+    "category": "men's clothing",
+    "sourceFile": "M&S 2026.pdf",
+    "sourcePage": 25
+  },
+  {
+    "row": 25,
+    "sku": "MS-MEN-26-DENI",
+    "title": "M&S Premium Fleece Sweatshirt - Denim Blue",
+    "brand": "Marks & Spencer",
+    "price": 3299.0,
+    "category": "men's clothing",
+    "sourceFile": "M&S 2026.pdf",
+    "sourcePage": 26
+  },
+  {
+    "row": 26,
+    "sku": "MS-MEN-27-DENI",
+    "title": "M&S Premium Fleece Sweatshirt - Denim Blue",
+    "brand": "Marks & Spencer",
+    "price": 3299.0,
+    "category": "men's clothing",
+    "sourceFile": "M&S 2026.pdf",
+    "sourcePage": 27
+  },
+  {
+    "row": 27,
+    "sku": "MS-MEN-28-CHAR",
+    "title": "M&S Zip-Front Hoodie Jacket - Charcoal Grey",
+    "brand": "Marks & Spencer",
+    "price": 3999.0,
+    "category": "men's clothing",
+    "sourceFile": "M&S 2026.pdf",
+    "sourcePage": 28
+  },
+  {
+    "row": 28,
+    "sku": "MS-MEN-29-BLAC",
+    "title": "M&S High Neck Sweatshirt - Black",
+    "brand": "Marks & Spencer",
+    "price": 3499.0,
+    "category": "men's clothing",
+    "sourceFile": "M&S 2026.pdf",
+    "sourcePage": 29
+  },
+  {
+    "row": 29,
+    "sku": "MS-FOR-30-WHIT",
+    "title": "M&S Tailored Formal Shirt - White",
+    "brand": "Marks & Spencer",
+    "price": 2999.0,
+    "category": "formal",
+    "sourceFile": "M&S 2026.pdf",
+    "sourcePage": 30
+  },
+  {
+    "row": 30,
+    "sku": "MS-FOR-31-LIGH",
+    "title": "M&S Tailored Formal Shirt - Light Blue",
+    "brand": "Marks & Spencer",
+    "price": 2999.0,
+    "category": "formal",
+    "sourceFile": "M&S 2026.pdf",
+    "sourcePage": 31
+  },
+  {
+    "row": 31,
+    "sku": "SSL2-DN-8300",
+    "title": "Scott 300 GSM Sweatshirt Without Zip - Black",
+    "brand": "Scott",
+    "price": 2999.0,
+    "category": "casual",
+    "sourceFile": "Scott SWEATSHIRT-1.pdf",
+    "sourcePage": 3
+  },
+  {
+    "row": 32,
+    "sku": "SSHZ1-DN-8400",
+    "title": "Scott 300 GSM Sweatshirt With Zip - Black",
+    "brand": "Scott",
+    "price": 2999.0,
+    "category": "casual",
+    "sourceFile": "Scott SWEATSHIRT-1.pdf",
+    "sourcePage": 3
+  },
+  {
+    "row": 33,
+    "sku": "SSL4-DN-8300",
+    "title": "Scott 300 GSM Sweatshirt Without Zip - Charcoal Grey",
+    "brand": "Scott",
+    "price": 2999.0,
+    "category": "casual",
+    "sourceFile": "Scott SWEATSHIRT-1.pdf",
+    "sourcePage": 4
+  },
+  {
+    "row": 34,
+    "sku": "SSLZ1-DN-8325",
+    "title": "Scott 300 GSM Sweatshirt With Zip - Charcoal Grey",
+    "brand": "Scott",
+    "price": 2999.0,
+    "category": "casual",
+    "sourceFile": "Scott SWEATSHIRT-1.pdf",
+    "sourcePage": 4
+  },
+  {
+    "row": 35,
+    "sku": "SSL5-DN-8300",
+    "title": "Scott 300 GSM Sweatshirt Without Zip - Grey Milange",
+    "brand": "Scott",
+    "price": 2999.0,
+    "category": "casual",
+    "sourceFile": "Scott SWEATSHIRT-1.pdf",
+    "sourcePage": 5
+  },
+  {
+    "row": 36,
+    "sku": "SSLZ3-DN-8325",
+    "title": "Scott 300 GSM Sweatshirt With Zip - Grey Milange",
+    "brand": "Scott",
+    "price": 2999.0,
+    "category": "casual",
+    "sourceFile": "Scott SWEATSHIRT-1.pdf",
+    "sourcePage": 5
+  },
+  {
+    "row": 37,
+    "sku": "SSL6-DN-8300",
+    "title": "Scott 300 GSM Sweatshirt Without Zip - Navy Blue",
+    "brand": "Scott",
+    "price": 2999.0,
+    "category": "casual",
+    "sourceFile": "Scott SWEATSHIRT-1.pdf",
+    "sourcePage": 6
+  },
+  {
+    "row": 38,
+    "sku": "SSLZ9-DN-8325",
+    "title": "Scott 300 GSM Sweatshirt With Zip - Navy Blue",
+    "brand": "Scott",
+    "price": 2999.0,
+    "category": "casual",
+    "sourceFile": "Scott SWEATSHIRT-1.pdf",
+    "sourcePage": 6
+  },
+  {
+    "row": 39,
+    "sku": "SSH3-DN-8400",
+    "title": "Scott 400 GSM Sweatshirt Without Zip - Navy Blue",
+    "brand": "Scott",
+    "price": 2999.0,
+    "category": "casual",
+    "sourceFile": "Scott SWEATSHIRT-1.pdf",
+    "sourcePage": 9
+  },
+  {
+    "row": 40,
+    "sku": "SSHZ8-DN-8425",
+    "title": "Scott 400 GSM Sweatshirt With Zip - Navy Blue",
+    "brand": "Scott",
+    "price": 2999.0,
+    "category": "casual",
+    "sourceFile": "Scott SWEATSHIRT-1.pdf",
+    "sourcePage": 9
+  },
+  {
+    "row": 41,
+    "sku": "SSH4-DN-8400",
+    "title": "Scott 400 GSM Sweatshirt Without Zip - Charcoal Grey",
+    "brand": "Scott",
+    "price": 2999.0,
+    "category": "casual",
+    "sourceFile": "Scott SWEATSHIRT-1.pdf",
+    "sourcePage": 10
+  },
+  {
+    "row": 42,
+    "sku": "SSHZ1-DN-8425",
+    "title": "Scott 400 GSM Sweatshirt With Zip - Charcoal Grey",
+    "brand": "Scott",
+    "price": 2999.0,
+    "category": "casual",
+    "sourceFile": "Scott SWEATSHIRT-1.pdf",
+    "sourcePage": 10
+  },
+  {
+    "row": 43,
+    "sku": "SSH5-DN-8400",
+    "title": "Scott 400 GSM Sweatshirt Without Zip - Charcoal Grey",
+    "brand": "Scott",
+    "price": 2999.0,
+    "category": "casual",
+    "sourceFile": "Scott SWEATSHIRT-1.pdf",
+    "sourcePage": 11
+  },
+  {
+    "row": 44,
+    "sku": "SSHZ10-DN-8425",
+    "title": "Scott 400 GSM Sweatshirt With Zip - Charcoal Grey",
+    "brand": "Scott",
+    "price": 2999.0,
+    "category": "casual",
+    "sourceFile": "Scott SWEATSHIRT-1.pdf",
+    "sourcePage": 11
+  },
+  {
+    "row": 45,
+    "sku": "SSH6-DN-8400",
+    "title": "Scott 400 GSM Sweatshirt Without Zip - Navy Blue",
+    "brand": "Scott",
+    "price": 2999.0,
+    "category": "casual",
+    "sourceFile": "Scott SWEATSHIRT-1.pdf",
+    "sourcePage": 12
+  },
+  {
+    "row": 46,
+    "sku": "SSHZ11-DN-8425",
+    "title": "Scott 400 GSM Sweatshirt With Zip - Navy Blue",
+    "brand": "Scott",
+    "price": 2999.0,
+    "category": "casual",
+    "sourceFile": "Scott SWEATSHIRT-1.pdf",
+    "sourcePage": 12
+  },
+  {
+    "row": 47,
+    "sku": "SSHZ9-DN-8425",
+    "title": "Scott 400 GSM Sweatshirt With Zip - Bottle Green",
+    "brand": "Scott",
+    "price": 2999.0,
+    "category": "casual",
+    "sourceFile": "Scott SWEATSHIRT-1.pdf",
+    "sourcePage": 13
+  },
+  {
+    "row": 48,
+    "sku": "SSHZ12-DN-8425",
+    "title": "Scott 400 GSM Sweatshirt With Zip - Bottle Green",
+    "brand": "Scott",
+    "price": 2999.0,
+    "category": "casual",
+    "sourceFile": "Scott SWEATSHIRT-1.pdf",
+    "sourcePage": 14
+  },
+  {
+    "row": 49,
+    "sku": "SHF-VFM-9428",
+    "title": "Sheaffer VFM Coffee Edition Ballpoint Pen & Matt Brown Notebook Gift Set",
+    "brand": "Sheaffer",
+    "price": 3250.0,
+    "category": "corporate",
+    "sourceFile": "New Year Gifting.pdf",
+    "sourcePage": 4
+  },
+  {
+    "row": 50,
+    "sku": "WP36093",
+    "title": "Sheaffer Expressions 100 9376 Gradient Ballpoint Pen & Notebook Gift Set",
+    "brand": "Sheaffer",
+    "price": 3300.0,
+    "category": "corporate",
+    "sourceFile": "New Year Gifting.pdf",
+    "sourcePage": 5
+  },
+  {
+    "row": 51,
+    "sku": "CRS-SKYLARK-A5",
+    "title": "Cross Skylark A5 Diary with Luxury Rollerball Agenda Pen",
+    "brand": "Cross",
+    "price": 4999.0,
+    "category": "corporate",
+    "sourceFile": "New Year Gifting.pdf",
+    "sourcePage": 8
+  },
+  {
+    "row": 52,
+    "sku": "WTR-PHILEAS-BLK",
+    "title": "Waterman Phileas Laque Black Gold Trim Rollerball Pen & Blue Notebook",
+    "brand": "Waterman",
+    "price": 6300.0,
+    "category": "corporate",
+    "sourceFile": "New Year Gifting.pdf",
+    "sourcePage": 10
+  },
+  {
+    "row": 53,
+    "sku": "BOAT-AIR-138",
+    "title": "boAt Airdopes 138",
+    "brand": "boAt",
+    "price": 2990.0,
+    "category": "audio",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 7
+  },
+  {
+    "row": 54,
+    "sku": "BOAT-AIR-138PRO",
+    "title": "boAt Airdopes 138 Pro",
+    "brand": "boAt",
+    "price": 2990.0,
+    "category": "audio",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 7
+  },
+  {
+    "row": 55,
+    "sku": "BOAT-AIR-213",
+    "title": "boAt Airdopes 213",
+    "brand": "boAt",
+    "price": 3290.0,
+    "category": "audio",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 8
+  },
+  {
+    "row": 56,
+    "sku": "BOAT-AIR-PRIMO",
+    "title": "boAt Airdopes Primo",
+    "brand": "boAt",
+    "price": 4490.0,
+    "category": "audio",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 8
+  },
+  {
+    "row": 57,
+    "sku": "BOAT-AIR-148",
+    "title": "boAt Airdopes 148",
+    "brand": "boAt",
+    "price": 4490.0,
+    "category": "audio",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 9
+  },
+  {
+    "row": 58,
+    "sku": "BOAT-AIR-JOY",
+    "title": "boAt Airdopes Joy",
+    "brand": "boAt",
+    "price": 4999.0,
+    "category": "audio",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 9
+  },
+  {
+    "row": 59,
+    "sku": "BOAT-AIR-141ANC",
+    "title": "boAt Airdopes 141 ANC",
+    "brand": "boAt",
+    "price": 5990.0,
+    "category": "audio",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 10
+  },
+  {
+    "row": 60,
+    "sku": "BOAT-AIR-161ANC",
+    "title": "boAt Airdopes 161 ANC",
+    "brand": "boAt",
+    "price": 5999.0,
+    "category": "audio",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 10
+  },
+  {
+    "row": 61,
+    "sku": "BOAT-AIR-800",
+    "title": "boAt Airdopes 800",
+    "brand": "boAt",
+    "price": 6490.0,
+    "category": "audio",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 11
+  },
+  {
+    "row": 62,
+    "sku": "BOAT-AIR-191ANC",
+    "title": "boAt Airdopes 191 ANC",
+    "brand": "boAt",
+    "price": 6990.0,
+    "category": "audio",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 11
+  },
+  {
+    "row": 63,
+    "sku": "BOAT-AIR-800OWS",
+    "title": "boAt Airdopes 800 OWS",
+    "brand": "boAt",
+    "price": 7990.0,
+    "category": "audio",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 13
+  },
+  {
+    "row": 64,
+    "sku": "BOAT-NIR-ION",
+    "title": "boAt Nirvana Ion",
+    "brand": "boAt",
+    "price": 2990.0,
+    "category": "audio",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 13
+  },
+  {
+    "row": 65,
+    "sku": "BOAT-NIR-IONANC",
+    "title": "boAt Nirvana Ion ANC",
+    "brand": "boAt",
+    "price": 2990.0,
+    "category": "audio",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 14
+  },
+  {
+    "row": 66,
+    "sku": "BOAT-NIR-CRYSTL",
+    "title": "boAt Nirvana Crystl",
+    "brand": "boAt",
+    "price": 10990.0,
+    "category": "audio",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 14
+  },
+  {
+    "row": 67,
+    "sku": "BOAT-NIR-IONANCPRO",
+    "title": "boAt Nirvana Ion ANC Pro",
+    "brand": "boAt",
+    "price": 13990.0,
+    "category": "audio",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 15
+  },
+  {
+    "row": 68,
+    "sku": "BOAT-NIR-IVY",
+    "title": "boAt Nirvana Ivy",
+    "brand": "boAt",
+    "price": 17990.0,
+    "category": "audio",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 15
+  },
+  {
+    "row": 69,
+    "sku": "BOAT-ROC-109",
+    "title": "boAt Rockerz 109",
+    "brand": "boAt",
+    "price": 2490.0,
+    "category": "audio",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 16
+  },
+  {
+    "row": 70,
+    "sku": "BOAT-ROC-258PRO",
+    "title": "boAt Rockerz 258 Pro",
+    "brand": "boAt",
+    "price": 3990.0,
+    "category": "audio",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 16
+  },
+  {
+    "row": 71,
+    "sku": "BOAT-ROC-SUMMIT",
+    "title": "boAt Rockerz Summit",
+    "brand": "boAt",
+    "price": 4490.0,
+    "category": "audio",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 17
+  },
+  {
+    "row": 72,
+    "sku": "BOAT-ROC-425",
+    "title": "boAt Rockerz 425",
+    "brand": "boAt",
+    "price": 2990.0,
+    "category": "audio",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 17
+  },
+  {
+    "row": 73,
+    "sku": "BOAT-ROC-450",
+    "title": "boAt Rockerz 450",
+    "brand": "boAt",
+    "price": 3990.0,
+    "category": "audio",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 18
+  },
+  {
+    "row": 74,
+    "sku": "BOAT-ROC-550",
+    "title": "boAt Rockerz 550",
+    "brand": "boAt",
+    "price": 4999.0,
+    "category": "audio",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 18
+  },
+  {
+    "row": 75,
+    "sku": "BOAT-NIR-EUTOPIA",
+    "title": "boAt Nirvana Eutopia",
+    "brand": "boAt",
+    "price": 7490.0,
+    "category": "audio",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 20
+  },
+  {
+    "row": 76,
+    "sku": "BOAT-ROC-255ANC",
+    "title": "boAt Rockerz 255 ANC",
+    "brand": "boAt",
+    "price": 6990.0,
+    "category": "audio",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 20
+  },
+  {
+    "row": 77,
+    "sku": "BOAT-STO-UNO",
+    "title": "boAt Stone Uno",
+    "brand": "boAt",
+    "price": 1990.0,
+    "category": "speakers",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 21
+  },
+  {
+    "row": 78,
+    "sku": "BOAT-STO-190PRO",
+    "title": "boAt Stone 190 Pro",
+    "brand": "boAt",
+    "price": 2990.0,
+    "category": "speakers",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 21
+  },
+  {
+    "row": 79,
+    "sku": "BOAT-STO-358",
+    "title": "boAt Stone 358",
+    "brand": "boAt",
+    "price": 3490.0,
+    "category": "speakers",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 22
+  },
+  {
+    "row": 80,
+    "sku": "BOAT-STO-108",
+    "title": "boAt Stone 108",
+    "brand": "boAt",
+    "price": 2990.0,
+    "category": "speakers",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 22
+  },
+  {
+    "row": 81,
+    "sku": "BOAT-STO-208",
+    "title": "boAt Stone 208",
+    "brand": "boAt",
+    "price": 4999.0,
+    "category": "speakers",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 23
+  },
+  {
+    "row": 82,
+    "sku": "BOAT-STO-358PRO",
+    "title": "boAt Stone 358 Pro",
+    "brand": "boAt",
+    "price": 4990.0,
+    "category": "speakers",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 23
+  },
+  {
+    "row": 83,
+    "sku": "BOAT-AAV-ASPIRE",
+    "title": "boAt Aavante Bar Aspire",
+    "brand": "boAt",
+    "price": 3490.0,
+    "category": "audio",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 24
+  },
+  {
+    "row": 84,
+    "sku": "BOAT-AAV-GROOVE",
+    "title": "boAt Aavante Bar Groove",
+    "brand": "boAt",
+    "price": 3990.0,
+    "category": "audio",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 24
+  },
+  {
+    "row": 85,
+    "sku": "BOAT-AAV-600",
+    "title": "boAt Aavante Bar 600",
+    "brand": "boAt",
+    "price": 5990.0,
+    "category": "audio",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 25
+  },
+  {
+    "row": 86,
+    "sku": "BOAT-AAV-JOY",
+    "title": "boAt Aavante Bar Joy",
+    "brand": "boAt",
+    "price": 5999.0,
+    "category": "audio",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 26
+  },
+  {
+    "row": 87,
+    "sku": "BOAT-PAR-63PRO",
+    "title": "boAt Party Pal 63 Pro",
+    "brand": "boAt",
+    "price": 12990.0,
+    "category": "speakers",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 27
+  },
+  {
+    "row": 88,
+    "sku": "BOAT-PAR-390",
+    "title": "boAt Party Pal 390",
+    "brand": "boAt",
+    "price": 34990.0,
+    "category": "speakers",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 27
+  },
+  {
+    "row": 89,
+    "sku": "BOAT-STO-LUMOS",
+    "title": "boAt Stone Lumos",
+    "brand": "boAt",
+    "price": 14990.0,
+    "category": "speakers",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 28
+  },
+  {
+    "row": 90,
+    "sku": "BOAT-STO-BEAM",
+    "title": "boAt Stone Beam",
+    "brand": "boAt",
+    "price": 4990.0,
+    "category": "speakers",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 28
+  },
+  {
+    "row": 91,
+    "sku": "BOAT-PAR-600",
+    "title": "boAt Party Pal 600",
+    "brand": "boAt",
+    "price": 12990.0,
+    "category": "speakers",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 29
+  },
+  {
+    "row": 92,
+    "sku": "BOAT-AAV-2400PRO",
+    "title": "boAt Aavante Bar 2400 Pro",
+    "brand": "boAt",
+    "price": 24990.0,
+    "category": "audio",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 30
+  },
+  {
+    "row": 93,
+    "sku": "BOAT-WAV-MAGMA",
+    "title": "boAt Wave Magma",
+    "brand": "boAt",
+    "price": 6990.0,
+    "category": "wearables",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 31
+  },
+  {
+    "row": 94,
+    "sku": "BOAT-WAV-ASTRA3",
+    "title": "boAt Wave Astra 3",
+    "brand": "boAt",
+    "price": 8499.0,
+    "category": "wearables",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 31
+  },
+  {
+    "row": 95,
+    "sku": "BOAT-ENI-GEM",
+    "title": "boAt Enigma Gem",
+    "brand": "boAt",
+    "price": 8499.0,
+    "category": "wearables",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 32
+  },
+  {
+    "row": 96,
+    "sku": "BOAT-ULT-EMBER",
+    "title": "boAt Ultima Ember",
+    "brand": "boAt",
+    "price": 8999.0,
+    "category": "wearables",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 32
+  },
+  {
+    "row": 97,
+    "sku": "BOAT-ULT-PRIME",
+    "title": "boAt Ultima Prime",
+    "brand": "boAt",
+    "price": 8999.0,
+    "category": "wearables",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 33
+  },
+  {
+    "row": 98,
+    "sku": "BOAT-ULT-REGAL",
+    "title": "boAt Ultima Regal",
+    "brand": "boAt",
+    "price": 6990.0,
+    "category": "wearables",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 33
+  },
+  {
+    "row": 99,
+    "sku": "BOAT-SMA-TAG",
+    "title": "boAt Smart Tag Tag",
+    "brand": "boAt",
+    "price": 4999.0,
+    "category": "electronics",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 34
+  },
+  {
+    "row": 100,
+    "sku": "BOAT-SMA-ACTIVEPLUS",
+    "title": "boAt Smart Ring Active Plus",
+    "brand": "boAt",
+    "price": 9999.0,
+    "category": "wearables",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 34
+  },
+  {
+    "row": 101,
+    "sku": "BOAT-POW-300",
+    "title": "boAt Powerbank 300",
+    "brand": "boAt",
+    "price": 2999.0,
+    "category": "electronics",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 35
+  },
+  {
+    "row": 102,
+    "sku": "BOAT-POW-300LITE",
+    "title": "boAt Powerbank 300 Lite",
+    "brand": "boAt",
+    "price": 3990.0,
+    "category": "electronics",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 35
+  },
+  {
+    "row": 103,
+    "sku": "BOAT-POW-400",
+    "title": "boAt Powerbank 400",
+    "brand": "boAt",
+    "price": 4499.0,
+    "category": "electronics",
+    "sourceFile": "Diwali catalog 2025 .pdf",
+    "sourcePage": 36
+  }
+]

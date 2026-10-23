@@ -1,0 +1,58 @@
+@layer component {
+  .gallery {
+    display: flex;
+    height: 530px;
+    gap: 10px;
+  }
+  .thumbnails-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    order: -1;
+  }
+  .thumbnail-main {
+    height: 100%;
+    width: auto;
+    max-width: 600px;
+    border-radius: 9px;
+    object-fit: cover;
+  }
+  .thumbnail-small {
+    flex: 1;
+    border-radius: 9px;
+    border: 1px solid transparent;
+    object-fit: cover;
+  }
+  .thumbnail-button {
+    display: contents;
+    border-radius: 9px;
+  }
+  .active-thumbnail {
+    border-color: black;
+  }
+  @media (max-width: 1060px) {
+    .gallery {
+      flex-direction: column;
+      height: auto;
+    }
+    .thumbnails-gallery {
+      flex-direction: row;
+      width: 100%;
+      gap: 0;
+    }
+    .thumbnail-main {
+      order: -1;
+      margin: auto;
+      width: 100%;
+    }
+    .thumbnail-small {
+      object-fit: cover;
+      width: 33%;
+      max-width: 200px;
+      height: auto;
+    }
+    .thumbnails-gallery {
+      justify-content: center;
+    }
+  }
+}
