@@ -264,10 +264,10 @@ export function parseJSONToProducts(text) {
  */
 export function getSampleCSVTemplate() {
   return `sku,title,price,originalPrice,category,brand,style,sizes,colors,description,deliveryDays,moq
-PRD-SMP-001,"Premium Pima Cotton Crewneck",799,1299,casual,SHOP.CO,casual,"S, M, L, XL","Black, White, Navy","Luxurious 100% Pima cotton t-shirt with reinforced crew neck.","3–5 Days",1
-PRD-SMP-002,"Tailored Stretch Chino Trousers",1499,2499,formal,SHOP.CO,formal,"30, 32, 34, 36","Beige, Navy, Olive","Slim-tapered cotton chinos with 3% elastane for day-long flexibility.","3–5 Days",1
+PRD-SMP-001,"Premium Pima Cotton Crewneck",799,1299,casual,Giftingwellness,casual,"S, M, L, XL","Black, White, Navy","Luxurious 100% Pima cotton t-shirt with reinforced crew neck.","3–5 Days",1
+PRD-SMP-002,"Tailored Stretch Chino Trousers",1499,2499,formal,Giftingwellness,formal,"30, 32, 34, 36","Beige, Navy, Olive","Slim-tapered cotton chinos with 3% elastane for day-long flexibility.","3–5 Days",1
 PRD-SMP-003,"Urban Insulated Matte Flask 750ml",549,899,drinkware,Urban Gear,gym,"750ml","Black, #10b981, Silver","Double-wall vacuum insulated stainless steel flask. Keeps cold for 24h.","2–4 Days",5
-PRD-SMP-004,"Seamless High-Rise Training Leggings",999,1699,gym,SHOP.CO,gym,"XS, S, M, L","Charcoal, #4f46e5, Slate","High-compression moisture-wicking leggings with 4-way stretch fabric.","3–5 Days",1`;
+PRD-SMP-004,"Seamless High-Rise Training Leggings",999,1699,gym,Giftingwellness,gym,"XS, S, M, L","Charcoal, #4f46e5, Slate","High-compression moisture-wicking leggings with 4-way stretch fabric.","3–5 Days",1`;
 }
 
 /**
@@ -282,7 +282,7 @@ export function getSampleJSONTemplate() {
         price: 799,
         originalPrice: 1299,
         category: "casual",
-        brand: "SHOP.CO",
+        brand: "Giftingwellness",
         style: "casual",
         sizes: ["S", "M", "L", "XL"],
         colors: ["Black", "White", "Navy"],
@@ -296,7 +296,7 @@ export function getSampleJSONTemplate() {
         price: 1499,
         originalPrice: 2499,
         category: "formal",
-        brand: "SHOP.CO",
+        brand: "Giftingwellness",
         style: "formal",
         sizes: ["30", "32", "34", "36"],
         colors: ["Beige", "Navy", "Olive"],

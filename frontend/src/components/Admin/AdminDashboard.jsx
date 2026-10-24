@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import AdminHeader from "./AdminHeader";
 import AdminRoute from "./AdminRoute";
+import { getAdminApiUrl } from "../../utils/apiConfig";
 
 const AdminDashboard = () => {
   const { token } = useAuth();
@@ -41,7 +42,7 @@ const AdminDashboard = () => {
 
     try {
       setDeleting(true);
-      const res = await fetch(`/api/products/${id}`, {
+      const res = await fetch(getAdminApiUrl(`/api/products/${id}`), {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,

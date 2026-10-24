@@ -2,7 +2,7 @@ import { createServer } from "vite";
 
 async function startBothServers() {
   console.log("====================================================");
-  console.log("🛍️ SHOP.CO DUAL-PORT FRONTEND SYSTEM");
+  console.log("🛍️ GIFTINGWELLNESS DUAL-PORT FRONTEND SYSTEM");
   console.log("====================================================\n");
 
   try {

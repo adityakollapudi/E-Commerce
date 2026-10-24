@@ -4,24 +4,10 @@ import Path from "../Products/Path";
 import QuantityControls from "../Products/Product/QuantityControls";
 import { capitalize } from "../Helpers/Helpers";
 import { useAuth } from "../../context/AuthContext";
+import { formatINR } from "../../utils/format";
 
-import { useCart } from "../../context/CartContext";
-
-const Cart = ({
-  cart: propCart,
-  decreaseQuantity: propDecrease,
-  increaseQuantity: propIncrease,
-  removeFromCart: propRemove,
-  clearCart: propClear,
-}) => {
+const Cart = ({ cart, decreaseQuantity, increaseQuantity, removeFromCart, clearCart }) => {
   const { user, token, isLoggedIn, openAuthModal } = useAuth();
-  const contextCart = useCart();
-
-  const cart = (propCart && Array.isArray(propCart)) ? propCart : contextCart.cart;
-  const decreaseQuantity = propDecrease || contextCart.decreaseQuantity;
-  const increaseQuantity = propIncrease || contextCart.increaseQuantity;
-  const removeFromCart = propRemove || contextCart.removeFromCart;
-  const clearCart = propClear || contextCart.clearCart;
 
   const [promoInput, setPromoInput] = useState("");
   const [discountPercent, setDiscountPercent] = useState(20); // Default 20% for demonstration
@@ -44,10 +30,19 @@ const Cart = ({
   const [formData, setFormData] = useState({
     fullName: user?.name || "",
     email: user?.email || "",
+    phone: "",
+    company: "",
     address: "",
     city: "",
     postalCode: "",
+    gstin: "",
     paymentMethod: "card",
+    isGift: false,
+    recipientName: "",
+    senderName: user?.name || "",
+    giftMessage: "",
+    giftWrap: false,
+    hidePricingOnSlip: false,
   });
 
   // Pre-fill user information if logged in
@@ -57,28 +52,20 @@ const Cart = ({
         ...prev,
         fullName: prev.fullName || user.name || "",
         email: prev.email || user.email || "",
+        senderName: prev.senderName || user.name || "",
       }));
     }
   }, [user]);
-
-  // Open checkout modal automatically if navigated with ?checkout=true
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get("checkout") === "true" && cart && cart.length > 0) {
-      setIsCheckoutOpen(true);
-      setCheckoutStep("form");
-    }
-  }, [cart]);
 
   const calculateSubtotal = () => {
     return cart.reduce((acc, item) => acc + Number(item.price) * item.quantity, 0);
   };
 
   const subtotal = calculateSubtotal();
-  const isFreeShipping = subtotal >= 1999 || deliveryFee === 0;
-  const effectiveDeliveryFee = isFreeShipping ? 0 : 199;
-  const discountAmount = (subtotal * discountPercent) / 100;
-  const total = Math.max(0, subtotal - discountAmount + (subtotal > 0 ? effectiveDeliveryFee : 0));
+  // Mirrors the server calculation in backend/src/routes/orders.js so the total shown is the total charged.
+  const effectiveDeliveryFee = subtotal > 0 ? deliveryFee : 0;
+  const discountAmount = Number(((subtotal * discountPercent) / 100).toFixed(2));
+  const total = Math.max(0, subtotal - discountAmount + effectiveDeliveryFee);
 
   const handleApplyPromo = async (e) => {
     e.preventDefault();
@@ -94,8 +81,9 @@ const Cart = ({
       });
       const data = await res.json();
       if (res.ok && data.success) {
-        if (data.discountPercent !== undefined) setDiscountPercent(data.discountPercent);
-        if (data.freeShipping) setDeliveryFee(0);
+        // Only one code applies to an order (server rule), so a new code replaces the previous one.
+        setDiscountPercent(Number(data.discountPercent) || 0);
+        setDeliveryFee(data.freeShipping ? 0 : 15);
         setPromoApplied(data.code);
         setPromoInput("");
         return;
@@ -149,15 +137,28 @@ const Cart = ({
           customer: {
             fullName: formData.fullName.trim(),
             email: (formData.email || user?.email || "").trim(),
+            phone: formData.phone.trim(),
+            company: formData.company.trim(),
             address: formData.address.trim(),
             city: formData.city.trim(),
             postalCode: formData.postalCode.trim(),
+            gstin: formData.gstin.trim(),
+          },
+          gifting: {
+            isGift: Boolean(formData.isGift),
+            recipientName: formData.recipientName.trim(),
+            senderName: formData.senderName.trim(),
+            giftMessage: formData.giftMessage.trim(),
+            giftWrap: Boolean(formData.giftWrap),
+            hidePricingOnSlip: Boolean(formData.hidePricingOnSlip),
           },
           items: cart.map((item) => ({
             id: item.id,
             quantity: item.quantity,
             size: item.size,
             selectedColor: item.selectedColor,
+            selectedBranding: item.selectedBranding,
+            customLogoText: item.customLogoText,
           })),
           promoCode: promoApplied || null,
           paymentMethod: formData.paymentMethod,
@@ -211,8 +212,8 @@ const Cart = ({
       <Path path={[{ route: "cart", link: "/cart" }]} />
 
       {cart.length > 0 ? (
-        <main className="cart-page-container container">
-          <h1 className="title--lg">YOUR CART</h1>
+        <main id="main-content" className="cart-page-container container">
+          <h1 className="title--lg">Your bag</h1>
           <div className="cart-flex">
             {/* Products List */}
             <div className="cart-products-container">
@@ -237,7 +238,7 @@ const Cart = ({
                         </p>
                       )}
                       <p className="cart-product-price text--bold text--lg text--marginless">
-                        ₹{Number(item.price).toFixed(2)}
+                        {formatINR(Number(item.price))}
                       </p>
                     </div>
                   </div>
@@ -247,7 +248,7 @@ const Cart = ({
                       aria-label="Remove item"
                       className="btn-trash"
                     >
-                      <i className="fa-solid fa-trash-can" style={{ color: "#ef4444" }}></i>
+                      <i className="fa-solid fa-trash-can" style={{ color: "var(--danger)" }}></i>
                     </button>
                     <QuantityControls
                       handleDecrease={() => decreaseQuantity(item)}
@@ -264,47 +265,29 @@ const Cart = ({
               <h2 className="title--sm text--bold">Order Summary</h2>
 
               {/* Complimentary Shipping Progress Banner */}
-              {subtotal < 1999 ? (
-                <div className="shipping-progress-banner">
-                  <p className="shipping-progress-text">
-                    Add <strong>₹{(1999 - subtotal).toFixed(2)}</strong> more to qualify for <strong>Complimentary Shipping</strong>!
-                  </p>
-                  <div className="shipping-progress-track">
-                    <div
-                      className="shipping-progress-fill"
-                      style={{ width: `${Math.min(100, (subtotal / 1999) * 100)}%` }}
-                    ></div>
-                  </div>
-                </div>
-              ) : (
-                <div className="shipping-free-unlocked">
-                  <i className="fa-solid fa-truck-fast"></i> You have unlocked <strong>Complimentary Shipping</strong>!
-                </div>
-              )}
-
               <div className="order-breakdown">
                 <div className="order-layout">
                   <p className="text--gray text--marginless">Subtotal</p>
-                  <p className="text--bold text--marginless">₹{subtotal.toFixed(2)}</p>
+                  <p className="text--bold text--marginless">{formatINR(subtotal)}</p>
                 </div>
                 <div className="order-layout">
                   <p className="text--gray text--marginless">
                     Discount ({discountPercent}%)
                   </p>
-                  <p className="text--bold text--marginless" style={{ color: "var(--accent-terracotta, #b65c45)" }}>
-                    -₹{discountAmount.toFixed(2)}
+                  <p className="text--bold text--marginless" style={{ color: "var(--accent-terracotta, var(--ribbon))" }}>
+                    -{formatINR(discountAmount)}
                   </p>
                 </div>
                 <div className="order-layout">
                   <p className="text--gray text--marginless">Delivery Fee</p>
                   <p className="text--bold text--marginless">
-                    {effectiveDeliveryFee === 0 ? "Complimentary (Free)" : `₹${effectiveDeliveryFee.toFixed(2)}`}
+                    {effectiveDeliveryFee === 0 ? "Free" : formatINR(effectiveDeliveryFee)}
                   </p>
                 </div>
                 <hr className="order-hr" />
                 <div className="order-layout total-row">
                   <p className="text--lg text--bold">Total</p>
-                  <p className="text--xl text--bold">₹{total.toFixed(2)}</p>
+                  <p className="text--xl text--bold">{formatINR(total)}</p>
                 </div>
               </div>
 
@@ -338,7 +321,7 @@ const Cart = ({
               >
                 Go to Checkout{" "}
                 <span>
-                  <i className="fa-solid fa-arrow-right"></i>
+                 
                 </span>
               </button>
             </div>
@@ -368,7 +351,7 @@ const Cart = ({
                     {it.quantity}x {it.title} ({String(it.size || "M").toUpperCase()})
                   </span>
                   <span>
-                    ₹{Number(it.lineTotal || Number(it.price) * it.quantity).toFixed(2)}
+                    {formatINR(Number(it.lineTotal || Number(it.price) * it.quantity))}
                   </span>
                 </div>
               ))}
@@ -376,7 +359,7 @@ const Cart = ({
               <div className="receipt-row total">
                 <span>Total Paid</span>
                 <span>
-                  ₹{Number(orderData.pricing?.total ?? orderData.total ?? 0).toFixed(2)}
+                  {formatINR(Number(orderData.pricing?.total ?? orderData.total ?? 0))}
                 </span>
               </div>
             </div>
@@ -388,15 +371,15 @@ const Cart = ({
         </main>
       ) : (
         /* Empty Cart State */
-        <main className="cart-page-container container empty-cart-container">
+        <main id="main-content" className="cart-page-container container empty-cart-container">
           <div className="empty-cart-card">
             <i className="fa-solid fa-bag-shopping empty-cart-icon"></i>
             <h1 className="title--lg empty-cart-title">Your shopping bag is empty</h1>
             <p className="empty-cart-desc">
-              Your bag is waiting to be filled with handcrafted wardrobe essentials and signature pieces.
+              Add gifts from the catalogue, or request a bulk quote for larger orders.
             </p>
             <Link to="/products" className="btn-luxury btn-primary">
-              Explore Curated Collection →
+              Browse the catalogue
             </Link>
           </div>
         </main>
@@ -454,8 +437,8 @@ const Cart = ({
               <form onSubmit={handlePlaceOrder} className="checkout-form">
                 <div className="checkout-fields-grid">
                   <div className="form-group full-width">
-                    <label>Full Name</label>
-                    <input
+                    <label htmlFor="checkout-fullName">Full Name</label>
+                    <input id="checkout-fullName"
                       type="text"
                       name="fullName"
                       required
@@ -467,8 +450,8 @@ const Cart = ({
                   </div>
 
                   <div className="form-group full-width">
-                    <label>Email Address</label>
-                    <input
+                    <label htmlFor="checkout-email">Email Address</label>
+                    <input id="checkout-email"
                       type="email"
                       name="email"
                       required
@@ -480,8 +463,8 @@ const Cart = ({
                   </div>
 
                   <div className="form-group full-width">
-                    <label>Shipping Address</label>
-                    <input
+                    <label htmlFor="checkout-address">Shipping Address</label>
+                    <input id="checkout-address"
                       type="text"
                       name="address"
                       required
@@ -493,8 +476,8 @@ const Cart = ({
                   </div>
 
                   <div className="form-group">
-                    <label>City</label>
-                    <input
+                    <label htmlFor="checkout-city">City</label>
+                    <input id="checkout-city"
                       type="text"
                       name="city"
                       required
@@ -506,8 +489,8 @@ const Cart = ({
                   </div>
 
                   <div className="form-group">
-                    <label>Postal Code</label>
-                    <input
+                    <label htmlFor="checkout-postalCode">Postal Code</label>
+                    <input id="checkout-postalCode"
                       type="text"
                       name="postalCode"
                       required
@@ -517,6 +500,118 @@ const Cart = ({
                       disabled={isSubmitting}
                     />
                   </div>
+
+                  <div className="form-group">
+                    <label htmlFor="checkout-phone">Contact Phone (for delivery courier)</label>
+                    <input id="checkout-phone"
+                      type="tel"
+                      name="phone"
+                      placeholder="+91 98765 43210"
+                      value={formData.phone}
+                      onChange={handleFormChange}
+                      disabled={isSubmitting}
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="checkout-company">Company / Organization (Optional)</label>
+                    <input id="checkout-company"
+                      type="text"
+                      name="company"
+                      placeholder="e.g. Acme Corporation"
+                      value={formData.company}
+                      onChange={handleFormChange}
+                      disabled={isSubmitting}
+                    />
+                  </div>
+
+                  <div className="form-group full-width">
+                    <label htmlFor="checkout-gstin">GSTIN for 18% B2B Tax Credit (Optional)</label>
+                    <input id="checkout-gstin"
+                      type="text"
+                      name="gstin"
+                      placeholder="e.g. 36AABCU9603R1ZM"
+                      value={formData.gstin}
+                      onChange={handleFormChange}
+                      disabled={isSubmitting}
+                    />
+                  </div>
+                </div>
+
+                {/* Gifting & Personalization Card */}
+                <div style={{ background: "var(--ivory)", border: "1px solid var(--line)", borderRadius: "10px", padding: "16px", margin: "16px 0" }}>
+                  <label style={{ display: "flex", alignItems: "center", gap: "8px", fontWeight: "700", color: "var(--forest)", cursor: "pointer", fontSize: "14px" }}>
+                    <input
+                      type="checkbox"
+                      name="isGift"
+                      checked={formData.isGift}
+                      onChange={(e) => setFormData({ ...formData, isGift: e.target.checked })}
+                      disabled={isSubmitting}
+                    />
+                    <span>This order is a gift</span>
+                  </label>
+
+                  {formData.isGift && (
+                    <div style={{ marginTop: "14px", display: "flex", flexDirection: "column", gap: "10px" }}>
+                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
+                        <div>
+                          <label style={{ display: "block", fontSize: "12px", color: "var(--ink-soft)", marginBottom: "4px" }}>To (Recipient Name)</label>
+                          <input
+                            type="text"
+                            name="recipientName"
+                            placeholder="Recipient's Name"
+                            value={formData.recipientName}
+                            onChange={handleFormChange}
+                            style={{ width: "100%", padding: "8px 10px", border: "1px solid var(--line-strong)", borderRadius: "6px", fontSize: "13px" }}
+                          />
+                        </div>
+                        <div>
+                          <label style={{ display: "block", fontSize: "12px", color: "var(--ink-soft)", marginBottom: "4px" }}>From (Your / Company Name)</label>
+                          <input
+                            type="text"
+                            name="senderName"
+                            placeholder="Your Name"
+                            value={formData.senderName}
+                            onChange={handleFormChange}
+                            style={{ width: "100%", padding: "8px 10px", border: "1px solid var(--line-strong)", borderRadius: "6px", fontSize: "13px" }}
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <label style={{ display: "block", fontSize: "12px", color: "var(--ink-soft)", marginBottom: "4px" }}>Personal Gift Message Card</label>
+                        <textarea
+                          name="giftMessage"
+                          rows={2}
+                          placeholder="e.g. Wishing you continued wellness, success, and joy!"
+                          value={formData.giftMessage}
+                          onChange={handleFormChange}
+                          style={{ width: "100%", padding: "8px 10px", border: "1px solid var(--line-strong)", borderRadius: "6px", fontSize: "13px" }}
+                        />
+                      </div>
+
+                      <div style={{ display: "flex", flexDirection: "column", gap: "6px", paddingTop: "4px" }}>
+                        <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "13px", color: "var(--ink-soft)", cursor: "pointer" }}>
+                          <input
+                            type="checkbox"
+                            name="giftWrap"
+                            checked={formData.giftWrap}
+                            onChange={(e) => setFormData({ ...formData, giftWrap: e.target.checked })}
+                          />
+                          <span>Add gift wrapping</span>
+                        </label>
+                        <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "13px", color: "var(--ink-soft)", cursor: "pointer" }}>
+                          <input
+                            type="checkbox"
+                            name="hidePricingOnSlip"
+                            checked={formData.hidePricingOnSlip}
+                            onChange={(e) => setFormData({ ...formData, hidePricingOnSlip: e.target.checked })}
+                          />
+                          <span>Hide prices on the packing slip</span>
+                        </label>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <div className="payment-method-section">
@@ -574,7 +669,7 @@ const Cart = ({
 
                 <div className="checkout-summary-bar">
                   <span>Total Due:</span>
-                  <strong className="summary-total">₹{total.toFixed(2)}</strong>
+                  <strong className="summary-total">{formatINR(total)}</strong>
                 </div>
 
                 <div className="checkout-demo-notice">
@@ -595,7 +690,7 @@ const Cart = ({
                       Securing Order...
                     </>
                   ) : (
-                    `Complete Order (₹${total.toFixed(2)})`
+                    `Place order (${formatINR(total)})`
                   )}
                 </button>
               </form>

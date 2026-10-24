@@ -5,7 +5,7 @@ const WishlistContext = createContext(null);
 export const WishlistProvider = ({ children, onAddToCart }) => {
   const [wishlist, setWishlist] = useState(() => {
     try {
-      const stored = localStorage.getItem("atelier_wishlist");
+      const stored = localStorage.getItem("giftingwellness_wishlist") || localStorage.getItem("atelier_wishlist");
       return stored ? JSON.parse(stored) : [];
     } catch {
       return [];
@@ -16,7 +16,7 @@ export const WishlistProvider = ({ children, onAddToCart }) => {
 
   useEffect(() => {
     try {
-      localStorage.setItem("atelier_wishlist", JSON.stringify(wishlist));
+      localStorage.setItem("giftingwellness_wishlist", JSON.stringify(wishlist));
     } catch (e) {
       console.error("Failed to save wishlist", e);
     }

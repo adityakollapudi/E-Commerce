@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useWishlist } from "../../context/WishlistContext";
-import { useCart } from "../../context/CartContext";
 import { useSiteContent } from "../../context/SiteContentContext";
 import { GIFTING_CATEGORIES } from "../../data/navigationData";
 
@@ -14,7 +13,6 @@ const HamburgerMobile = ({
 }) => {
   const { user, isAdmin, openAuthModal, logout } = useAuth();
   const { wishlistCount, openWishlist } = useWishlist();
-  const { openCart, totalItems } = useCart();
   const { brands, services, festiveGifts, contactInfo, giftingCategories } = useSiteContent();
   const categories = Array.isArray(giftingCategories) && giftingCategories.length > 0
     ? giftingCategories
@@ -66,21 +64,15 @@ const HamburgerMobile = ({
       <nav className={`mobile-hamburger-container ${mobileMenuShow ? "opened" : ""}`}>
         {/* Mobile Header Bar */}
         <div className="mobile-menu-header">
-          <div className="mobile-menu-brand-wrap" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <div className="brand-logo-img-wrapper" style={{ width: "36px", height: "36px" }}>
-              <img
-                src="/gifting-wellness-logo.jpg"
-                alt="Gifting Wellness"
-                className="brand-official-logo-img"
-              />
-            </div>
-            <div style={{ display: "flex", flexDirection: "column" }}>
-              <span className="mobile-menu-brand" style={{ fontSize: "16px", fontWeight: "800", letterSpacing: "0.04em", color: "#0f172a" }}>
-                Gifting Wellness
-              </span>
-              <span style={{ fontSize: "8.5px", fontWeight: "700", letterSpacing: "0.12em", color: "#b65c45" }}>
-                CORPORATE GIFTING
-              </span>
+          <div className="mobile-menu-brand-wrap">
+            <img
+              src="/giftingwellness-logo.png"
+              alt="Giftingwellness Logo"
+              className="mobile-brand-img"
+            />
+            <div className="mobile-brand-text-col">
+              <span className="mobile-menu-brand">Giftingwellness</span>
+              <span className="mobile-menu-sub">Corporate Gifting Solutions</span>
             </div>
           </div>
           <button
@@ -177,9 +169,9 @@ const HamburgerMobile = ({
 
           {/* 2. About Us */}
           <li className="mobile-nav-link-row">
-            <a href="#brand-story" onClick={handleAboutClick}>
+            <Link to="/about" onClick={handleNavClick}>
               <i className="fa-solid fa-circle-info"></i> About Us
-            </a>
+            </Link>
           </li>
 
           {/* 3. Services Accordion */}
@@ -390,19 +382,11 @@ const HamburgerMobile = ({
 
           {/* Cart */}
           <li className="mobile-nav-link-row">
-            <button
-              type="button"
-              className="mobile-wishlist-trigger"
-              onClick={() => {
-                handleMouseClick();
-                openCart();
-              }}
-            >
+            <Link to="/cart" onClick={handleNavClick} className="mobile-cart-link">
               <span>
                 <i className="fa-solid fa-bag-shopping"></i> Shopping Bag
               </span>
-              {totalItems > 0 && <span className="mobile-badge-count">{totalItems}</span>}
-            </button>
+            </Link>
           </li>
 
           {/* Admin link if logged in as admin */}
@@ -413,7 +397,7 @@ const HamburgerMobile = ({
                 target="_blank"
                 rel="noreferrer"
                 onClick={handleNavClick}
-                style={{ color: "var(--accent-terracotta, #b65c45)", fontWeight: "600" }}
+                style={{ color: "var(--accent-terracotta, var(--ribbon))", fontWeight: "600" }}
               >
                 <i className="fa-solid fa-shield-halved"></i> Admin Portal ↗ (Port 5174)
               </a>

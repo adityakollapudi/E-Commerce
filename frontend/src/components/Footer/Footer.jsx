@@ -11,34 +11,28 @@ const Footer = () => {
         <div className="footer-top-grid">
           {/* Brand Info */}
           <div className="footer-brand-column">
-            <Link to="/" className="footer-brand-logo" style={{ display: "flex", alignItems: "center", gap: "12px", textDecoration: "none" }}>
-              <div className="brand-logo-img-wrapper" style={{ width: "42px", height: "42px", borderRadius: "50%", overflow: "hidden", border: "1.5px solid rgba(255,255,255,0.2)", background: "#ffffff", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <img
-                  src="/gifting-wellness-logo.jpg"
-                  alt="Gifting Wellness"
-                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                />
-              </div>
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <span className="logo-wordmark" style={{ fontSize: "18px", letterSpacing: "0.06em", color: "#f8fafc" }}>Gifting Wellness</span>
-                <span className="logo-subtitle" style={{ fontSize: "9px", letterSpacing: "0.14em", color: "#b65c45" }}>CORPORATE GIFTING SOLUTIONS</span>
+            <Link to="/" className="footer-brand-logo" aria-label="Giftingwellness Home">
+              <img
+                src="/giftingwellness-logo.png"
+                alt="Giftingwellness Logo"
+                className="footer-brand-img"
+              />
+              <div className="footer-brand-text-block">
+                <span className="logo-wordmark">Giftingwellness</span>
+                <span className="logo-subtitle">Corporate gifting solutions</span>
               </div>
             </Link>
             <p className="footer-brand-desc">
-              Founded by Ravi Kinnera in 2019, Gifting Wellness is a new-age corporate gifting solutions company based in Hyderabad, India. Thoughtfully Chosen. Meaningfully Delivered.
+              Founded by Ravi Kinnera in 2019 in Hyderabad, Giftingwellness is a premier corporate gifting solutions company. Thoughtfully chosen. Meaningfully delivered.
             </p>
             <div className="footer-contact-snippet">
               <p>
-                <i className="fa-solid fa-location-dot" style={{ marginRight: "6px", color: "#b65c45" }}></i>
-                Hyderabad, Telangana, India
+                <i className="fa-solid fa-phone" style={{ marginRight: "6px", color: "var(--ribbon)" }}></i>
+                {contactInfo.phonePrimary}
               </p>
               <p>
-                <i className="fa-solid fa-phone" style={{ marginRight: "6px", color: "#b65c45" }}></i>
-                {contactInfo?.phonePrimary || "+91 98765 43210"}
-              </p>
-              <p>
-                <i className="fa-solid fa-envelope" style={{ marginRight: "6px", color: "#b65c45" }}></i>
-                {contactInfo?.emailBulk || "corporate@giftingwellness.com"}
+                <i className="fa-solid fa-envelope" style={{ marginRight: "6px", color: "var(--ribbon)" }}></i>
+                {contactInfo.emailBulk}
               </p>
             </div>
             <div className="footer-social-wrapper">
@@ -98,37 +92,44 @@ const Footer = () => {
 
           {/* Corporate Support Column */}
           <div className="footer-links-column">
-            <h3 className="footer-column-heading">Corporate Support</h3>
+            <h3 className="footer-column-heading">Trust & Support</h3>
             <ul className="footer-links-list">
               <li>
-                <a href="#brand-story">Why Atelier Gifting</a>
+                <Link to="/about">About Giftingwellness</Link>
               </li>
               <li>
-                <Link to="/products">Free Digital Sample Mockups</Link>
+                <Link to="/shipping-policy">Shipping & Delivery Policy</Link>
               </li>
               <li>
-                <Link to="/products">B2B GST Tax Billing & Compliance</Link>
+                <Link to="/refund-policy">Refund & Replacements</Link>
               </li>
               <li>
-                <Link to="/products">Volume Tier Quotations</Link>
+                <Link to="/terms">Terms & Conditions</Link>
               </li>
               <li>
-                <Link to="/products">Multi-City Doorstep Delivery</Link>
+                <Link to="/privacy">Privacy Policy</Link>
               </li>
             </ul>
           </div>
         </div>
 
         {/* Bottom Bar: Copyright & Payment Badges */}
-        <div className="footer-bottom-bar">
-          <div className="footer-copyright-text">
-            © {new Date().getFullYear()} Gifting Wellness. All rights reserved. Corporate Gifting Solutions — Thoughtfully Chosen. Meaningfully Delivered.
+        <div className="footer-bottom-bar" style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: "12px", borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: "20px", marginTop: "30px" }}>
+          <div className="footer-copyright-text" style={{ fontSize: "13px", color: "rgba(255,255,255,0.7)" }}>
+            © {new Date().getFullYear()} GIFTINGWELLNESS. All rights reserved. Thoughtfully Chosen. Meaningfully Delivered.
+          </div>
+
+          <div style={{ display: "flex", gap: "16px", flexWrap: "wrap", fontSize: "12px" }}>
+            <Link to="/terms" style={{ color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Terms of Service</Link>
+            <Link to="/refund-policy" style={{ color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Refund Policy</Link>
+            <Link to="/shipping-policy" style={{ color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Shipping Policy</Link>
+            <Link to="/privacy" style={{ color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Privacy</Link>
           </div>
 
           <div className="footer-payment-methods">
             <span className="payment-badge-text">
-              <i className="fa-solid fa-shield-halved" style={{ marginRight: "6px", color: "#10b981" }}></i>
-              Official GST 18% Tax Billing · Pan-India Dispatch
+              <i className="fa-solid fa-shield-halved" style={{ marginRight: "6px", color: "var(--success)" }}></i>
+              Official GST 18% Tax Billing · Pan-India Courier Dispatch
             </span>
           </div>
         </div>

@@ -3,11 +3,23 @@ import { authenticateToken } from "../middleware/auth.js";
 import { findCatalogProductById, normalizeSize } from "./products.js";
 import { VALID_COUPONS } from "./coupons.js";
 import { orderCreationLimiter } from "../middleware/rateLimiter.js";
+import {
+  saveOrder as persistOrder,
+  updateOrderStatus as persistOrderStatus,
+  getAllOrders as fetchAllPersistedOrders,
+} from "../data/ordersStore.js";
+import {
+  sendOrderConfirmationEmail,
+  sendDispatchUpdateEmail,
+} from "../services/emailService.js";
 
 const router = express.Router();
 
-// Authoritative in-memory orders store
+// Authoritative orders store initialized from durable storage
 export const ordersStore = new Map();
+for (const ord of fetchAllPersistedOrders()) {
+  if (ord && ord.orderId) ordersStore.set(ord.orderId, ord);
+}
 
 // In-memory idempotency store to prevent duplicate orders
 // Key: `${userId}:${idempotencyKey}` -> { status: "processing" | "completed", response, orderId, createdAt }
@@ -54,7 +66,7 @@ router.post("/", authenticateToken, orderCreationLimiter, (req, res) => {
       }
     };
 
-    const { customer, items, paymentMethod, promoCode } = req.body;
+    const { customer, items, paymentMethod, promoCode, gifting } = req.body;
 
     // 1. Validate customer shipping details
     if (!customer || typeof customer !== "object") {
@@ -69,6 +81,9 @@ router.post("/", authenticateToken, orderCreationLimiter, (req, res) => {
     const address = typeof customer.address === "string" ? customer.address.trim() : "";
     const city = typeof customer.city === "string" ? customer.city.trim() : "";
     const postalCode = typeof customer.postalCode === "string" ? customer.postalCode.trim() : "";
+    const phone = typeof customer.phone === "string" ? customer.phone.trim() : "";
+    const company = typeof customer.company === "string" ? customer.company.trim() : "";
+    const gstin = typeof customer.gstin === "string" ? customer.gstin.trim() : "";
 
     if (!fullName || !address || !city || !postalCode) {
       abortIdempotency();
@@ -205,9 +220,21 @@ router.post("/", authenticateToken, orderCreationLimiter, (req, res) => {
       customer: {
         fullName,
         email: (customer.email || req.user.email).trim(),
+        phone: phone || "",
+        company: company || "",
         address,
         city,
         postalCode,
+        gstin: gstin || "",
+      },
+      gifting: {
+        isGift: Boolean(gifting?.isGift),
+        senderName: gifting?.senderName ? String(gifting.senderName).trim().slice(0, 100) : "",
+        recipientName: gifting?.recipientName ? String(gifting.recipientName).trim().slice(0, 100) : "",
+        giftMessage: gifting?.giftMessage ? String(gifting.giftMessage).trim().slice(0, 500) : "",
+        giftWrap: Boolean(gifting?.giftWrap),
+        giftWrapType: gifting?.giftWrapType ? String(gifting.giftWrapType).trim().slice(0, 50) : "Standard",
+        hidePricingOnSlip: Boolean(gifting?.hidePricingOnSlip),
       },
       items: verifiedItems,
       pricing: {
@@ -221,8 +248,10 @@ router.post("/", authenticateToken, orderCreationLimiter, (req, res) => {
       paymentMethod: paymentMethod || "card",
     };
 
-    // 6. Record order in current persistence store
+    // 6. Record order in memory and durable persistence store (disk & MongoDB)
     ordersStore.set(orderId, newOrder);
+    persistOrder(newOrder).catch((e) => console.warn("Order persist notice:", e.message));
+    sendOrderConfirmationEmail(newOrder).catch((e) => console.warn("Order email notice:", e.message));
 
     const responsePayload = {
       success: true,
@@ -258,7 +287,14 @@ router.get("/", authenticateToken, (req, res) => {
     if (req.user.role === "admin") {
       results = all;
     } else {
-      results = all.filter((o) => o.userId === req.user.id);
+      results = all.filter((o) => {
+        const matchesId = o.userId === req.user.id;
+        const matchesUserEmail =
+          req.user.email &&
+          ((o.user?.email && o.user.email.toLowerCase() === req.user.email.toLowerCase()) ||
+           (o.customer?.email && o.customer.email.toLowerCase() === req.user.email.toLowerCase()));
+        return matchesId || matchesUserEmail;
+      });
     }
 
     // Sort newest first
@@ -284,8 +320,14 @@ router.get("/:orderId", authenticateToken, (req, res) => {
       return res.status(404).json({ success: false, message: "Order not found." });
     }
 
-    // Enforce ownership: Non-admin users can only view their own orders
-    if (req.user.role !== "admin" && order.userId !== req.user.id) {
+    // Enforce ownership: Non-admin users can only view their own orders (by ID or account email)
+    const isOwner =
+      order.userId === req.user.id ||
+      (req.user.email &&
+        ((order.user?.email && order.user.email.toLowerCase() === req.user.email.toLowerCase()) ||
+         (order.customer?.email && order.customer.email.toLowerCase() === req.user.email.toLowerCase())));
+
+    if (req.user.role !== "admin" && !isOwner) {
       return res.status(403).json({
         success: false,
         message: "Access denied. You do not have permission to view this order.",
@@ -293,6 +335,50 @@ router.get("/:orderId", authenticateToken, (req, res) => {
     }
 
     res.json({ success: true, order });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// PATCH /api/orders/:orderId/status - Update order fulfillment & tracking (Admin only)
+router.patch("/:orderId/status", authenticateToken, async (req, res) => {
+  try {
+    if (req.user.role !== "admin") {
+      return res.status(403).json({
+        success: false,
+        message: "Administrative privileges are required to update order fulfillment status.",
+      });
+    }
+
+    const { orderId } = req.params;
+    const { status, tracking } = req.body;
+
+    const order = ordersStore.get(orderId);
+    if (!order) {
+      return res.status(404).json({ success: false, message: `Order #${orderId} was not found.` });
+    }
+
+    const validStatuses = ["pending", "confirmed", "in_production", "dispatched", "delivered", "cancelled"];
+    if (status && !validStatuses.includes(status)) {
+      return res.status(400).json({
+        success: false,
+        message: `Invalid status "${status}". Allowed values: ${validStatuses.join(", ")}`,
+      });
+    }
+
+    const updated = await persistOrderStatus(orderId, { status, tracking });
+    if (updated) {
+      ordersStore.set(orderId, updated);
+      if (status === "dispatched" && tracking?.trackingNumber) {
+        sendDispatchUpdateEmail(updated, tracking).catch((e) => console.warn("Dispatch email notice:", e.message));
+      }
+    }
+
+    res.json({
+      success: true,
+      message: `Order #${orderId} status successfully updated to "${status || order.status}".`,
+      order: updated || order,
+    });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }

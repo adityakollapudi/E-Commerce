@@ -1,6 +1,20 @@
 {
-  "revision": 139,
-  "lastMutationType": "create_product",
-  "lastMutationAt": "2026-10-23T09:05:34.330Z",
-  "lastImportId": null
+  "revision": 53,
+  "lastMutationType": "delete_product",
+  "lastMutationAt": "2026-10-24T11:49:17.900Z",
+  "totalProducts": 326,
+  "cataloguesImported": [
+    "ADIDAS CATALOGUE-15.11.25.pdf",
+    "Diwali catalog 2025 .pdf (boAt)",
+    "M&S 2026.pdf (Marks & Spencer)",
+    "Scott SWEATSHIRT-1.pdf",
+    "New Year Gifting.pdf (Cross/Sheaffer/Waterman)",
+    "PUMA Catalogue 2026.pdf",
+    "REEBOK 2026-27 Catalogue.pdf",
+    "Swiss Military - Apparels.pdf",
+    "Jack&Jones_VeroModa - Stock Report.pdf",
+    "UCB-Apparel.pdf",
+    "AT B2B Catalogue 2025 DLR.pdf",
+    "ProcterBCG Catalog.pdf"
+  ]
 }

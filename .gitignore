@@ -8,11 +8,11 @@ dist/
 frontend/dist/
 build/
 
-# Environment files and credentials (backend/.env included for instant development setup)
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+# Environment files and credentials
+.env
+.env.*
+backend/.env
+!.env.example
 
 # Logs
 logs/
@@ -31,6 +31,8 @@ Thumbs.db
 .catalog.tmp.*
 *.tmp.*
 
-# Backups
+# Backups and user uploads
 backend/src/data/backups/*.json
+backend/uploads/*
+!backend/uploads/.gitkeep
 !backend/src/data/backups/.gitkeep

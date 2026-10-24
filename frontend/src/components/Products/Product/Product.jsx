@@ -52,31 +52,37 @@ const Product = ({ addToCart }) => {
           return;
         }
 
-        // 3. Fallback to remote mock API
-        fetch(`https://fakestoreapi.com/products/${params.id}`)
-          .then((response) => {
-            if (!response.ok) throw new Error("Product not found");
-            return response.json();
-          })
-          .then((data) => {
-            setProductDetails({
-              ...data,
-              price: Number(data.price).toFixed(2),
-              originalPrice: (data.price * 1.25).toFixed(2),
-              discountPercent: 20,
-              images: [
-                data.image,
-                "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=800&q=80",
-                "https://images.unsplash.com/photo-1542272604-780c96856592?auto=format&fit=crop&w=800&q=80",
-              ],
-            });
-          })
-          .catch((error) => {
-            console.error("Error fetching product details:", error);
-            navigate("/products");
-          });
+        // Product not found in backend or local catalog
+        setProductDetails({ notFound: true });
       });
-  }, [params.id, navigate]);
+  }, [params.id]);
+
+  if (productDetails.notFound) {
+    return (
+      <main className="container" style={{ padding: "80px 20px", textAlign: "center", minHeight: "50vh" }}>
+        <i className="fa-solid fa-gift fa-3x" style={{ color: "var(--line-strong)", marginBottom: "16px" }}></i>
+        <h2 style={{ fontSize: "24px", fontWeight: "700", color: "var(--ink)", margin: "0 0 8px" }}>Gift Item Not Found</h2>
+        <p style={{ color: "var(--muted)", margin: "0 0 24px" }}>
+          This product is no longer available or may have moved to a different gifting category.
+        </p>
+        <button
+          type="button"
+          onClick={() => navigate("/products")}
+          style={{
+            padding: "12px 24px",
+            background: "var(--forest)",
+            color: "var(--paper)",
+            borderRadius: "24px",
+            border: "none",
+            fontWeight: "700",
+            cursor: "pointer",
+          }}
+        >
+          Explore Corporate Gifting Collections →
+        </button>
+      </main>
+    );
+  }
 
   const galleryImages =
     productDetails.images && productDetails.images.length > 0
@@ -105,6 +111,7 @@ const Product = ({ addToCart }) => {
             <Gallery
               mainImage={galleryImages[0]}
               images={galleryImages}
+              title={productDetails.title}
             />
           )}
           <ProductDescription

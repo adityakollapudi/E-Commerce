@@ -185,4 +185,21 @@ router.get("/demo-accounts", (req, res) => {
   });
 });
 
+// GET /api/auth/users - List users (Admin only)
+router.get("/users", authenticateToken, (req, res) => {
+  if (req.user.role !== "admin") {
+    return res.status(403).json({ success: false, message: "Administrative access required." });
+  }
+  const users = (usersStore || []).map((u) => ({
+    id: u.id,
+    name: u.name,
+    email: u.email,
+    role: u.role,
+    company: u.company || "",
+    phone: u.phone || "",
+    createdAt: u.createdAt,
+  }));
+  res.json({ success: true, count: users.length, users });
+});
+
 export default router;
