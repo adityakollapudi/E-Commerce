@@ -8,10 +8,11 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useSiteContent } from "../../context/SiteContentContext";
+import { BULK_ENQUIRY_EVENT } from "../../utils/events";
 
 const Header = ({ cart, removeFromCart }) => {
   const { user, isAdmin, openAuthModal } = useAuth();
-  const { announcement, navigation } = useSiteContent();
+  const { announcement } = useSiteContent();
   const [mobileSearchShow, setMobileSearchShow] = useState(false);
   const [mobileMenuShow, setMobileMenuShow] = useState(false);
   const [showAnnouncement, setShowAnnouncement] = useState(true);
@@ -43,6 +44,13 @@ const Header = ({ cart, removeFromCart }) => {
   const handleOpenCatalogueModal = () => {
     setCatalogueModalOpen(true);
   };
+
+  // Page content (e.g. the home hero) can ask for the bulk enquiry form.
+  useEffect(() => {
+    const onOpen = (e) => handleOpenBulkModal(e.detail?.category);
+    window.addEventListener(BULK_ENQUIRY_EVENT, onOpen);
+    return () => window.removeEventListener(BULK_ENQUIRY_EVENT, onOpen);
+  }, []);
 
   return (
     <>
@@ -110,17 +118,19 @@ const Header = ({ cart, removeFromCart }) => {
                 </>
               ) : (
                 <span className="top-auth-logged">
-                  {isAdmin ? "🛡️ Admin Portal" : `👤 ${user.name.split(" ")[0]}`}
+                  <i className={isAdmin ? "fa-solid fa-shield-halved" : "fa-regular fa-user"} aria-hidden="true"></i>{" "}
+                  {isAdmin ? "Admin" : user.name.split(" ")[0]}
                 </span>
               )}
             </div>
 
             <button
+              type="button"
               onClick={() => setShowAnnouncement(false)}
               className="announcement-close-btn"
-              aria-label="Dismiss banner"
+              aria-label="Dismiss announcement"
             >
-              ✕
+              <i className="fa-solid fa-xmark" aria-hidden="true"></i>
             </button>
           </div>
         </div>
@@ -128,82 +138,67 @@ const Header = ({ cart, removeFromCart }) => {
 
       {/* Sticky Main Header */}
       <header className={`header-bg sticky-luxury-header gifting-header ${isScrolled ? "is-scrolled" : ""}`}>
-        {/* Tier 1: Brand Logo, Autocomplete Search, CTAs & Shopping Controls */}
-        <div className="header-primary-tier">
-          <div className="container header-primary-container">
-            {/* Brand Logo & Mobile Hamburger Trigger */}
-            <div className="flex-title gifting-brand-wrapper">
-              <button
-                onClick={() => handleMouseClick(setMobileMenuShow)}
-                className="btn-profile btn-search btn-hamburger"
-                aria-label="Open mobile menu"
-              >
-                <i className="fa-solid fa-bars" style={{ fontSize: "18px" }}></i>
-              </button>
+        {/* Row 1: brand, search, saved items, bag, account */}
+        <div className="container gw-header-main">
+          <div className="flex-title gifting-brand-wrapper">
+            <button
+              type="button"
+              onClick={() => handleMouseClick(setMobileMenuShow)}
+              className="btn-profile btn-search btn-hamburger"
+              aria-label="Open menu"
+              aria-expanded={mobileMenuShow}
+            >
+              <i className="fa-solid fa-bars" aria-hidden="true"></i>
+            </button>
 
-              <Link to="/" className="luxury-brand-wordmark gifting-logo" aria-label="Gifting Wellness Home">
-                <div className="brand-logo-img-wrapper">
-                  <img
-                    src="/gifting-wellness-logo.jpg"
-                    alt="Gifting Wellness"
-                    className="brand-official-logo-img"
-                  />
-                </div>
-                <div className="brand-logo-text-block">
-                  <span className="brand-logo-text">Gifting Wellness</span>
-                  <span className="brand-logo-sub">CORPORATE GIFTING SOLUTIONS</span>
-                </div>
-              </Link>
-            </div>
-
-            {/* Right Header Controls: Search, Saved Items, Cart, Account, Action Buttons */}
-            <HeaderProfileBtn
-              handleMouseClick={() => handleMouseClick(setMobileSearchShow)}
-              cart={cart}
-              removeFromCart={removeFromCart}
-              onOpenBulkModal={handleOpenBulkModal}
-              onOpenCatalogueModal={handleOpenCatalogueModal}
-            />
+            <Link to="/" className="luxury-brand-wordmark gifting-logo" aria-label="Giftingwellness home">
+              <img
+                src="/giftingwellness-logo.png"
+                alt=""
+                className="brand-logo-img"
+                width="44"
+                height="44"
+              />
+              <span className="brand-logo-text-block">
+                <span className="brand-logo-text">Giftingwellness</span>
+                <span className="brand-logo-sub">Corporate gifting solutions</span>
+              </span>
+            </Link>
           </div>
+
+          <HeaderProfileBtn
+            handleMouseClick={() => handleMouseClick(setMobileSearchShow)}
+            cart={cart}
+            removeFromCart={removeFromCart}
+            onOpenBulkModal={handleOpenBulkModal}
+          />
         </div>
 
-        {/* Tier 2: Category Navigation Strip */}
-        <div className="header-nav-tier">
-          <div className="container header-nav-tier-container">
-            {/* Main Desktop Navigation Items */}
+        {/* Row 2: primary navigation (desktop) */}
+        <div className="gw-header-nav">
+          <div className="container">
             <HeaderCategories
               onOpenBulkModal={handleOpenBulkModal}
               onOpenCatalogueModal={handleOpenCatalogueModal}
             />
-
-            {/* Corporate Quick Reassurance Strip on Desktop */}
-            <div className="header-corporate-trust-strip">
-              <span className="trust-pill-item">
-                <i className="fa-solid fa-shield-halved text--forest"></i> Official GST Invoicing
-              </span>
-              <span className="trust-pill-item">
-                <i className="fa-solid fa-truck-fast text--forest"></i> Pan-India Dispatch
-              </span>
-              <span className="trust-pill-item">
-                <i className="fa-solid fa-hand-holding-heart text--terracotta"></i> Hyderabad HQ
-              </span>
-            </div>
           </div>
         </div>
 
-        {/* Mobile Search Overlay */}
-        <SearchMobile
-          mobileSearchShow={mobileSearchShow}
-          handleMouseClick={() => handleMouseClick(setMobileSearchShow)}
-        />
+        <div className="container">
+          {/* Mobile Search Overlay */}
+          <SearchMobile
+            mobileSearchShow={mobileSearchShow}
+            handleMouseClick={() => handleMouseClick(setMobileSearchShow)}
+          />
 
-        {/* Mobile Drawer Navigation */}
-        <HamburgerMobile
-          handleMouseClick={() => handleMouseClick(setMobileMenuShow)}
-          mobileMenuShow={mobileMenuShow}
-          onOpenBulkModal={handleOpenBulkModal}
-          onOpenCatalogueModal={handleOpenCatalogueModal}
-        />
+          {/* Mobile Drawer Navigation */}
+          <HamburgerMobile
+            handleMouseClick={() => handleMouseClick(setMobileMenuShow)}
+            mobileMenuShow={mobileMenuShow}
+            onOpenBulkModal={handleOpenBulkModal}
+            onOpenCatalogueModal={handleOpenCatalogueModal}
+          />
+        </div>
       </header>
 
       {/* Bulk Order Enquiry Modal with Login/Signup */}

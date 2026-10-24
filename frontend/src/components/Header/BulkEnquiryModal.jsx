@@ -4,7 +4,7 @@ import { useSiteContent } from "../../context/SiteContentContext";
 import { GIFTING_CATEGORIES as FALLBACK_CATEGORIES } from "../../data/navigationData";
 
 const BulkEnquiryModal = ({ isOpen, onClose, initialCategory = "" }) => {
-  const { user, openAuthModal } = useAuth();
+  const { user, token, openAuthModal } = useAuth();
   const { giftingCategories } = useSiteContent();
   const categories = Array.isArray(giftingCategories) && giftingCategories.length > 0
     ? giftingCategories
@@ -45,13 +45,28 @@ const BulkEnquiryModal = ({ isOpen, onClose, initialCategory = "" }) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => {
+    try {
+      const headers = { "Content-Type": "application/json" };
+      if (token) headers["Authorization"] = `Bearer ${token}`;
+      const res = await fetch("/api/enquiries", {
+        method: "POST",
+        headers,
+        body: JSON.stringify(formData),
+      });
+      if (res.ok) {
+        setSubmitted(true);
+      } else {
+        const data = await res.json().catch(() => ({}));
+        alert(data.message || "Failed to submit enquiry. Please try again.");
+      }
+    } catch (err) {
+      alert("Network connection error. Please try again.");
+    } finally {
       setLoading(false);
-      setSubmitted(true);
-    }, 600);
+    }
   };
 
   const handleReset = () => {

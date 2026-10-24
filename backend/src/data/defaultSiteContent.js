@@ -34,52 +34,28 @@ export const DEFAULT_SITE_CONTENT = {
     { id: "brand-cross", name: "Cross", category: "Luxury Pens & Leather", tag: "Heritage" },
   ],
   aboutUs: {
-    kicker: "About Us",
-    title: "Gifting Wellness — Corporate Gifting Solutions",
-    subtitle: "Thoughtfully Chosen. Meaningfully Delivered.",
-    founder: "Ravi Kinnera",
-    foundedYear: 2019,
-    location: "Hyderabad, India",
-    lead: "Founded by Ravi Kinnera in 2019, Gifting Wellness is a new-age corporate gifting solutions company based in Hyderabad, India. We specialize in creating thoughtful, innovative, and memorable gifting experiences that help businesses strengthen relationships with employees, clients, business partners, and event delegates.",
+    kicker: "Corporate Partnership",
+    title: "Gifts That Build Real Connections.",
+    lead: "We believe corporate gifting shouldn’t feel like cheap disposable giveaways. A truly thoughtful gift strengthens relationships, honors team milestones, and leaves an enduring impression.",
     paragraphs: [
-      "At Gifting Wellness, we understand that every organization has its own identity, values, and culture. Whether it’s employee appreciation, festive celebrations, client engagement, corporate events, conferences, or special business milestones, we deliver gifting solutions that reflect your brand’s personality and make every occasion memorable.",
-      "Our team is passionate about discovering and delivering the perfect blend of creativity, quality, and practicality. From premium executive gifts and customized merchandise to employee welcome kits, festive hampers, promotional gifts, and event giveaways, we offer a diverse range of gifting options tailored to your business needs and budget.",
-      "We continuously explore emerging trends and innovative gifting concepts to bring fresh ideas to the corporate world. By combining thoughtful product selection, personalization, and attention to detail, we transform ordinary gifts into meaningful experiences that leave a lasting impression.",
-      "At Gifting Wellness, we believe that a gift is more than just a product — it is a gesture of appreciation, a reflection of your brand, and an opportunity to build lasting relationships.",
-      "Our commitment is to make corporate gifting simple, seamless, and impactful, helping organizations celebrate people, strengthen connections, and create moments that truly matter."
+      "Atelier Gifting Solutions partners directly with enterprises, HR directors, and event coordinators across India. From temperature-controlled vacuum drinkware and handcrafted diaries to authorized audio tech from JBL, boAt, and Cross, we curate collections that recipients genuinely cherish and use every single day.",
     ],
-    tagline: "Gifting Wellness — Corporate Gifting Solutions. Thoughtfully Chosen. Meaningfully Delivered.",
-    mission: "To deliver innovative, high-quality, and personalized corporate gifting solutions that help businesses express appreciation, strengthen professional relationships, and celebrate success.",
-    vision: "To become a trusted corporate gifting partner for businesses across India by setting new standards in creativity, quality, personalisation, and customer satisfaction.",
-    whyChoose: [
-      "Customised gifting solutions tailored to your brand.",
-      "Options for different occasions and budgets.",
-      "Thoughtfully curated and trending products.",
-      "Bulk gifting support for corporate requirements.",
-      "A focus on quality, presentation, and customer satisfaction."
-    ],
-    image: "/gifting-wellness-logo.jpg",
-    captionYear: "FOUNDED 2019 · HYDERABAD",
-    captionDetail: "Corporate Gifting Solutions · Ravi Kinnera",
+    image: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=1000&q=80",
+    captionYear: "ATELIER B2B LAB",
+    captionDetail: "Custom Gift Packaging & Precision Engraving",
     pillars: [
       {
-        id: "pillar-mission",
-        icon: "fa-solid fa-bullseye",
-        title: "Our Mission",
-        description: "To deliver innovative, high-quality, and personalized corporate gifting solutions that help businesses express appreciation, strengthen professional relationships, and celebrate success."
+        id: "pillar-1",
+        icon: "fa-solid fa-stamp",
+        title: "Flawless Brand Co-Branding",
+        description: "Digital UV color printing, high-precision laser engraving, and blind debossing aligned with your brand guidelines.",
       },
       {
-        id: "pillar-vision",
-        icon: "fa-solid fa-eye",
-        title: "Our Vision",
-        description: "To become a trusted corporate gifting partner for businesses across India by setting new standards in creativity, quality, personalisation, and customer satisfaction."
+        id: "pillar-2",
+        icon: "fa-solid fa-truck-ramp-box",
+        title: "Pan-India Direct-to-Door Fulfillment",
+        description: "Send 50 or 5,000 gifts seamlessly to consolidated headquarters or individually to remote team members across India.",
       },
-      {
-        id: "pillar-why",
-        icon: "fa-solid fa-award",
-        title: "Why Choose Gifting Wellness?",
-        description: "Customised gifting solutions, trending curated products, bulk corporate support, and an uncompromising focus on quality, presentation & customer satisfaction."
-      }
     ],
     buttonText: "Explore Corporate Catalog",
     buttonLink: "/products",
@@ -381,10 +357,9 @@ export const DEFAULT_SITE_CONTENT = {
   ],
   navigation: {
     brandLogo: {
-      text: "Gifting Wellness",
-      subtext: "CORPORATE GIFTING SOLUTIONS",
+      text: "ATELIER",
+      subtext: "GIFTS & CO.",
       icon: "fa-solid fa-gift",
-      logoImg: "/gifting-wellness-logo.jpg",
     },
     items: [
       { id: "nav-home", key: "home", label: "Home", type: "link", path: "/", icon: "fa-solid fa-house", enabled: true, order: 1 },

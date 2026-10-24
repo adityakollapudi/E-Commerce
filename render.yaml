@@ -1,0 +1,25 @@
+services:
+  # -----------------------------------------------------------
+  # Giftingwellness Backend Web Service (Render.com)
+  # -----------------------------------------------------------
+  - type: web
+    name: giftingwellness-api
+    env: node
+    rootDir: backend
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: MONGODB_URI
+        sync: false
+      - key: FRONTEND_URL
+        value: https://giftingwellness.vercel.app
+      - key: ADMIN_ALERT_EMAIL
+        value: sales@giftingwellness.com
+      - key: EMAIL_FROM
+        value: "Giftingwellness <orders@giftingwellness.com>"
