@@ -5,7 +5,16 @@ import { useAuth } from "../../context/AuthContext";
 import { useWishlist } from "../../context/WishlistContext";
 
 const HeaderProfileBtn = ({ cart, handleMouseClick }) => {
-  const { user, isAdmin, logout, openAuthModal, quickLogin } = useAuth();
+  const {
+    user,
+    isAdmin,
+    logout,
+    openAuthModal,
+    quickLogin,
+    isClerkEnabled,
+    openClerkSignIn,
+    openUserProfile,
+  } = useAuth();
   const { wishlistCount, openWishlist } = useWishlist();
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
@@ -82,11 +91,20 @@ const HeaderProfileBtn = ({ cart, handleMouseClick }) => {
         <button
           type="button"
           className="btn-header-customer-login"
-          onClick={() => openAuthModal("user")}
+          onClick={() => {
+            if (isClerkEnabled) openClerkSignIn();
+            else openAuthModal("user");
+          }}
           title="Sign in as customer"
         >
-          <i className="fa-regular fa-user"></i>
-          <span className="customer-login-label">Login</span>
+          {isClerkEnabled ? (
+            <i className="fa-brands fa-google" style={{ color: "#4285F4" }}></i>
+          ) : (
+            <i className="fa-regular fa-user"></i>
+          )}
+          <span className="customer-login-label">
+            {isClerkEnabled ? "Sign In" : "Login"}
+          </span>
         </button>
       )}
 
@@ -101,13 +119,26 @@ const HeaderProfileBtn = ({ cart, handleMouseClick }) => {
           aria-label={user ? `Account menu for ${user.name}` : "Account options"}
         >
           {user ? (
-            <span className="user-initials-badge">
-              {isAdmin ? (
-                <i className="fa-solid fa-user-shield"></i>
-              ) : (
-                getInitials(user.name)
-              )}
-            </span>
+            user.avatar ? (
+              <img
+                src={user.avatar}
+                alt={user.name}
+                style={{
+                  width: "32px",
+                  height: "32px",
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                }}
+              />
+            ) : (
+              <span className="user-initials-badge">
+                {isAdmin ? (
+                  <i className="fa-solid fa-user-shield"></i>
+                ) : (
+                  getInitials(user.name)
+                )}
+              </span>
+            )
           ) : (
             <span className="header-anon-icon" title="More login options">
               <img src="/profile.png" alt="profile menu" />
@@ -132,7 +163,18 @@ const HeaderProfileBtn = ({ cart, handleMouseClick }) => {
               <div className="dropdown-logged-in">
                 <div className="dropdown-user-header">
                   <div className="dropdown-avatar-circle">
-                    {isAdmin ? (
+                    {user.avatar ? (
+                      <img
+                        src={user.avatar}
+                        alt={user.name}
+                        style={{
+                          width: "42px",
+                          height: "42px",
+                          borderRadius: "50%",
+                          objectFit: "cover",
+                        }}
+                      />
+                    ) : isAdmin ? (
                       <i className="fa-solid fa-shield-halved"></i>
                     ) : (
                       getInitials(user.name)
@@ -146,7 +188,7 @@ const HeaderProfileBtn = ({ cart, handleMouseClick }) => {
                         isAdmin ? "role-admin" : "role-customer"
                       }`}
                     >
-                      {isAdmin ? "⭐ Store Administrator" : "Customer Account"}
+                      {isAdmin ? "⭐ Store Administrator" : user.isClerk ? "✓ Verified Account" : "Customer Account"}
                     </span>
                   </div>
                 </div>
@@ -199,6 +241,22 @@ const HeaderProfileBtn = ({ cart, handleMouseClick }) => {
                     <span>My Orders & Tracking</span>
                   </Link>
 
+                  {user?.isClerk && (
+                    <button
+                      type="button"
+                      className="dropdown-menu-item"
+                      onClick={() => {
+                        openUserProfile();
+                        setMenuOpen(false);
+                      }}
+                      role="menuitem"
+                      style={{ background: "none", border: "none", width: "100%", textAlign: "left", cursor: "pointer" }}
+                    >
+                      <i className="fa-solid fa-user-gear"></i>
+                      <span>Manage Google / Security Profile</span>
+                    </button>
+                  )}
+
                   <Link
                     to="/products"
                     className="dropdown-menu-item"
@@ -244,11 +302,26 @@ const HeaderProfileBtn = ({ cart, handleMouseClick }) => {
                 </div>
 
                 <div className="dropdown-anon-buttons">
+                  {isClerkEnabled && (
+                    <button
+                      type="button"
+                      className="btn-dropdown-primary"
+                      style={{ background: "#ffffff", color: "#1e293b", border: "1px solid #cbd5e1" }}
+                      onClick={() => {
+                        openClerkSignIn({ initialHint: "oauth_google" });
+                        setMenuOpen(false);
+                      }}
+                    >
+                      <i className="fa-brands fa-google" style={{ color: "#4285F4" }}></i> Continue with Google
+                    </button>
+                  )}
+
                   <button
                     type="button"
                     className="btn-dropdown-primary"
                     onClick={() => {
-                      openAuthModal("user");
+                      if (isClerkEnabled) openClerkSignIn();
+                      else openAuthModal("user");
                       setMenuOpen(false);
                     }}
                   >

@@ -1,11 +1,12 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import ClerkBridge from "./ClerkBridge.jsx";
 
 const AuthContext = createContext(null);
 
 const STORAGE_KEY_USER = "shop_auth_user";
 const STORAGE_KEY_TOKEN = "shop_auth_token";
 
-export const AuthProvider = ({ children }) => {
+export const AuthProvider = ({ children, clerkEnabled = false }) => {
   const [user, setUser] = useState(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY_USER);
@@ -19,11 +20,12 @@ export const AuthProvider = ({ children }) => {
     return localStorage.getItem(STORAGE_KEY_TOKEN) || null;
   });
 
+  const [clerkActions, setClerkActions] = useState(null);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authModalTab, setAuthModalTab] = useState("user"); // 'user' | 'admin' | 'register'
   const [loading, setLoading] = useState(false);
 
-  // Synchronize state with localStorage
+  // Synchronize state with localStorage (for non-Clerk or cached sessions)
   useEffect(() => {
     if (user && token) {
       localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(user));
@@ -34,7 +36,7 @@ export const AuthProvider = ({ children }) => {
     }
   }, [user, token]);
 
-  // Session verification on app initialization:
+  // Session verification on app initialization for local/seed tokens:
   // Validates the stored token against GET /api/auth/me to ensure:
   // 1. Expired/invalid tokens are automatically cleared from localStorage.
   // 2. Client-side user profile and roles match authoritative server data.
@@ -55,11 +57,9 @@ export const AuthProvider = ({ children }) => {
         if (res.ok) {
           const data = await res.json();
           if (isMounted && data.success && data.user) {
-            // Overwrite with authoritative server data
             setUser(data.user);
           }
         } else if (res.status === 401 || res.status === 403) {
-          // Token is expired, invalid, or revoked
           if (isMounted) {
             setUser(null);
             setToken(null);
@@ -68,7 +68,6 @@ export const AuthProvider = ({ children }) => {
           }
         }
       } catch (err) {
-        // Network offline: preserve existing state without elevating permissions
         console.warn("Could not verify session with server (offline mode)");
       }
     };
@@ -80,6 +79,17 @@ export const AuthProvider = ({ children }) => {
     };
   }, []);
 
+  // Bridge Clerk state changes into unified Auth state
+  const handleClerkStateChange = ({ user: cUser, token: cToken, isSignedIn }) => {
+    if (isSignedIn && cUser) {
+      setUser(cUser);
+      setToken(cToken);
+    } else if (!isSignedIn && user?.isClerk) {
+      setUser(null);
+      setToken(null);
+    }
+  };
+
   const openAuthModal = (tab = "user") => {
     setAuthModalTab(tab);
     setIsAuthModalOpen(true);
@@ -89,7 +99,7 @@ export const AuthProvider = ({ children }) => {
     setIsAuthModalOpen(false);
   };
 
-  // Login handler
+  // Login handler for local seed/admin credentials
   const login = async (email, password, roleHint = null) => {
     setLoading(true);
     try {
@@ -160,12 +170,39 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Logout handler
+  // Logout handler (gracefully signs out from Clerk or local storage)
   const logout = () => {
+    if (user?.isClerk && clerkActions?.signOut) {
+      clerkActions.signOut().catch((e) => console.warn("Clerk sign-out notice:", e));
+    }
     setUser(null);
     setToken(null);
     localStorage.removeItem(STORAGE_KEY_USER);
     localStorage.removeItem(STORAGE_KEY_TOKEN);
+  };
+
+  const openClerkSignIn = (opts = {}) => {
+    if (clerkActions?.openSignIn) {
+      setIsAuthModalOpen(false);
+      clerkActions.openSignIn(opts);
+    } else {
+      openAuthModal("user");
+    }
+  };
+
+  const openClerkSignUp = (opts = {}) => {
+    if (clerkActions?.openSignUp) {
+      setIsAuthModalOpen(false);
+      clerkActions.openSignUp(opts);
+    } else {
+      openAuthModal("register");
+    }
+  };
+
+  const openUserProfile = () => {
+    if (clerkActions?.openUserProfile) {
+      clerkActions.openUserProfile();
+    }
   };
 
   const value = {
@@ -173,6 +210,8 @@ export const AuthProvider = ({ children }) => {
     token,
     isAdmin: user?.role === "admin",
     isLoggedIn: !!user,
+    isClerkUser: Boolean(user?.isClerk),
+    isClerkEnabled: Boolean(clerkEnabled),
     loading,
     isAuthModalOpen,
     authModalTab,
@@ -183,9 +222,22 @@ export const AuthProvider = ({ children }) => {
     register,
     quickLogin,
     logout,
+    openClerkSignIn,
+    openClerkSignUp,
+    openUserProfile,
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={value}>
+      {clerkEnabled && (
+        <ClerkBridge
+          onClerkStateChange={handleClerkStateChange}
+          registerClerkActions={setClerkActions}
+        />
+      )}
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export const useAuth = () => {
@@ -195,3 +247,5 @@ export const useAuth = () => {
   }
   return context;
 };
+
+export default AuthContext;

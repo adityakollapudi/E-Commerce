@@ -287,7 +287,14 @@ router.get("/", authenticateToken, (req, res) => {
     if (req.user.role === "admin") {
       results = all;
     } else {
-      results = all.filter((o) => o.userId === req.user.id);
+      results = all.filter((o) => {
+        const matchesId = o.userId === req.user.id;
+        const matchesUserEmail =
+          req.user.email &&
+          ((o.user?.email && o.user.email.toLowerCase() === req.user.email.toLowerCase()) ||
+           (o.customer?.email && o.customer.email.toLowerCase() === req.user.email.toLowerCase()));
+        return matchesId || matchesUserEmail;
+      });
     }
 
     // Sort newest first
@@ -313,8 +320,14 @@ router.get("/:orderId", authenticateToken, (req, res) => {
       return res.status(404).json({ success: false, message: "Order not found." });
     }
 
-    // Enforce ownership: Non-admin users can only view their own orders
-    if (req.user.role !== "admin" && order.userId !== req.user.id) {
+    // Enforce ownership: Non-admin users can only view their own orders (by ID or account email)
+    const isOwner =
+      order.userId === req.user.id ||
+      (req.user.email &&
+        ((order.user?.email && order.user.email.toLowerCase() === req.user.email.toLowerCase()) ||
+         (order.customer?.email && order.customer.email.toLowerCase() === req.user.email.toLowerCase())));
+
+    if (req.user.role !== "admin" && !isOwner) {
       return res.status(403).json({
         success: false,
         message: "Access denied. You do not have permission to view this order.",

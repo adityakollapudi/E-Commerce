@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useAuth } from "../../../context/AuthContext";
 
 const BulkQuoteModal = ({ isOpen, onClose, product, selectedColor, selectedBranding }) => {
+  const { user, token } = useAuth();
   const [formData, setFormData] = useState({
     companyName: "",
-    contactName: "",
-    email: "",
+    contactName: user?.name || "",
+    email: user?.email || "",
     phone: "",
     pincode: "",
     quantity: product?.moq || 100,
@@ -12,6 +14,16 @@ const BulkQuoteModal = ({ isOpen, onClose, product, selectedColor, selectedBrand
     customText: "",
     notes: "",
   });
+
+  useEffect(() => {
+    if (user) {
+      setFormData((prev) => ({
+        ...prev,
+        contactName: prev.contactName || user.name || "",
+        email: prev.email || user.email || "",
+      }));
+    }
+  }, [user, isOpen]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submittedQuote, setSubmittedQuote] = useState(null);
@@ -77,9 +89,12 @@ const BulkQuoteModal = ({ isOpen, onClose, product, selectedColor, selectedBrand
     setErrorMsg("");
 
     try {
+      const headers = { "Content-Type": "application/json" };
+      if (token) headers["Authorization"] = `Bearer ${token}`;
+
       const response = await fetch("/api/quote", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers,
         body: JSON.stringify({
           productId: product.id,
           productTitle: product.title,

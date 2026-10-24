@@ -11,7 +11,7 @@ import couponsRouter from "./routes/coupons.js";
 import authRouter from "./routes/auth.js";
 import uploadRouter from "./routes/upload.js";
 import siteContentRouter from "./routes/siteContent.js";
-import { validateAuthConfig, authenticateToken, requireAdmin } from "./middleware/auth.js";
+import { validateAuthConfig, authenticateToken, requireAdmin, optionalAuth } from "./middleware/auth.js";
 import { quoteRequestLimiter } from "./middleware/rateLimiter.js";
 import { validateQuotePayload } from "./middleware/validation.js";
 import { connectDB, isMongoConnected } from "./db.js";
@@ -22,6 +22,8 @@ import {
   updateQuoteStatus,
   saveEnquiry,
   getAllEnquiries,
+  getQuotesByUserIdOrEmail,
+  getEnquiriesByUserIdOrEmail,
 } from "./data/quotesStore.js";
 import { sendQuoteNotificationEmail } from "./services/emailService.js";
 
@@ -110,7 +112,7 @@ export const createApp = ({ isUserPort = false, port = USER_PORT, peerPort = ADM
   });
 
   // Quote Request Endpoint (Corporate Gifting) - Protected by rate limiter and payload validation
-  app.post("/api/quote", quoteRequestLimiter, validateQuotePayload, async (req, res) => {
+  app.post("/api/quote", optionalAuth, quoteRequestLimiter, validateQuotePayload, async (req, res) => {
     try {
       const {
         productId,
@@ -133,6 +135,8 @@ export const createApp = ({ isUserPort = false, port = USER_PORT, peerPort = ADM
       const quoteId = `QUOTE-${Math.floor(100000 + Math.random() * 900000)}`;
       const newQuote = {
         quoteId,
+        userId: req.user?.id || null,
+        userEmail: req.user?.email || null,
         productId: productId || null,
         productTitle: typeof productTitle === "string" ? productTitle.slice(0, 200) : "Custom Inquiry",
         sku: sku || null,
@@ -165,6 +169,12 @@ export const createApp = ({ isUserPort = false, port = USER_PORT, peerPort = ADM
     }
   });
 
+  // Customer GET /api/quote/my-quotes - List quotes for currently logged-in account
+  app.get("/api/quote/my-quotes", authenticateToken, (req, res) => {
+    const quotes = getQuotesByUserIdOrEmail(req.user.id, req.user.email);
+    res.json({ success: true, count: quotes.length, quotes });
+  });
+
   // Admin GET /api/quote - List all bulk corporate quotes
   app.get("/api/quote", authenticateToken, (req, res) => {
     if (req.user.role !== "admin") {
@@ -188,13 +198,15 @@ export const createApp = ({ isUserPort = false, port = USER_PORT, peerPort = ADM
   });
 
   // Bulk Enquiry Endpoint (Corporate Gifting Lookbooks & Quotes)
-  app.post("/api/enquiries", async (req, res) => {
+  app.post("/api/enquiries", optionalAuth, async (req, res) => {
     try {
       const { name, email, phone, company, category, quantity, customBranding, targetDate, notes } = req.body;
       const enquiryId = `ENQ-${Date.now().toString(36).toUpperCase()}-${Math.floor(100 + Math.random() * 900)}`;
 
       const newEnquiry = {
         enquiryId,
+        userId: req.user?.id || null,
+        userEmail: req.user?.email || null,
         name: name ? String(name).trim() : "Corporate Client",
         email: email ? String(email).trim().toLowerCase() : "",
         phone: phone ? String(phone).trim() : "",
@@ -218,6 +230,12 @@ export const createApp = ({ isUserPort = false, port = USER_PORT, peerPort = ADM
     } catch (err) {
       res.status(500).json({ success: false, message: "Failed to submit enquiry." });
     }
+  });
+
+  // Customer GET /api/enquiries/my-enquiries - List enquiries for currently logged-in account
+  app.get("/api/enquiries/my-enquiries", authenticateToken, (req, res) => {
+    const enquiries = getEnquiriesByUserIdOrEmail(req.user.id, req.user.email);
+    res.json({ success: true, count: enquiries.length, enquiries });
   });
 
   // Admin GET /api/enquiries - List all corporate enquiries

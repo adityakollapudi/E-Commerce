@@ -164,4 +164,30 @@ export const getAllEnquiries = () => {
   );
 };
 
+/**
+ * Filter quotes by user ID or contact email
+ */
+export const getQuotesByUserIdOrEmail = (userId, email) => {
+  const all = getAllQuotes();
+  return all.filter((q) => {
+    const matchesId = userId && q.userId === userId;
+    const matchesEmail =
+      email && q.contactEmail && q.contactEmail.toLowerCase() === String(email).toLowerCase();
+    return matchesId || matchesEmail;
+  });
+};
+
+/**
+ * Filter enquiries by user ID or contact email
+ */
+export const getEnquiriesByUserIdOrEmail = (userId, email) => {
+  const all = getAllEnquiries();
+  return all.filter((e) => {
+    const matchesId = userId && e.userId === userId;
+    const matchesEmail =
+      email && e.email && e.email.toLowerCase() === String(email).toLowerCase();
+    return matchesId || matchesEmail;
+  });
+};
+
 loadQuotesFromDisk();

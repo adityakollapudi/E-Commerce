@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 const quoteSchema = new mongoose.Schema(
   {
     quoteId: { type: String, required: true, unique: true, index: true },
+    userId: { type: String, index: true, default: null },
+    userEmail: { type: String, index: true, default: null },
     productId: { type: mongoose.Schema.Types.Mixed },
     productTitle: { type: String, required: true },
     sku: { type: String },
