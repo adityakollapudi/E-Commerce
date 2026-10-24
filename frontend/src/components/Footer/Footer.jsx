@@ -92,37 +92,44 @@ const Footer = () => {
 
           {/* Corporate Support Column */}
           <div className="footer-links-column">
-            <h3 className="footer-column-heading">Corporate Support</h3>
+            <h3 className="footer-column-heading">Trust & Support</h3>
             <ul className="footer-links-list">
               <li>
-                <Link to="/about">About Gifting Wellness</Link>
+                <Link to="/about">About Giftingwellness</Link>
               </li>
               <li>
-                <Link to="/products">Free Digital Sample Mockups</Link>
+                <Link to="/shipping-policy">Shipping & Delivery Policy</Link>
               </li>
               <li>
-                <Link to="/products">B2B GST Tax Billing & Compliance</Link>
+                <Link to="/refund-policy">Refund & Replacements</Link>
               </li>
               <li>
-                <Link to="/products">Volume Tier Quotations</Link>
+                <Link to="/terms">Terms & Conditions</Link>
               </li>
               <li>
-                <Link to="/products">Multi-City Doorstep Delivery</Link>
+                <Link to="/privacy">Privacy Policy</Link>
               </li>
             </ul>
           </div>
         </div>
 
         {/* Bottom Bar: Copyright & Payment Badges */}
-        <div className="footer-bottom-bar">
-          <div className="footer-copyright-text">
-            © {new Date().getFullYear()} GIFTING WELLNESS. All rights reserved. Corporate Gifting Solutions. Thoughtfully Chosen. Meaningfully Delivered.
+        <div className="footer-bottom-bar" style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: "12px", borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: "20px", marginTop: "30px" }}>
+          <div className="footer-copyright-text" style={{ fontSize: "13px", color: "rgba(255,255,255,0.7)" }}>
+            © {new Date().getFullYear()} GIFTINGWELLNESS. All rights reserved. Thoughtfully Chosen. Meaningfully Delivered.
+          </div>
+
+          <div style={{ display: "flex", gap: "16px", flexWrap: "wrap", fontSize: "12px" }}>
+            <Link to="/terms" style={{ color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Terms of Service</Link>
+            <Link to="/refund-policy" style={{ color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Refund Policy</Link>
+            <Link to="/shipping-policy" style={{ color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Shipping Policy</Link>
+            <Link to="/privacy" style={{ color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Privacy</Link>
           </div>
 
           <div className="footer-payment-methods">
             <span className="payment-badge-text">
               <i className="fa-solid fa-shield-halved" style={{ marginRight: "6px", color: "#10b981" }}></i>
-              Official GST 18% Tax Billing · Pan-India Dispatch
+              Official GST 18% Tax Billing · Pan-India Courier Dispatch
             </span>
           </div>
         </div>

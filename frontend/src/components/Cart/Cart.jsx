@@ -29,10 +29,19 @@ const Cart = ({ cart, decreaseQuantity, increaseQuantity, removeFromCart, clearC
   const [formData, setFormData] = useState({
     fullName: user?.name || "",
     email: user?.email || "",
+    phone: "",
+    company: "",
     address: "",
     city: "",
     postalCode: "",
+    gstin: "",
     paymentMethod: "card",
+    isGift: false,
+    recipientName: "",
+    senderName: user?.name || "",
+    giftMessage: "",
+    giftWrap: false,
+    hidePricingOnSlip: false,
   });
 
   // Pre-fill user information if logged in
@@ -42,6 +51,7 @@ const Cart = ({ cart, decreaseQuantity, increaseQuantity, removeFromCart, clearC
         ...prev,
         fullName: prev.fullName || user.name || "",
         email: prev.email || user.email || "",
+        senderName: prev.senderName || user.name || "",
       }));
     }
   }, [user]);
@@ -54,7 +64,8 @@ const Cart = ({ cart, decreaseQuantity, increaseQuantity, removeFromCart, clearC
   const isFreeShipping = subtotal >= 1999 || deliveryFee === 0;
   const effectiveDeliveryFee = isFreeShipping ? 0 : 199;
   const discountAmount = (subtotal * discountPercent) / 100;
-  const total = Math.max(0, subtotal - discountAmount + (subtotal > 0 ? effectiveDeliveryFee : 0));
+  const giftWrapFee = formData.giftWrap ? 99 : 0;
+  const total = Math.max(0, subtotal - discountAmount + (subtotal > 0 ? effectiveDeliveryFee : 0) + giftWrapFee);
 
   const handleApplyPromo = async (e) => {
     e.preventDefault();
@@ -125,15 +136,28 @@ const Cart = ({ cart, decreaseQuantity, increaseQuantity, removeFromCart, clearC
           customer: {
             fullName: formData.fullName.trim(),
             email: (formData.email || user?.email || "").trim(),
+            phone: formData.phone.trim(),
+            company: formData.company.trim(),
             address: formData.address.trim(),
             city: formData.city.trim(),
             postalCode: formData.postalCode.trim(),
+            gstin: formData.gstin.trim(),
+          },
+          gifting: {
+            isGift: Boolean(formData.isGift),
+            recipientName: formData.recipientName.trim(),
+            senderName: formData.senderName.trim(),
+            giftMessage: formData.giftMessage.trim(),
+            giftWrap: Boolean(formData.giftWrap),
+            hidePricingOnSlip: Boolean(formData.hidePricingOnSlip),
           },
           items: cart.map((item) => ({
             id: item.id,
             quantity: item.quantity,
             size: item.size,
             selectedColor: item.selectedColor,
+            selectedBranding: item.selectedBranding,
+            customLogoText: item.customLogoText,
           })),
           promoCode: promoApplied || null,
           paymentMethod: formData.paymentMethod,
@@ -493,6 +517,118 @@ const Cart = ({ cart, decreaseQuantity, increaseQuantity, removeFromCart, clearC
                       disabled={isSubmitting}
                     />
                   </div>
+
+                  <div className="form-group">
+                    <label>Contact Phone (for delivery courier)</label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      placeholder="+91 98765 43210"
+                      value={formData.phone}
+                      onChange={handleFormChange}
+                      disabled={isSubmitting}
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>Company / Organization (Optional)</label>
+                    <input
+                      type="text"
+                      name="company"
+                      placeholder="e.g. Acme Corporation"
+                      value={formData.company}
+                      onChange={handleFormChange}
+                      disabled={isSubmitting}
+                    />
+                  </div>
+
+                  <div className="form-group full-width">
+                    <label>GSTIN for 18% B2B Tax Credit (Optional)</label>
+                    <input
+                      type="text"
+                      name="gstin"
+                      placeholder="e.g. 36AABCU9603R1ZM"
+                      value={formData.gstin}
+                      onChange={handleFormChange}
+                      disabled={isSubmitting}
+                    />
+                  </div>
+                </div>
+
+                {/* Gifting & Personalization Card */}
+                <div style={{ background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: "10px", padding: "16px", margin: "16px 0" }}>
+                  <label style={{ display: "flex", alignItems: "center", gap: "8px", fontWeight: "700", color: "#0d3b2e", cursor: "pointer", fontSize: "14px" }}>
+                    <input
+                      type="checkbox"
+                      name="isGift"
+                      checked={formData.isGift}
+                      onChange={(e) => setFormData({ ...formData, isGift: e.target.checked })}
+                      disabled={isSubmitting}
+                    />
+                    <span>🎁 This order is a gift for a client, employee, or loved one</span>
+                  </label>
+
+                  {formData.isGift && (
+                    <div style={{ marginTop: "14px", display: "flex", flexDirection: "column", gap: "10px" }}>
+                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
+                        <div>
+                          <label style={{ display: "block", fontSize: "12px", color: "#475569", marginBottom: "4px" }}>To (Recipient Name)</label>
+                          <input
+                            type="text"
+                            name="recipientName"
+                            placeholder="Recipient's Name"
+                            value={formData.recipientName}
+                            onChange={handleFormChange}
+                            style={{ width: "100%", padding: "8px 10px", border: "1px solid #cbd5e1", borderRadius: "6px", fontSize: "13px" }}
+                          />
+                        </div>
+                        <div>
+                          <label style={{ display: "block", fontSize: "12px", color: "#475569", marginBottom: "4px" }}>From (Your / Company Name)</label>
+                          <input
+                            type="text"
+                            name="senderName"
+                            placeholder="Your Name"
+                            value={formData.senderName}
+                            onChange={handleFormChange}
+                            style={{ width: "100%", padding: "8px 10px", border: "1px solid #cbd5e1", borderRadius: "6px", fontSize: "13px" }}
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <label style={{ display: "block", fontSize: "12px", color: "#475569", marginBottom: "4px" }}>Personal Gift Message Card</label>
+                        <textarea
+                          name="giftMessage"
+                          rows={2}
+                          placeholder="e.g. Wishing you continued wellness, success, and joy!"
+                          value={formData.giftMessage}
+                          onChange={handleFormChange}
+                          style={{ width: "100%", padding: "8px 10px", border: "1px solid #cbd5e1", borderRadius: "6px", fontSize: "13px" }}
+                        />
+                      </div>
+
+                      <div style={{ display: "flex", flexDirection: "column", gap: "6px", paddingTop: "4px" }}>
+                        <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "13px", color: "#334155", cursor: "pointer" }}>
+                          <input
+                            type="checkbox"
+                            name="giftWrap"
+                            checked={formData.giftWrap}
+                            onChange={(e) => setFormData({ ...formData, giftWrap: e.target.checked })}
+                          />
+                          <span>🎀 Add Premium Luxury Gift Wrapping (+₹99)</span>
+                        </label>
+                        <label style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "13px", color: "#334155", cursor: "pointer" }}>
+                          <input
+                            type="checkbox"
+                            name="hidePricingOnSlip"
+                            checked={formData.hidePricingOnSlip}
+                            onChange={(e) => setFormData({ ...formData, hidePricingOnSlip: e.target.checked })}
+                          />
+                          <span>🔒 Hide item prices on delivery package slip</span>
+                        </label>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <div className="payment-method-section">

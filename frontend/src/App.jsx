@@ -25,10 +25,14 @@ import AddProduct from "./components/Admin/AddProduct";
 import AdminImport from "./components/Admin/AdminImport";
 import AdminPortNotice from "./components/Admin/AdminPortNotice";
 import ManageSiteContent from "./components/Admin/ManageSiteContent";
+import ManageOrders from "./components/Admin/ManageOrders";
+import ManageEnquiries from "./components/Admin/ManageEnquiries";
+import OrderHistory from "./components/Account/OrderHistory";
 import { WishlistProvider } from "./context/WishlistContext";
 import { SiteContentProvider } from "./context/SiteContentContext";
 import WishlistDrawer from "./components/Wishlist/WishlistDrawer";
 import AboutUs from "./components/About/AboutUs";
+import LegalPolicyPage from "./components/Misc/LegalPolicyPage";
 
 function App() {
   const [cart, setCart] = useState(
@@ -125,8 +129,11 @@ function App() {
           <>
             <Route path="/" element={<AdminDashboard />} />
             <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/orders" element={<ManageOrders />} />
+            <Route path="/admin/quotes" element={<ManageEnquiries />} />
             <Route path="/admin/add-product" element={<AddProduct />} />
             <Route path="/admin/import" element={<AdminImport />} />
+            <Route path="/admin/site-content" element={<ManageSiteContent />} />
             <Route path="/products" element={<Products />}>
               <Route path=":category" element={<Products />} />
             </Route>
@@ -134,10 +141,11 @@ function App() {
             <Route path="*" element={<AdminDashboard />} />
           </>
         ) : (
-          // ==================== PORT 5173: CUSTOMER STOREFRONT (VIEW ONLY) ====================
+          // ==================== PORT 5173: CUSTOMER STOREFRONT & DIRECT ADMIN ACCESS ====================
           <>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<AboutUs />} />
+            <Route path="/orders" element={<OrderHistory />} />
             <Route path="/products" element={<Products />}>
               <Route path=":category" element={<Products />} />
             </Route>
@@ -158,11 +166,17 @@ function App() {
               }
             />
             <Route path="/login" element={<LoginPage />} />
-            {/* On Port 5173, accessing admin routes shows the Admin Port 5174 notice */}
-            <Route path="/admin" element={<AdminPortNotice />} />
-            <Route path="/admin/add-product" element={<AdminPortNotice />} />
-            <Route path="/admin/import" element={<AdminPortNotice />} />
-            <Route path="/admin/site-content" element={<AdminPortNotice />} />
+            {/* Unified Direct Admin Management Routes (Protected by AdminRoute) */}
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/orders" element={<ManageOrders />} />
+            <Route path="/admin/quotes" element={<ManageEnquiries />} />
+            <Route path="/admin/add-product" element={<AddProduct />} />
+            <Route path="/admin/import" element={<AdminImport />} />
+            <Route path="/admin/site-content" element={<ManageSiteContent />} />
+            <Route path="/terms" element={<LegalPolicyPage />} />
+            <Route path="/refund-policy" element={<LegalPolicyPage />} />
+            <Route path="/shipping-policy" element={<LegalPolicyPage />} />
+            <Route path="/privacy" element={<LegalPolicyPage />} />
             <Route path="/underconstruction" element={<UnderConstruction />} />
             <Route path="*" element={<PageNotFound />} />
           </>

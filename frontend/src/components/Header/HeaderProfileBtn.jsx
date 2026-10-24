@@ -155,34 +155,50 @@ const HeaderProfileBtn = ({ cart, handleMouseClick }) => {
 
                 {isAdmin && (
                   <div className="dropdown-admin-actions">
-                    <a
-                      href="http://localhost:5174/admin"
+                    <Link
+                      to="/admin"
                       className="dropdown-menu-item highlight-admin"
-                      target="_blank"
-                      rel="noreferrer"
                       onClick={() => setMenuOpen(false)}
                       role="menuitem"
-                      title="Open dedicated Admin Management Portal on Port 5174"
+                      title="Open Store Administration Suite"
                     >
                       <i className="fa-solid fa-shield-halved"></i>
-                      <span>Admin Portal ↗ (Port 5174)</span>
-                    </a>
-                    <a
-                      href="http://localhost:5174/admin/add-product"
+                      <span>Admin Dashboard</span>
+                    </Link>
+                    <Link
+                      to="/admin/orders"
                       className="dropdown-menu-item highlight-action"
-                      target="_blank"
-                      rel="noreferrer"
                       onClick={() => setMenuOpen(false)}
                       role="menuitem"
-                      title="Add product via Admin Portal on Port 5174"
+                      title="Manage Store Orders & Fulfillment"
                     >
-                      <i className="fa-solid fa-circle-plus"></i>
-                      <span>+ Add Product (Port 5174)</span>
-                    </a>
+                      <i className="fa-solid fa-boxes-packing"></i>
+                      <span>Fulfill Orders</span>
+                    </Link>
+                    <Link
+                      to="/admin/quotes"
+                      className="dropdown-menu-item highlight-action"
+                      onClick={() => setMenuOpen(false)}
+                      role="menuitem"
+                      title="Manage Corporate Bulk Quotations"
+                    >
+                      <i className="fa-solid fa-comments-dollar"></i>
+                      <span>Quotes & Leads</span>
+                    </Link>
                   </div>
                 )}
 
                 <div className="dropdown-common-actions">
+                  <Link
+                    to="/orders"
+                    className="dropdown-menu-item"
+                    onClick={() => setMenuOpen(false)}
+                    role="menuitem"
+                  >
+                    <i className="fa-solid fa-boxes-stacked"></i>
+                    <span>My Orders & Tracking</span>
+                  </Link>
+
                   <Link
                     to="/products"
                     className="dropdown-menu-item"

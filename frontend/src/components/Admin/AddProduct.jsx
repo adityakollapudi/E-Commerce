@@ -1,3 +1,4 @@
+import { getAdminApiUrl } from "../../utils/apiConfig";
 import { useState, useRef, useMemo, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
@@ -205,7 +206,7 @@ const AddProduct = () => {
       setImage(dataUrl);
 
       try {
-        const res = await fetch("/api/upload", {
+        const res = await fetch(getAdminApiUrl("/api/upload"), {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -346,7 +347,7 @@ const AddProduct = () => {
         isBestSeller,
       };
 
-      const res = await fetch("/api/products", {
+      const res = await fetch(getAdminApiUrl("/api/products"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

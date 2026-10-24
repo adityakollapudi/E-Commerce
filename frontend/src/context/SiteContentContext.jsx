@@ -1,3 +1,4 @@
+import { getAdminApiUrl } from "../utils/apiConfig";
 import { createContext, useContext, useState, useEffect, useCallback } from "react";
 import {
   BRANDED_GIFTING as DEFAULT_BRANDS,
@@ -190,7 +191,7 @@ export const SiteContentProvider = ({ children }) => {
   // ------------------- BRAND ACTIONS -------------------
   const addBrand = async (brandData) => {
     const token = await getAuthToken();
-    const res = await fetch("/api/site-content/brands", {
+    const res = await fetch(getAdminApiUrl("/api/site-content/brands"), {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -210,7 +211,7 @@ export const SiteContentProvider = ({ children }) => {
 
   const updateBrand = async (brandId, updates) => {
     const token = await getAuthToken();
-    const res = await fetch(`/api/site-content/brands/${brandId}`, {
+    const res = await fetch(getAdminApiUrl(`/api/site-content/brands/${brandId}`), {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -230,7 +231,7 @@ export const SiteContentProvider = ({ children }) => {
 
   const deleteBrand = async (brandId) => {
     const token = await getAuthToken();
-    const res = await fetch(`/api/site-content/brands/${brandId}`, {
+    const res = await fetch(getAdminApiUrl(`/api/site-content/brands/${brandId}`), {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -249,7 +250,7 @@ export const SiteContentProvider = ({ children }) => {
   // ------------------- NAVIGATION ACTIONS -------------------
   const updateNavigation = async (navData) => {
     const token = await getAuthToken();
-    const res = await fetch("/api/site-content/navigation", {
+    const res = await fetch(getAdminApiUrl("/api/site-content/navigation"), {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -269,7 +270,7 @@ export const SiteContentProvider = ({ children }) => {
 
   const addNavItem = async (itemData) => {
     const token = await getAuthToken();
-    const res = await fetch("/api/site-content/navigation/items", {
+    const res = await fetch(getAdminApiUrl("/api/site-content/navigation/items"), {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -289,7 +290,7 @@ export const SiteContentProvider = ({ children }) => {
 
   const updateNavItem = async (itemId, updates) => {
     const token = await getAuthToken();
-    const res = await fetch(`/api/site-content/navigation/items/${itemId}`, {
+    const res = await fetch(getAdminApiUrl(`/api/site-content/navigation/items/${itemId}`), {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -309,7 +310,7 @@ export const SiteContentProvider = ({ children }) => {
 
   const deleteNavItem = async (itemId) => {
     const token = await getAuthToken();
-    const res = await fetch(`/api/site-content/navigation/items/${itemId}`, {
+    const res = await fetch(getAdminApiUrl(`/api/site-content/navigation/items/${itemId}`), {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -328,7 +329,7 @@ export const SiteContentProvider = ({ children }) => {
   // ------------------- OTHER SECTION ACTIONS -------------------
   const updateAboutUs = async (aboutUsData) => {
     const token = await getAuthToken();
-    const res = await fetch("/api/site-content/about-us", {
+    const res = await fetch(getAdminApiUrl("/api/site-content/about-us"), {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -348,7 +349,7 @@ export const SiteContentProvider = ({ children }) => {
 
   const updateServices = async (servicesList) => {
     const token = await getAuthToken();
-    const res = await fetch("/api/site-content/services", {
+    const res = await fetch(getAdminApiUrl("/api/site-content/services"), {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -368,7 +369,7 @@ export const SiteContentProvider = ({ children }) => {
 
   const updateFestiveGifts = async (festiveList) => {
     const token = await getAuthToken();
-    const res = await fetch("/api/site-content/festive-gifts", {
+    const res = await fetch(getAdminApiUrl("/api/site-content/festive-gifts"), {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -388,7 +389,7 @@ export const SiteContentProvider = ({ children }) => {
 
   const updateContactInfo = async (contactData) => {
     const token = await getAuthToken();
-    const res = await fetch("/api/site-content/contact-info", {
+    const res = await fetch(getAdminApiUrl("/api/site-content/contact-info"), {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -408,7 +409,7 @@ export const SiteContentProvider = ({ children }) => {
 
   const updateAnnouncement = async (announcementData) => {
     const token = await getAuthToken();
-    const res = await fetch("/api/site-content/announcement", {
+    const res = await fetch(getAdminApiUrl("/api/site-content/announcement"), {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -429,7 +430,7 @@ export const SiteContentProvider = ({ children }) => {
   // ------------------- GIFTING CATEGORIES & SUBCATEGORIES ACTIONS -------------------
   const updateGiftingCategories = async (categoriesList) => {
     const token = await getAuthToken();
-    const res = await fetch("/api/site-content/categories", {
+    const res = await fetch(getAdminApiUrl("/api/site-content/categories"), {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -449,7 +450,7 @@ export const SiteContentProvider = ({ children }) => {
 
   const addGiftingCategory = async (categoryData) => {
     const token = await getAuthToken();
-    const res = await fetch("/api/site-content/categories", {
+    const res = await fetch(getAdminApiUrl("/api/site-content/categories"), {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -469,7 +470,7 @@ export const SiteContentProvider = ({ children }) => {
 
   const updateGiftingCategory = async (categoryId, updates) => {
     const token = await getAuthToken();
-    const res = await fetch(`/api/site-content/categories/${categoryId}`, {
+    const res = await fetch(getAdminApiUrl(`/api/site-content/categories/${categoryId}`), {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -489,7 +490,7 @@ export const SiteContentProvider = ({ children }) => {
 
   const deleteGiftingCategory = async (categoryId) => {
     const token = await getAuthToken();
-    const res = await fetch(`/api/site-content/categories/${categoryId}`, {
+    const res = await fetch(getAdminApiUrl(`/api/site-content/categories/${categoryId}`), {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -507,7 +508,7 @@ export const SiteContentProvider = ({ children }) => {
 
   const addSubcategory = async (categoryId, subcategoryData) => {
     const token = await getAuthToken();
-    const res = await fetch(`/api/site-content/categories/${categoryId}/subcategories`, {
+    const res = await fetch(getAdminApiUrl(`/api/site-content/categories/${categoryId}/subcategories`), {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -527,7 +528,7 @@ export const SiteContentProvider = ({ children }) => {
 
   const updateSubcategory = async (categoryId, subId, updates) => {
     const token = await getAuthToken();
-    const res = await fetch(`/api/site-content/categories/${categoryId}/subcategories/${subId}`, {
+    const res = await fetch(getAdminApiUrl(`/api/site-content/categories/${categoryId}/subcategories/${subId}`), {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -547,7 +548,7 @@ export const SiteContentProvider = ({ children }) => {
 
   const deleteSubcategory = async (categoryId, subId) => {
     const token = await getAuthToken();
-    const res = await fetch(`/api/site-content/categories/${categoryId}/subcategories/${subId}`, {
+    const res = await fetch(getAdminApiUrl(`/api/site-content/categories/${categoryId}/subcategories/${subId}`), {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -565,7 +566,7 @@ export const SiteContentProvider = ({ children }) => {
 
   const resetDefaults = async () => {
     const token = await getAuthToken();
-    const res = await fetch("/api/site-content/reset", {
+    const res = await fetch(getAdminApiUrl("/api/site-content/reset"), {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,

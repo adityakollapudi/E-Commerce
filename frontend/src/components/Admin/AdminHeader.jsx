@@ -64,13 +64,25 @@ const AdminHeader = () => {
               to="/admin"
               className={`admin-nav-link ${location.pathname === "/admin" ? "active" : ""}`}
             >
-              <i className="fa-solid fa-table-list"></i> Catalog & Inventory
+              <i className="fa-solid fa-table-list"></i> Catalog
+            </Link>
+            <Link
+              to="/admin/orders"
+              className={`admin-nav-link ${location.pathname === "/admin/orders" ? "active" : ""}`}
+            >
+              <i className="fa-solid fa-boxes-packing"></i> Orders
+            </Link>
+            <Link
+              to="/admin/quotes"
+              className={`admin-nav-link ${location.pathname === "/admin/quotes" ? "active" : ""}`}
+            >
+              <i className="fa-solid fa-comments-dollar"></i> Quotes & Leads
             </Link>
             <Link
               to="/admin/add-product"
               className={`admin-nav-link ${location.pathname === "/admin/add-product" ? "active" : ""}`}
             >
-              <i className="fa-solid fa-plus-circle"></i> Add New Product
+              <i className="fa-solid fa-plus-circle"></i> Add Product
             </Link>
             <Link
               to="/admin/import"
@@ -82,7 +94,7 @@ const AdminHeader = () => {
               to="/admin/site-content"
               className={`admin-nav-link ${location.pathname === "/admin/site-content" ? "active" : ""}`}
             >
-              <i className="fa-solid fa-crown"></i> Brands & Site Details
+              <i className="fa-solid fa-crown"></i> Content & CMS
             </Link>
           </nav>
 

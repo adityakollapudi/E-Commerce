@@ -1,3 +1,4 @@
+import { getAdminApiUrl } from "../../utils/apiConfig";
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
@@ -73,7 +74,7 @@ const AdminImport = () => {
   const fetchHistory = async () => {
     try {
       setHistoryLoading(true);
-      const res = await fetch("/api/products/bulk-import/history", {
+      const res = await fetch(getAdminApiUrl("/api/products/bulk-import/history"), {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -295,7 +296,7 @@ const AdminImport = () => {
       setDryRunResult(null);
 
       const res = await fetch(
-        `/api/products/bulk-import?dryRun=true&duplicateStrategy=${duplicateStrategy}`,
+        getAdminApiUrl(`/api/products/bulk-import?dryRun=true&duplicateStrategy=${duplicateStrategy}`),
         {
           method: "POST",
           headers: {
@@ -347,7 +348,7 @@ const AdminImport = () => {
       setServerConflictData(null);
 
       const res = await fetch(
-        `/api/products/bulk-import?duplicateStrategy=${duplicateStrategy}`,
+        getAdminApiUrl(`/api/products/bulk-import?duplicateStrategy=${duplicateStrategy}`),
         {
           method: "POST",
           headers: {
@@ -399,7 +400,7 @@ const AdminImport = () => {
       setRollingBack(true);
       setRollbackNotice(null);
 
-      const res = await fetch("/api/products/bulk-import/rollback", {
+      const res = await fetch(getAdminApiUrl("/api/products/bulk-import/rollback"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
